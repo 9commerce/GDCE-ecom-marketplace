@@ -1,0 +1,296 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsOrder
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+?>
+<?php
+$numColumns = count($block->getColumns());
+?>
+<?php if ($block->getCollection()): ?>
+    <?php if ($block->canDisplayContainer()): ?>
+        <?php if ($block->getGridHeader()): ?>
+            <div class="content-header">
+                <table cellspacing="0">
+                    <tr>
+                        <td style="width:50%;"><h2><?= /* @noEscape */  $block->getGridHeader(); ?></h2></td>
+                    </tr>
+                </table>
+            </div>
+        <?php endif ?>
+        <div id="<?= /* @noEscape */ $block->getId() ?>">
+    <?php else: ?>
+        <?= /* @noEscape */ $block->getMessagesBlock()->getGroupedHtml() ?>
+     <?php endif; ?>
+     <?php if ($block->getPagerVisibility() || $block->getExportTypes() || $block->getFilterVisibility()): ?>
+        <table cellspacing="0" class="actions">
+            <tr>
+                <?php if ($block->getPagerVisibility()): ?>
+                    <td class="pager">
+                        <?= /* @noEscape */ $block->escapeHtml(__('Page')) ?>
+
+                        <?php $_curPage = $block->getCollection()->getCurPage() ?>
+                        <?php $_lastPage = $block->getCollection()->getLastPageNumber() ?>
+                        <?php if ($_curPage > 1): ?>
+                            <a href="#" title="<?= /* @noEscape */ $block->escapeHtml(__('Previous page')) ?>"
+                               onclick="<?= /* @noEscape */ $block->getJsObjectName() ?>.
+                                       setPage('<?= /* @noEscape */ ($_curPage - 1) ?>');return false;">
+                                <img src="<?= /* @noEscape */ $block
+                                    ->getSkinUrl('images/ced/csorder/pager_arrow_left.gif') ?>"
+                                     alt="Go to Previous page" class="arrow"/>
+                            </a>
+                        <?php else: ?>
+                            <img src="<?= /* @noEscape */ $block
+                                ->getSkinUrl('images/ced/csorder/pager_arrow_left_off.gif') ?>"
+                                 alt="Go to Previous page" class="arrow"/>
+                        <?php endif; ?>
+
+                        <input type="text" name="<?= /* @noEscape */ $block->getVarNamePage() ?>"
+                               value="<?= /* @noEscape */ $_curPage ?>"
+                               class="input-text page"
+                               onkeypress="<?= /* @noEscape */ $block
+                                   ->getJsObjectName() ?>.inputPage(event, '<?= /* @noEscape */ $_lastPage ?>')"/>
+
+                        <?php if ($_curPage < $_lastPage): ?>
+                            <a href="#" title="<?= /* @noEscape */ $block->escapeHtml(__('Next page')) ?>"
+                               onclick="<?= /* @noEscape */ $block->getJsObjectName() ?>.
+                                       setPage('<?= /* @noEscape */ ($_curPage + 1) ?>');return false;">
+                                <img src="<?= /* @noEscape */ $block
+                                    ->getSkinUrl('images/ced/csorder/pager_arrow_right.gif') ?>"
+                                     alt="Go to Next page" class="arrow"/></a>
+                        <?php else: ?>
+                            <img src="<?= /* @noEscape */ $block
+                                ->getSkinUrl('images/ced/csorder/pager_arrow_right_off.gif') ?>"
+                                 alt="Go to Previous page" class="arrow"/>
+                        <?php endif; ?>
+
+                        <?= $block->escapeHtml(__('of %s pages', $block->getCollection()->getLastPageNumber())) ?>
+                        <span class="separator">|</span>
+                        <?= $block->escapeHtml(__('View')) ?>
+                        <select name="<?= /* @noEscape */ $block->getVarNameLimit() ?>"
+                                onchange="<?= /* @noEscape */ $block->getJsObjectName() ?>.loadByElement(this)">
+                            <option value="20"
+                                <?php if ($block->getCollection()->getPageSize() == 20): ?>
+                                    selected="selected"<?php endif; ?>>
+                                20
+                            </option>
+                            <option value="30"
+                                <?php if ($block->getCollection()->getPageSize() == 30): ?>
+                                    selected="selected"<?php endif; ?>>
+                                30
+                            </option>
+                            <option value="50"
+                                <?php if ($block->getCollection()->getPageSize() == 50): ?>
+                                    selected="selected"<?php endif; ?>>
+                                50
+                            </option>
+                            <option value="100"
+                                <?php if ($block->getCollection()->getPageSize() == 100): ?>
+                                    selected="selected"<?php endif; ?>>
+                                100
+                            </option>
+                            <option value="200"
+                                <?php if ($block->getCollection()->getPageSize() == 200): ?>
+                                    selected="selected"<?php endif; ?>>
+                                200
+                            </option>
+                        </select>
+                        <?= /* @noEscape */ $block->escapeHtml(__('per page')) ?><span class="separator">|</span>
+                        <?= /* @noEscape */ $block->escapeHtml(__('Total %d records found', $block
+                            ->getCollection()->getSize())) ?>
+                        <span id="<?= /* @noEscape */ $block->getHtmlId() ?>-total-count"
+                              class="no-display"><?= /* @noEscape */ $block->getCollection()->getSize() ?>
+        </span>
+                        <?php if ($block->getRssLists()): ?>
+                            <?php foreach ($block->getRssLists() as $_rss): ?>
+                                <span class="separator">|</span>
+                                <a href="<?= /* @noEscape */ $_rss->getUrl() ?>"
+                                   class="link-feed"><?= /* @noEscape */ $_rss->getLabel() ?></a>
+                            <?php endforeach ?>
+                        <?php endif; ?>
+                    </td>
+                <?php endif ?>
+                <?php if ($block->getExportTypes()): ?>
+                    <td class="export a-right">
+                        <img src="<?= /* @noEscape */ $block
+                            ->getSkinUrl('images/ced/csorder/icon_export.gif') ?>" alt=""
+                             class="v-middle"/>&nbsp;
+                        <?= /* @noEscape */ $block->escapeHtml(__('Export to:')) ?>
+                        <select name="<?= /* @noEscape */ $block->getId() ?>_export" id="<?= /* @noEscape */ $block
+                            ->getId() ?>_export"
+                                style="width:8em;">
+                            <?php foreach ($block->getExportTypes() as $_type): ?>
+                                <option value="<?= /* @noEscape */ $_type->getUrl() ?>"><?= /* @noEscape */ $_type
+                                        ->getLabel() ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <?= /* @noEscape */ $block->getExportButtonHtml() ?>
+                    </td>
+                <?php endif; ?>
+                <td class="filter-actions a-right">
+                    <?= /* @noEscape */ $block->getMainButtonsHtml() ?>
+                </td>
+            </tr>
+        </table>
+     <?php endif; ?>
+    <?php if ($block->getMassactionBlock()->isAvailable()): ?>
+        <?= /* @noEscape */ $block->getMassactionBlockHtml() ?>
+    <?php endif ?>
+        <div class="grid">
+            <div class="hor-scroll">
+                <table cellspacing="0" class="data" id="<?= /* @noEscape */ $block->getId() ?>_table">
+                    <?php foreach ($block->getColumns() as $_column): ?>
+                        <col <?= /* @noEscape */ $_column->getHtmlProperty() ?> />
+                    <?php endforeach; ?>
+                    <?php if ($block->getHeadersVisibility() || $block->getFilterVisibility()): ?>
+                        <thead>
+                        <?php if ($block->getHeadersVisibility()): ?>
+                            <tr class="headings">
+                                <?php foreach ($block->getColumns() as $_column): ?>
+                                    <th<?= /* @noEscape */ $_column->getHeaderHtmlProperty() ?>>
+                                        <span class="nobr"><?= /* @noEscape */ $_column->getHeaderHtml() ?></span>
+                                    </th>
+                                <?php endforeach; ?>
+                            </tr>
+                        <?php endif; ?>
+                        <?php if ($block->getFilterVisibility()): ?>
+                            <tr class="filter">
+                                <?php $i = 0;
+                                foreach ($block->getColumns() as $_column): ?>
+                                    <th<?= /* @noEscape */ $_column->getHeaderHtmlProperty() ?>>
+                                        <?= /* @noEscape */ $_column->getFilterHtml() ?></th>
+                                <?php endforeach; ?>
+                            </tr>
+                        <?php endif ?>
+                        </thead>
+                    <?php endif; ?>
+                    <?php if ($block->getCountTotals()): ?>
+                        <tfoot>
+                        <tr class="totals">
+                            <?php foreach ($block->getColumns() as $_column): ?>
+                                <th class="<?= /* @noEscape */ $_column->getCssProperty() ?>">
+                                    <?= ($_column->hasTotalsLabel()) ? /* @noEscape */ $_column
+                                        ->getTotalsLabel() : /* @noEscape */ $_column->getRowField($_column
+                                        ->getGrid()->getTotals()) ?>
+                                    &nbsp;
+                                </th>
+                            <?php endforeach; ?>
+                        </tr>
+                        </tfoot>
+                    <?php endif; ?>
+
+                    <tbody>
+                    <?php if (($block->getCollection()->getSize() > 0) && (!$block->getIsCollapsed())): ?>
+                        <?php foreach ($block->getCollection() as $_index => $_item): ?>
+                            <tr title="<?= /* @noEscape */ $block->getRowUrl($_item) ?>"<?php if ($_class = $block
+                                ->getRowClass($_item)): ?>
+                                class="<?= /* @noEscape */ $_class; ?>"<?php endif; ?> >
+                                <?php $i = 0;
+                                foreach ($block->getColumns() as $_column): ?>
+
+                                    <?php if ($block->shouldRenderCell($_item, $_column)): ?>
+                                        <?php $_rowspan = $block->getRowspan($_item, $_column); ?>
+                                        <td <?= ($_rowspan ? 'rowspan="' . /* @noEscape */ $_rowspan . '" ' : '') ?>
+                                                class="<?= /* @noEscape */ $_column
+                                                    ->getCssProperty() ?><?= ++$i == $numColumns ? 'last' : '' ?>">
+                                            <?= (($_html = $_column
+                                                ->getRowField($_item)) != '' ? /* @noEscape */ $_html : '&nbsp;') ?>
+                                        </td>
+                                        <?php if ($block->shouldRenderEmptyCell($_item, $_column)): ?>
+                                            <td colspan="<?= /* @noEscape */ $block
+                                                ->getEmptyCellColspan($_item) ?>" class="last">
+                                                <?= /* @noEscape */ $block->getEmptyCellLabel() ?>
+                                            </td>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+
+                                <?php endforeach; ?>
+                            </tr>
+                            <?php if ($_multipleRows = $block->getMultipleRows($_item)): ?>
+                                <?php foreach ($_multipleRows as $_i): ?>
+                                    <tr>
+                                        <?php $i = 0;
+                                        foreach ($block->getMultipleRowColumns($_i) as $_column): ?>
+                                            <td class="<?= /* @noEscape */ $_column
+                                                ->getCssProperty() ?> <?= ++$i == $numColumns - 1 ? 'last' : '' ?>">
+                                                <?= (($_html = $_column
+                                                    ->getRowField($_i)) != '' ? /* @noEscape */ $_html : '&nbsp;') ?>
+                                            </td>
+                                        <?php endforeach; ?>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+
+                            <?php if ($block->shouldRenderSubTotal($_item)): ?>
+                                <tr class="subtotals">
+                                    <?php $i = 0;
+                                    foreach ($block->getSubTotalColumns() as $_column): ?>
+                                        <td class="<?= /* @noEscape */ $_column
+                                            ->getCssProperty() ?> <?= ++$i == $numColumns ? 'last' : '' ?>">
+                                            <?= ($_column->hasSubtotalsLabel() ? /* @noEscape */ $_column
+                                                ->getSubtotalsLabel() :
+                                                $_column->getRowField($block->getSubTotalItem($_item))
+                                            ); ?>
+                                        </td>
+                                    <?php endforeach; ?>
+                                </tr>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    <?php elseif ($block->getEmptyText()): ?>
+                        <tr>
+                            <td class="empty-text <?= /* @noEscape */ $block->getEmptyTextClass() ?>"
+                                colspan="<?= /* @noEscape */ $numColumns ?>">
+                                <?= /* @noEscape */ $block->getEmptyText() ?>
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+        <?php if ($block->canDisplayContainer()): ?>
+    </div>
+    <script type="text/javascript">
+        //<![CDATA[
+            <?= /* @noEscape */ $block->getJsObjectName() ?> = new varienGrid('<?= /* @noEscape */ $block->getId() ?>',
+                '<?= /* @noEscape */ $block->getGridUrl() ?>',
+                '<?= /* @noEscape */ $block->getVarNamePage() ?>',
+                '<?= /* @noEscape */ $block->getVarNameSort() ?>',
+                '<?= /* @noEscape */ $block->getVarNameDir() ?>',
+                '<?= /* @noEscape */ $block->getVarNameFilter() ?>'
+            );
+            <?= /* @noEscape */ $block->getJsObjectName() ?>.useAjax = '<?= /* @noEscape */ $block->getUseAjax() ?>';
+            <?php if ($block->getRowClickCallback()): ?>
+                <?= /* @noEscape */ $block->getJsObjectName() ?>.rowClickCallback = <?= /* @noEscape */ $block
+                    ->getRowClickCallback() ?>;
+            <?php endif; ?>
+            <?php if ($block->getCheckboxCheckCallback()): ?>
+                <?= /* @noEscape */ $block->getJsObjectName() ?>.checkboxCheckCallback = <?= /* @noEscape */ $block
+                    ->getCheckboxCheckCallback() ?>;
+            <?php endif; ?>
+            <?php if ($block->getRowInitCallback()): ?>
+                <?= /* @noEscape */ $block->getJsObjectName() ?>.initRowCallback = <?= /* @noEscape */ $block
+                    ->getRowInitCallback() ?>;
+                <?= /* @noEscape */ $block->getJsObjectName() ?>.initGridRows();
+            <?php endif; ?>
+            <?php if ($block->getMassactionBlock()->isAvailable()): ?>
+                <?= /* @noEscape */ $block->getMassactionBlock()->getJavaScript() ?>
+            <?php endif ?>
+            <?= /* @noEscape */ $block->getAdditionalJavaScript(); ?>
+        //]]>
+    </script>
+<?php endif; ?>
+<?php endif ?>

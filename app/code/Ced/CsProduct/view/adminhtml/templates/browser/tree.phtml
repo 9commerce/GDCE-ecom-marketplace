@@ -1,0 +1,33 @@
+<?php
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the End User License Agreement (EULA)
+  * that is bundled with this package in the file LICENSE.txt.
+  * It is also available through the world-wide-web at this URL:
+  * http://cedcommerce.com/license-agreement.txt
+  *
+  * @category    Ced
+  * @package     Ced_CsProduct
+  * @author   CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license      http://cedcommerce.com/license-agreement.txt
+  */
+
+// @codingStandardsIgnoreFile
+
+ /** @var \Ced\CsProduct\Block\Wysiwyg\Images\Tree $block */
+?>
+<div class="tree-panel" >
+    <div class="categories-side-col">
+        <div class="tree-actions">
+            <a onclick="jQuery('[data-role=tree]').jstree('close_all');"><?= $block->escapeHtml(__('Collapse All')) ?></a>
+            <span class="separator">|</span>
+            <a onclick="jQuery('[data-role=tree]').jstree('open_all');"><?= $block->escapeHtml(__('Expand All')) ?></a>
+        </div>
+    </div>
+    <div data-role="tree" data-mage-init='<?= $block->escapeHtml($this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode($block->getTreeWidgetOptions())) ?>'>
+    </div>
+</div>

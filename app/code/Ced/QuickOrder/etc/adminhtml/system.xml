@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_QuickOrder
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license      https://cedcommerce.com/license-agreement.txt
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+<system>
+  <tab id="b2bextension_tab" translate="label" sortOrder="2">
+            <label>B2B Extensions</label>
+        </tab>
+        <section id="b2bextension" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+            <tab>b2bextension_tab</tab>
+            <resource>Ced_QuickOrder::quickorder</resource>
+            <label>B2B Extensions Configuration</label>
+            <group id="quickorder" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>B2B Quick Order</label>
+                 <field id="enable" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable B2B Quick Order List</label>
+                    <config_path>quickorder/general/activation</config_path>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>    
+                </field>
+
+                  <field id="enableforlogin" translate="label" type="multiselect" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Group wise</label>
+                    <config_path>quickorder/general/group</config_path>
+                    <source_model>Ced\QuickOrder\Model\Source\Config\GroupModes</source_model>    
+                </field>
+            </group>
+        </section>
+</system>
+</config>

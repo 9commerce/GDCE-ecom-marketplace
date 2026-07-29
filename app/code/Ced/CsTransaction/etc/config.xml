@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsTransaction
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../Store/etc/config.xsd">
+    <default>
+    <vendor_acl>
+          <resources>
+        <all>
+          <title>Allow Everything</title>
+        </all>
+        <vendor>
+          <title>Vendor Panel</title>
+          <path>#</path>
+          <sort_order>1</sort_order>
+          <children>
+            <vendor_transactions>
+                <title>Transactions</title>
+                <sort_order>100</sort_order>
+                <path>#</path>
+                <children>
+                  <requested_transactions>
+                    <title>Requested Transaction</title>
+                    <sort_order>10</sort_order>
+                    <path>cstransaction/vpayments/request</path>
+                  </requested_transactions>
+					         <all_transactions>
+                    <title>View All Transaction</title>
+                    <sort_order>20</sort_order>
+                    <path>csmarketplace/vpayments/index/</path>
+                  </all_transactions>
+                 </children>
+              </vendor_transactions>
+          </children>
+        </vendor>
+      </resources>
+      </vendor_acl>
+  </default>
+</config>

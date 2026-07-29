@@ -1,0 +1,374 @@
+<?php
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license      https://cedcommerce.com/license-agreement.txt
+ */
+
+// @codingStandardsIgnoreFile
+?>
+<?php
+$_product = $block->getProduct();
+$link_allow_extensions = $this->helper('Ced\CsMarketplace\Helper\Data')
+    ->getStoreConfig('ced_vproducts/downloadable_config/link_formats');
+$supported_links = [];
+$supported_links = explode(',', $link_allow_extensions);
+$sample_extensions = $this->helper('Ced\CsMarketplace\Helper\Data')
+    ->getStoreConfig('ced_vproducts/downloadable_config/sample_formats' );
+$supported_samples = explode(',', $sample_extensions);
+$store = $block->getStore();
+?>
+
+<div id="links_container col-md-12">
+    <h4 style="margin-bottom: 10px;" class="page-title col-md-12"><?= __('Links') ?></h4>
+    <div class="form-group col-md-6">
+        <label><?= __('Title') ?>:</label>
+        <div class="input-box">
+            <input type="text" name="product[links_title]" value="<?= $_product->getLinksTitle();?>" id="links_title"
+                   class="input-text form-control" />
+        </div>
+    </div>
+
+    <div class="form-group col-md-6">
+        <label><?= __('Links can be purchased separately') ?>:</label>
+        <div class="input-box">
+            <select id="links_purchased_separately" class="select links_purchased_separately form-control"
+                    name="product[links_purchased_separately]" >
+                <option value=""><?= __('--Please Select--'); ?></option>
+                <option <?= $_product->getId() && $_product->getLinksPurchasedSeparately() == 1 ? "selected":"";?> value="1">
+                    <?= __('Yes'); ?>
+                </option>
+                <option <?= $_product->getId() && $_product->getLinksPurchasedSeparately() == 0 ? "selected":"";?> value="0">
+                    <?= __('No'); ?>
+                </option>
+            </select>
+        </div>
+    </div>
+    <div style="clear:both;"></div>
+    <br/>
+
+    <div class="table-responsive col-md-12">
+        <table cellspacing="0" class="data-table linearize-table-large sampletable table table-bordered table-hover table-striped" id="link_table">
+            <colgroup>
+                <col />
+                <col width="1"/>
+                <col />
+                <col />
+                <col />
+                <col width="1"/>
+                <col width="1"/>
+            </colgroup>
+            <thead>
+            <tr id="tr_heading">
+                <th><label class="required"><em>*</em><?= __('Title'); ?></label></th>
+                <th><?= __('Price')."[". $block->getCurrencySymbol(null, $store->getCurrentCurrencyCode())."]"; ?></th>
+                <th><span class="nobr"><?= __('Max. Downloads'); ?></span></th>
+                <th><?= __('Sample'); ?></th>
+                <th><?= __('File'); ?></th>
+                <th><?= __('Sort Order'); ?></th>
+                <th>&nbsp;</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <td class="a-right" colspan="7">
+                    <button class="add_btn button btn btn-info btn-circle btn-downloadable" type="button"
+                            title="<?= __('Add New Row'); ?>">
+                        <i class="fa  fa-plus"></i>
+                    </button>
+                </td>
+            </tr>
+            </tfoot>
+            <?php $k=0;
+            $productlinks = $block->getDownloadableProductLinks($_product);
+            foreach ( $productlinks as $productlink ){
+                ?>
+                <tbody class="link_body">
+                <tr>
+                    <td data-rwd-label="<?= __('Title') ?>" class="number">
+                        <input type="text" class="form-control link_title input-text input-text-small required-entry" value="<?= $productlink->getTitle(); ?>" name="downloadable[link][<?= $k;?>][title]">
+                        <input type="hidden" value="<?= $productlink->getLinkId();?>" class="link_id" name="downloadable[link][<?= $k;?>][link_id]">
+                    </td>
+                    <td data-rwd-label="<?= __('Price') ?>"  class="input-price">
+                        <input type="text" class="form-control link_price input-text input-text-small validate-zero-or-greater" value="<?= number_format($block->pricingHelper->currency($productlink->getPrice() , false, false), 2, '.', ''); ?>" name="downloadable[link][<?= $k;?>][price]" <?php if($_product->getLinksPurchasedSeparately()==0){ echo "disabled=''"; } ?>/>
+                    </td>
+                    <td data-rwd-label="<?= __('Max. Downloads') ?>" >
+                        <input type="text" name="downloadable[link][<?= $k;?>][number_of_downloads]" <?php if($productlink->getNumberOfDownloads()==0){echo "disabled";} ?>  value="<?= $productlink->getNumberOfDownloads() ? $productlink->getNumberOfDownloads() : 0;?>" class="count_downloads form-control input-text input-text-tiny " min="0"/>
+                        <input type="checkbox" <?php if($productlink->getNumberOfDownloads()==0){echo "checked=checked";} ?> name="downloadable[link][<?= $k;?>][is_unlimited]" value="<?php if($productlink->getNumberOfDownloads()==0){echo "1";} ?>" onClick="disbaleDownloadCount(this);"/>
+                        <label><?= __('Unlimited')?></label>
+                    </td>
+                    <td data-rwd-label="<?= __('Sample') ?>" >
+                        <ul style="list-style:none;padding: 0;text-align: left;">
+                            <li>
+                                <input type="radio"  <?= $productlink->getSampleType()=='file'?'checked="checked"':''?> value='file' class='link_sample_type' name="downloadable[link][<?= $k;?>][sample][type]">
+                                <label><?= __('File') ?>:</label>
+                                <label class="label csbutton btn btn-circle btn-warning" for="link_sample<?= $k;?>" title="<?= __('Upload')?>"><i class="fa  fa-upload "></i></label>
+                                <input type="file"  style="opacity:0; visibility:hidden; width:1px;height:1px;" id="link_sample<?= $k;?>" class="link_sample" name="link_samples[<?= $k;?>]">
+                                <?php
+                                if($linksamplename = $productlink->getSampleFile()){
+                                    $sample = explode('/',$linksamplename);
+                                    if(isset($sample[1])){
+                                        $ext = explode('.', $sample[1]);
+                                        if(isset($ext[1]))
+                                            $linksampleshortname=substr($sample[1],0,4)."...".$ext[1];
+                                        else
+                                            $linksampleshortname=substr($sample[1],0,4)."...";
+                                    }
+                                }else{
+                                    $sample = '';
+                                    $linksamplename = __('No File Choosen');
+                                    $linksampleshortname = __('No File...');
+                                }
+                                ?>
+                                <span title="<?= $linksamplename ;?>" class="link_sample_name">
+								<?= $linksampleshortname;?>
+							</span>
+                            </li>
+                            <li style="padding-top: 2px;">
+                                <input type="radio"  <?= $productlink->getSampleType() == 'url' ? 'checked="checked"' : ''?>
+                                       value='url' class='link_sample_type' name="downloadable[link][<?= $k;?>][sample][type]">
+                                <label><?= __('Url') ?>:</label>
+                                <input type="text" data-validate="{'validate-downloadable-url':true}" class="form-control link_sample_url validate-url input-text input-text-small validate-url" value="<?= $productlink->getSampleUrl();?>" name="downloadable[link][<?= $k;?>][sample][sample_url]">
+                            </li>
+                        </ul>
+                    </td>
+                    <td data-rwd-label="<?= __('File') ?>" >
+                        <ul style="list-style:none;padding: 0;text-align: left;">
+                            <li>
+                                <input type="radio"  <?= $productlink->getLinkType() == 'file' ? 'checked="checked"' : ''?>   value='file' class='link_type' name="downloadable[link][<?= $k;?>][type]">
+                                <label><?= __('File') ?>:</label>
+                                <label class="label csbutton btn btn-circle btn-warning" for="links<?= $k;?>" title="<?= __('Upload')?>"><i class="fa  fa-upload "></i></label>
+                                <input type="file" name="links[<?= $k?>]" class="links" id="links<?= $k;?>"   style="opacity:0; visibility:hidden; width:1px;height:1px;" />
+                                <?php
+                                $linkshortname = '';
+                                $linkname = '';
+                                if($linkname = $productlink->getLinkFile()){
+                                    $link = explode('/',$linkname);
+                                    if(isset($link[1])){
+                                        $ext=explode('.',$link[1]);
+                                        if(isset($ext[1]))
+                                            $linkshortname = substr($link[1],0,4)."...".$ext[1];
+                                        else
+                                            $linkshortname = substr($link[1],0,4)."...";
+                                    }
+                                }else {
+                                    $linkshortname = __('No File...');
+                                    $linkname = __('No File Choosen');
+                                }
+
+                                ?>
+                                <span title="<?= $linkname ?>" class="link_name"><?= $linkshortname?></span>
+                            </li>
+                            <li style="padding-top: 2px;">
+                                <input type="radio"  value='url'  <?= $productlink->getLinkType() == 'url' ? 'checked="checked"':''?> class='link_type' name="downloadable[link][<?= $k;?>][type]">
+                                <label><?= __('Url') ?>:</label>
+                                <input type="text" data-validate="{'validate-downloadable-url':true}"
+                                        class="form-control link_url input-text input-text-small  validate-url" value="<?= $productlink->getLinkUrl()?>" name="downloadable[link][<?= $k;?>][link_url]">
+                            </li>
+                        </ul>
+                    </td>
+                    <td data-rwd-label="<?= __('Sort Order') ?>"  class="number">
+                        <input class="form-control link_sort_order input-text input-text-tiny " value="<?= $productlink->getSortOrder()?>" name="downloadable[link][<?= $k;?>][sort_order]">
+                    </td>
+                    <td data-rwd-label="<?= __('Remove') ?>">
+					<span title="<?= __('Remove') ?>" onclick="delinkrow(this,'<?= $productlink->getLinkId()?>');" class="btn btn-danger btn-circle">
+						<i class="fa fa-times"></i>
+					</span>
+                    </td>
+                </tr>
+                </tbody>
+                <?php $k++; } ?>
+        </table>
+    </div>
+</div>
+</div>
+
+
+<script type="text/javascript">
+    /* downloadable product link scripts */
+    function delinknewrow(elem){
+        jQuery(elem).parents(".link_body").remove();
+    }
+
+    function delinkrow(elem, id){
+        var dicisionapp = confirm('<?= __('Are you sure?') ?>');
+        if(dicisionapp == true){
+            jQuery('#activity-loading').show();
+            var link_id_val = jQuery(elem).parents(".link_body").find('.link_id').val();
+            var links = jQuery('.link_ids').val();
+            var tot_link = link_id_val+","+links;
+            jQuery('.link_ids').val(tot_link);
+            jQuery.ajax({
+                url: "<?= $block->getUrl('csmarketplace/vproducts/deleteLink',array('_nosid'=>true));?>",
+                type: "POST",
+                data: {
+                    linkid:id,
+                },
+                dataType: 'html',
+                success:function(content){
+                    if(content == 1){
+                        jQuery(this).parent('div').remove();
+                        jQuery(elem).parents(".link_body").remove();
+                        alert("<?= __('Product Link Successfully Deleted') ?>");
+                    }
+                    else
+                        alert("<?= __('Error processing the request please Try Again') ?>");
+                    jQuery('#activity-loading').hide();
+                }
+            });
+        }
+    }
+
+    function disbaleDownloadCount(elem) {
+        if(jQuery(elem).is(':checked') == true){
+            jQuery(elem).prev('.count_downloads').attr('disabled','');
+            jQuery(elem).prev('.count_downloads').removeAttr('min');
+
+        }else{
+            jQuery(elem).prev('.count_downloads').removeAttr('disabled');
+            jQuery(elem).prev('.count_downloads').attr('min', 0);
+        }
+    }
+
+    require([
+        'jquery',
+        'mage/mage',
+        'mage/backend/validation'
+    ], function(jced){
+
+        jced.validator.addMethod(
+            'ced-validate-downloadable-file', function (value,elem) {
+                if (elem.parentNode.firstChild.checked) {
+                    return (value !== '');
+                } else {
+                    return true;
+                }
+            }, jced.mage.__('File not uploaded.'));
+
+        var link_row_count = <?= $k;?>;
+        jced(".btn-downloadable").click(function(){
+            var linkhtml='<tbody class="link_body">'+
+                '<tr>'+
+                '<td data-rwd-label="<?= __('Title') ?>" class="number">'+
+                '<input type="text" class="form-control link_title input-text input-text-small required-entry" name="downloadable[link]['+link_row_count+'][title]">'+
+                '<input type="hidden" class="link_id" name="downloadable[link]['+link_row_count+'][link_id]">'+
+                '</td>'+
+                '<td data-rwd-label="<?= __('Price') ?>" class="input-price">'+
+                '<input type="text" class="form-control link_price input-text input-text-small validate-zero-or-greater" value="0.00" name="downloadable[link]['+link_row_count+'][price]">'+
+                '</td>'+
+                '<td data-rwd-label="<?= __('Max. Downloads') ?>">'+
+                '<input type="text" name="downloadable[link]['+link_row_count+'][number_of_downloads]" value="0" class="form-control count_downloads input-text input-text-tiny " min="0">'+
+                '<input type="checkbox" name="downloadable[link]['+link_row_count+'][is_unlimited]" value="1" onClick="disbaleDownloadCount(this);">'+
+                '<label><?= __('Unlimited')?></label>'+
+                '</td>'+
+                '<td data-rwd-label="<?= __('Sample') ?>">'+
+                '<ul style="list-style:none;padding: 0;text-align: left;">'+
+                '<li>'+
+                '<input type="radio" checked="checked" value="file" class="link_sample_type" data-id="'+link_row_count+'" name="downloadable[link]['+link_row_count+'][sample][type]">'+
+                '<label><?= __('File') ?>:</label>'+
+                '<label class="label csbutton btn btn-circle btn-warning" for="link_sample'+link_row_count+'" title="<?= __('Upload')?>"><i class="fa  fa-upload "></i></label>'+
+                '<input type="file" data-validate="{\'ced-validate-downloadable-file\':true}" style="opacity:0; visibility:hidden; width:1px;height:1px;" id="link_sample'+link_row_count+'" class="link_sample new-file"  name="link_samples['+link_row_count+']">'+
+                '<span class="link_sample_name"><?= __('No File...') ?></span>'+
+                '</li>'+
+                '<li style="padding-top: 2px;">'+
+                '<input type="radio"  value="url" class="link_sample_type" data-id="'+link_row_count+'" name="downloadable[link]['+link_row_count+'][sample][type]">'+
+                '<label><?= __('Url') ?>:</label>'+
+                '<input type="text" data-validate="{\'validate-downloadable-url\':true}" class="form-control link_sample_url input-text input-text-small validate-url" id="link_sample_url'+link_row_count+'" name="downloadable[link]['+link_row_count+'][sample][sample_url]">'+
+                '</li>'+
+                '</ul>'+
+                '</td>'+
+                '<td data-rwd-label="<?= __('File') ?>">'+
+                '<ul style="list-style:none;padding: 0;text-align: left;">'+
+                '<li>'+
+                '<input type="radio" data-id="'+link_row_count+'" checked="checked" value="file" class="link_type" name="downloadable[link]['+link_row_count+'][type]">'+
+                '<label><?= __('File') ?>:</label>'+
+                '<label class="label csbutton btn btn-circle btn-warning" for="links'+link_row_count+'" title="<?= __('Upload')?>"><i class="fa  fa-upload"></i></label>'+
+                '<input type="file" data-validate="{\'ced-validate-downloadable-file\':true}" style="opacity:0; visibility:hidden; width:1px;height:1px;" id="links'+link_row_count+'" class="links new-file" name="links['+link_row_count+']">'+
+                '<span class="link_name"><?= __('No File...') ?></span>'+
+                '</li>'+
+                '<li style="padding-top: 2px;">'+
+                '<input type="radio"  value="url" class="link_type" data-id="'+link_row_count+'" name="downloadable[link]['+link_row_count+'][type]">'+
+                '<label><?= __('Url') ?>:</label>'+
+                '<input type="text" data-validate="{\'validate-downloadable-url\':true}" class="form-control link_url input-text input-text-small validate-url" id="link_type_url'+link_row_count+'" name="downloadable[link]['+link_row_count+'][link_url]">'+
+                '</li>'+
+                '</ul>'+
+                '</td>'+
+                '<td data-rwd-label="<?= __('Sort Order') ?>"  class="number">'+
+                '<input type="text" class="form-control link_sort_order input-text input-text-tiny " name="downloadable[link]['+link_row_count+'][sort_order]">'+
+                '</td>'+
+                '<td data-rwd-label="<?= __('Remove') ?>">'+
+                '<span title="<?= __('Remove') ?>" onclick="delinknewrow(this);" class="btn btn-danger btn-circle"><i class="fa fa-times"></i></button>'+
+                '</td>'+
+                '</tr>'+
+                '</tbody>';
+
+            jced("#link_table").append(linkhtml);
+            link_row_count++;
+            if(jced('.links_purchased_separately option:selected').val()==0)
+                jced('.link_price').attr('disabled','');
+            else
+                jced('.link_price').removeAttr('disabled');
+        });
+
+
+        jced('.links_purchased_separately').change(function(){
+            if(jced('.links_purchased_separately option:selected').val()==0){
+                jced('.link_price').each(function(){
+                    jced('.link_price').attr('disabled','');
+                });
+            }else{
+                jced('.link_price').each(function(){
+                    jced('.link_price').removeAttr('disabled');
+                });
+            }
+        });
+
+        jced( "body" ).delegate( ".link_sample", "change", function() {
+            var uploaded_file = jced(this).val();
+            var extension = uploaded_file.split(".").pop();
+            var extensions = <?= json_encode($supported_samples);?>;
+            var maxFileSize = 2000000;
+            if (extensions.indexOf(extension) < 0){
+                alert('Check File Type,\nAllowed file extensions: <?= json_encode($supported_samples);?>');
+                jced(this).val('');
+            }else if (this.files[0].size > maxFileSize) {
+                alert('File size too large to upload.');
+                jced(this).val('');
+            }else{
+                var samplename = uploaded_file.substr(0,6)+"..."+uploaded_file.split('.').pop();
+                jced(this).parent().children('.link_sample_name').text(samplename);
+                //jced(this).parent().children('.link_sample_name').attr('title',val);
+            }
+        });
+
+        jced( "body" ).delegate( ".links", "change", function() {
+            var uploaded_file = jced(this).val();
+            var extension = uploaded_file.split(".").pop();
+            var extensions = <?= json_encode($supported_links);?>;
+            var maxFileSize = 2000000;
+            if (extensions.indexOf(extension) < 0){
+                alert('Check File Type,\nAllowed file extensions: <?= json_encode($supported_links);?>');
+                jced(this).val('');
+            }else if (this.files[0].size > maxFileSize) {
+                alert('File size too large to upload.');
+                jced(this).val('');
+            } else {
+                var linkname = uploaded_file.substr(0,6)+"..."+uploaded_file.split('.').pop();
+                jced(this).parent().children('.link_name').text(linkname);
+            }
+        });
+    });
+
+</script>

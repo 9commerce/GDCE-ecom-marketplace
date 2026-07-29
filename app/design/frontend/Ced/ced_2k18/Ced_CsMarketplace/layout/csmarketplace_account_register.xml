@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license      https://cedcommerce.com/license-agreement.txt
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="vendor-empty" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+
+    <head>
+        <meta name="x_ua_compatible" content="IE=edge,chrome=1"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+        <css src="mage/calendar.css"/>
+        <css src="Ced_CsMarketplace::bower_components/bootstrap/dist/css/bootstrap.min.css" />
+        <css src="Ced_CsMarketplace::js/loginpage.js"/>
+        <script src="Ced_CsMarketplace::bower_components/bootstrap/dist/js/bootstrap.js"/>
+        <css src="Ced_CsMarketplace::bower_components/font-awesome/css/font-awesome.min.css"/>
+        <css src="css/seller_new.css" />
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Ced\CsMarketplace\Block\Vendor\Form\Login" name="vendor_page_header" template="Ced_CsMarketplace::customer/form/header.phtml"/>
+            <block class="Ced\CsMarketplace\Block\Vendor\Form\Register" name="customer_form_register" template="Ced_CsMarketplace::customer/form/advance_register.phtml">
+                <block class="Ced\CsMarketplace\Block\Vendor\Registration\Becomevendor\Form" name="vendor_reg_form" template="Ced_CsMarketplace::vendor/registration/becomevendor/form.phtml" />
+                <container name="form.additional.info" as="form_additional_info">
+                    <block class="Magento\Captcha\Block\Captcha" name="captcha" after="-" cacheable="false">
+                        <action method="setFormId">
+                            <argument name="formId" xsi:type="string">user_create</argument>
+                        </action>
+                        <action method="setImgWidth">
+                            <argument name="width" xsi:type="string">230</argument>
+                        </action>
+                        <action method="setImgHeight">
+                            <argument name="width" xsi:type="string">50</argument>
+                        </action>
+                    </block>
+                </container>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

@@ -1,0 +1,27 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<dl id="dl-<?= $block->escapeHtml($id) ?>" class="accordion">
+<?php foreach ($sections as $sectionId => $section): ?>
+    <dt id="dt-<?= $block->escapeHtml($id) ?>-<?= $block->escapeHtml($sectionId) ?>">
+        <strong><?= $block->escapeHtml($section['title']) ?></strong>
+    </dt>
+    <dd id="dd-<?= $block->escapeHtml($id) ?>-<?= $block->escapeHtml($section['id']) ?>" class="section-menu <?= /* @noEscape */ !empty($section['active']) ? 'open' : '' ?>">
+        <ul>
+        <?php foreach ($section['children'] as $menuId => $menuItem): ?>
+            <li id="li-<?= $block->escapeHtml($id) ?>-<?= $block->escapeHtml($sectionId) ?>-<?= $block->escapeHtml($menuId) ?>">
+                <a href="#" title="<?= $block->escapeHtml($menuItem['title']) ?>">
+                    <span><?= $block->escapeHtml($menuItem['label']) ?></span>
+                </a>
+            </li>
+        <?php endforeach ?>
+        </ul>
+    </dd>
+<?php endforeach ?>
+</dl>

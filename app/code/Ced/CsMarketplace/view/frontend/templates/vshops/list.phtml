@@ -1,0 +1,136 @@
+<?php
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+$vendors = $block->getLoadedVendorCollection();
+$helper = $block->imageHelper();
+
+$title = $helper->getStoreConfig('ced_vshops/general/vshoppage_title', $block->getCurrentStoreId()) ? $helper->getStoreConfig('ced_vshops/general/vshoppage_top_title', $block->getCurrentStoreId()) : "CsMarketplace";
+
+$width = 1000;
+$height = 300;
+$img = $helper->getStoreConfig("ced_vshops/general/vshoppage_banner", $block->getCurrentStoreId()) ? "ced/csmarketplace/".$helper->getStoreConfig("ced_vshops/general/vshoppage_banner", $block->getCurrentStoreId()) : '';
+
+?>
+<?php if ($block->aclHelper()->isEnabled()) { ?>
+    <div class="page-title category-title">
+        <h1><?= /* @noEscape */ $block->escapeHtml($title) ?></h1>
+    </div>
+    <div class="category-image">
+        <div class="category-image-inner">
+            <img id="product-collection-image-1" alt="CsMarketplace Banner" height="100%" width="100%"
+             src="<?= /* @noEscape */ $helper->getResizeImage($img, 'csbanner', $width, $height); ?>" />
+        </div>
+        <div class="category-description std">
+        <?= /* @noEscape */ $block->escapeHtml($helper->getStoreConfig('ced_vshops/general/vshoppage_about',$block->getCurrentStoreId())); ?>
+        </div>
+        <?= $block->getChildHtml('country_filter'); ?>
+    </div>
+
+    <?php if(!$vendors->count()): ?>
+        <div class="remove_vendors_wrap">
+            <p class="note-msg"><?= /* @noEscape */ __('Sorry!! No vendor available.'); ?></p>
+        </div>
+    <?php else: ?>
+        <div class="vendor_list_page">
+            <div class="category-products">
+                <div>
+                    <?= $block->getToolbarHtml(); ?>
+                    <?php // List mode ?>
+                    <?php if($block->getMode()!='grid'): ?>
+
+                    <?php
+                        $_iterator = 0;
+                        $width = (int)$helper->getStoreConfig('ced_vshops/general/list_image_width', $block->getCurrentStoreId());
+                        $height = (int)$helper->getStoreConfig('ced_vshops/general/list_image_height', $block->getCurrentStoreId());
+                        $width = $width ? $width : 135;
+                        $height = $height ? $height : 135;
+                    ?>
+                        <ul class="products-list csmarketplace-vendors-list" id="csmarketplace-vendors-list">
+                            <?php foreach ($vendors as $vendor): ?>
+                                <?php if(!$helper->canShow($vendor)) continue; ?>
+                                <li class="item<?php if( ++$_iterator == count($vendors) ): ?> last<?php endif; ?>">
+                                    <a href="<?= /* @noEscape */ $vendor->getVendorShopUrl() ?>" title="<?= /* @noEscape */ $block->stripTags($vendor->getPublicName(), null, true) ?>" class="product-image vendor-logo-image"><img src="<?= /* @noEscape */ $helper->getResizeImage($vendor->getData('company_logo'), 'logo', $width, $height); ?>" alt="<?= /* @noEscape */ $block->stripTags($vendor->getPublicName(), null, true) ?>" /></a>
+                                    <div class="product-shop">
+                                        <div class="f-fix">
+                                            <div class="product-primary">
+                                                <?php $vendorNameStripped = $block->stripTags($vendor->getName(), null, true); ?>
+                                                <h2 class="product-name">
+                                                    <a href="<?= /* @noEscape */ $vendor->getVendorShopUrl() ?>" title="<?= /* @noEscape */ __('Go to Shop') ?>">
+                                                        <?= /* @noEscape */ $vendor->getPublicName(); ?>
+                                                    </a>
+                                                </h2>
+                                                <?= $block->getReviewsSummaryHtml($vendor) ?>
+                                            </div>
+                                            <div class="desc std">
+                                                <div><?= /* @noEscape */ $vendor->getAbout(); ?></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php else: ?>
+                    <?php // Grid Mode ?>
+                    <?php $_collectionSize = $vendors->count(); ?>
+                    <?php $_columnCount = $block->getColumnCount(); ?>
+                    <?php
+                    // Vendor Logo
+                    $width = (int)$helper->getStoreConfig('ced_vshops/general/grid_image_width', $block->getCurrentStoreId());
+                    $height = (int)$helper->getStoreConfig('ced_vshops/general/grid_image_height', $block->getCurrentStoreId());
+                    $width = $width ? $width : 135;
+                    $height = $height ? $height : 135;
+                    ?>
+                    <ul class="products-grid products-grid--max-<?= /* @noEscape */ $_columnCount; ?>-col csmarketplace-vendors-grid">
+                    <?php $i=0; foreach ($vendors as $vendor): ?>
+                    <?php if(!$helper->canShow($vendor)) continue; ?>
+                            <?php $vendorNameStripped = $block->stripTags($vendor->getName(), null, true); ?>
+                    <?php $i++; ?>
+                        <li class="item<?php if(($i-1)%$_columnCount==0): ?> first<?php elseif($i%$_columnCount==0): ?> last<?php endif; ?>">
+                            <div class="shop_grid_list_wrap">
+                                <?php if ($vendor->getData('company_logo')) { ?>
+                                        <a href="<?= /* @noEscape */ $vendor->getVendorShopUrl() ?>" title="<?= /* @noEscape */ $block->stripTags($vendor->getPublicName(), null, true) ?>" class="product-image vendor-logo-image"><img src="<?= /* @noEscape */ $helper->getResizeImage($vendor->getData('company_logo'), 'logo', $width, $height); ?>" alt="<?= /* @noEscape */ $block->stripTags($vendor->getPublicName(), null, true) ?>" /></a>
+                                <?php } else { ?>
+                                        <a href="<?= /* @noEscape */ $vendor->getVendorShopUrl() ?>" title="<?= /* @noEscape */ $block->stripTags($vendor->getPublicName(), null, true) ?>" class="product-image vendor-logo-image"><img src="<?= /* @noEscape */ $helper->getResizeImage($vendor->getData('company_logo'), 'logo', $width, $height); ?>" alt="<?= /* @noEscape */ $block->stripTags($vendor->getPublicName(), null, true) ?>" /></a>
+                                <?php } ?>
+                                <div class="vendor-namerating">
+                                    <h2 class="product-name csmarketplace-vendor-name">
+                                            <a href="<?= /* @noEscape */ $vendor->getVendorShopUrl() ?>" title="<?= /* @noEscape */ __('Go to Shop') ?>">
+                                                <?= /* @noEscape */ $vendor->getPublicName() ?>
+                                        </a>
+                                    </h2>
+                                    <?= $block->getReviewsSummaryHtml($vendor) ?>
+                                </div>
+                            </div>
+                        </li>
+                    <?php endforeach ?>
+                    <?php endif ?>
+                    </ul>
+                </div>
+            </div>
+            <div style="clear: both;"></div>
+            <div class="page_limiter">
+                <?= $block->getCustomPagerHtml() ?>
+            </div>
+        </div>
+    <?php endif; ?>
+<?php } ?>

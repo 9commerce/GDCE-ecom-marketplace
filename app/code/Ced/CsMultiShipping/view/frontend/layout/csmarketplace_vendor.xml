@@ -1,0 +1,47 @@
+<!--
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMultiShipping
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+	<body>
+		<referenceBlock name="vendor_settings_container">
+		   <block class="Ced\CsMarketplace\Block\Link\Current" name="vendor_shipping_settings"
+                  after="vendor_payment_settings" ifconfig="ced_csmultishipping/general/activation">
+				<arguments>
+					 <argument name="name" xsi:type="string">vendor_shipping_settings</argument>
+					 <argument name="label" xsi:type="string">Shipping Settings</argument>
+					 <argument name="path" xsi:type="string">csmultishipping/settings/index</argument>
+					 <argument name="font_awesome" xsi:type="string">fa fa-money</argument>
+					 <argument name="sort_order" xsi:type="string">20</argument>
+					 <argument name="level" xsi:type="string">2</argument>
+				</arguments>
+		   </block>
+		   <block class="Ced\CsMarketplace\Block\Link\Current" name="vendor_shipping_methods"
+                  after="vendor_shipping_settings" ifconfig="ced_csmultishipping/general/activation">
+				<arguments>
+					 <argument name="name" xsi:type="string">vendor_shipping_methods</argument>
+					 <argument name="label" xsi:type="string">Shipping Methods</argument>
+					 <argument name="path" xsi:type="string">csmultishipping/methods/view</argument>
+					 <argument name="font_awesome" xsi:type="string">fa fa-money</argument>
+					 <argument name="sort_order" xsi:type="string">30</argument>
+					 <argument name="level" xsi:type="string">2</argument>
+				</arguments>
+		   </block>
+		</referenceBlock>
+    </body>
+</page>

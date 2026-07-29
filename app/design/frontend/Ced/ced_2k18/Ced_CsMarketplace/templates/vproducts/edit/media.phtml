@@ -1,0 +1,134 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+?>
+<?php
+$_product = $block->getRegistry()->registry('current_product'); 
+$viewModelImageUrl = $block->getData('viewModel');?>
+<div class="form-group col-md-12">
+    <label><?= /* @noEscape */ __('Product Images') ?>:</label>
+    <div class="input-box">
+        <div class="image_set">
+            <?php
+            $productGalleryImages = array();
+            $productGalleryImages = $_product->getMediaGalleryImages();
+            $productImage = $_product->getImage();
+            if ($_product && $_product->getId()) { ?>
+                <?php $i = 0;
+                foreach ($productGalleryImages as $_image) {
+                    $check = ($productImage == $_image->getFile()) ? "checked='checked'" : '';
+                    $i++;
+                    $imageUrl = $viewModelImageUrl->getImageUrl($_product, 'category_page_grid', $_image->getFile());
+                    ?>
+                    <div class="setimage">
+                        <a def="<?= /* @noEscape */$_image->getFile(); ?>"
+                           onclick="imagePreview('<?= /* @noEscape */ $_image->getFile(); ?>'); return false;"
+                           href="<?= /* @noEscape */ $imageUrl; ?>">
+                            <img style="float:left" id="<?= /* @noEscape */$_image->getFile(); ?>"
+                                 pid="<?= /* @noEscape */ $_product->getId(); ?>" src="<?= /* @noEscape */ $imageUrl; ?>" width="50"
+                                 height="50" alt="<?= /* @noEscape */$block->escapeHtml($_image->getLabel()); ?>"
+                                 title="<?php /* @noEscape */ $block->escapeHtml($_image->getLabel()); ?>">
+                        </a>
+                        <input style="float:left;margin: 18px 0 11px 11px" onClick="defaultSavedValue(this)"
+                               type="radio" name="defaultimage" <?= /* @noEscape */ $check ?> class='defaultimage'
+                               value='<?php if ($check !== ''){ ?><?= /* @noEscape */ $productImage;?><?php } ?>'>
+                        <span style="float:left;margin: 13px 11px 11px 0"><?= /* @noEscape */ __("Default Image"); ?></span>
+                        <a style="float:left;margin:13px 11px 11px 0" href="javascript:;"
+                           onclick="removeSavedImage(this,'<?= /* @noEscape */ $_image->getFile(); ?>','<?= /* @noEscape */ $_product->getId() ?>')"><?= /* @noEscape */ __('Remove') ?></a>
+                    </div>
+                    <div style="clear:both"></div>
+                <?php }
+            } ?>
+            <input type="file" style="float:left" name="images[0]" class="dumimg imagetype" accept="image/*" size="33"/>
+            <input type="radio" style="float:left" value="" class="defaultimage" onClick="setdefaultImage(this);"
+                   name="defaultimage"><span><?= /* @noEscape */ __("Default Image"); ?></span>
+            <div style="clear:both"></div>
+        </div>
+
+        <div id="addimagefields"></div>
+        <a class="add_btn button btn btn-info btn-circle" title="<?= /* @noEscape */ __('Add') . " " . __('More') ?>" href="#"
+           onclick="addMoreImages(); return false;" style="width: 75px; height: 29px;margin-top:5px;">
+            <i class="fa  fa-plus"></i></a>
+    </div>
+</div>
+<script type="text/javascript">
+    var i = 1;
+    function addMoreImages() {
+        var childElemId = "childDiv" + i;
+        jQuery("#addimagefields").append("<div id='" + childElemId + "'><input type='file' style='float:left' name='images[" + i + "]' accept='image/\*' class='imagetype'/><input style='float:left' type='radio'  onClick='setdefaultImage(this)'  value=''  class='defaultimage' name='defaultimage'><span>Default image</span>&nbsp;&nbsp;<a href=\"javascript:;\" onclick=\"removeImageRow('childDiv" + i + "')\" class='add_btn button btn btn-danger btn-circle' title='<?= /* @noEscape */__('Remove') ?>' style='height: 28px;width: 47px;'><i class='fa  fa-times'></i></a><div style='clear:both'></div><style>#childDiv" + i + "{padding-top:5px;}<style></div>");
+        i++;
+    }
+
+    function removeImageRow(elem) {
+        jQuery('#' + elem).remove();
+        i--;
+    }
+
+    function setdefaultImage(elem) {
+        var imgname = jQuery(elem).prev('input').attr('name');
+        jQuery('.defaultimage').each(function () {
+            jQuery(this).val(null);
+        });
+        jQuery(elem).val(imgname);
+    }
+
+    function defaultSavedValue(object) {
+        var imgname = jQuery(object).prev('a').attr('def');
+        jQuery('.defaultimage').each(function () {
+            jQuery(this).val(null);
+        });
+        jQuery(object).val(imgname);
+    }
+
+    function removeSavedImage(object, imagename, productid) {
+        var dicisionapp = confirm("<?= /* @noEscape */__('Are you sure?') ?>");
+        if (dicisionapp == true) {
+            jQuery('#activity-loading').show();
+            jQuery.ajax({
+                url: "<?= /* @noEscape */ $block->getUrl('csmarketplace/vproducts/deleteImage', array('_nosid' => true));?>",
+                type: "POST",
+                data: {imagename: imagename, productid: productid, storeid: '<?= /* @noEscape */ $_product->getStoreId()?>'},
+                dataType: 'html',
+                success: function (content) {
+                    if (content == 1) {
+                        jQuery(object).parent('div').remove();
+                        alert("<?= /* @noEscape */ __('Image Successfully Deleted') ?>");
+                    }
+                    else
+                        alert("<?= /* @noEscape */ __('Error processing the request please Try Again') ?>");
+                    jQuery('#activity-loading').hide();
+                }
+            });
+        }
+    }
+
+    require([
+        'jquery',
+        'mage/mage'
+    ], function ($) {
+        $("#form-validate").on('change', '.imagetype', function () {
+            var ext = $(this).val().split('.').pop().toLowerCase();
+            if ($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
+                $(this).val('');
+                alert("<?= /* @noEscape */ __('Invalid Image! Please  upload image of type gif, png, jpg, jpeg') ?>");
+            } else {
+
+                $(this).after($("<input type='hidden' name='real_img_val[" + $(this).attr('name').substring(7, 8) + "]' value='" + $(this).val() + "'/>"));
+            }
+        });
+    });
+</script>

@@ -1,0 +1,41 @@
+<?php
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license      https://cedcommerce.com/license-agreement.txt
+ */
+// @codingStandardsIgnoreFile
+?>
+<?php
+$_element = $this->getElement();
+$_note    = $_element->getNote();
+$_trId    = $_element->getHtmlContainerId();
+$_class   = $_element->getFieldsetHtmlClass();
+?>
+<?php if (!$_element->getNoDisplay()): ?>
+<li<?php if($_trId): ?> id="<?= $_trId ?>"<?php endif; ?> class="wide">
+    <?php if ($_element->getType()=='hidden'): ?>
+    <td colspan="2" class="hidden"><?= trim($_element->getElementHtml()) ?></td>
+    <?php else: ?>
+    <label class="label<?= $_class ? " {$_class}-label" : ''?>"><?= trim($_element->getLabelHtml()) ?></label>
+    <div class="<?= $_element->hasValueClass() ? $_element->getValueClass() : 'input-box' ?><?= $_class ? " {$_class}-value" : ''?>">
+        <?= trim($_element->getElementHtml()) ?>
+        <?php if ($_note): ?>
+            <p class="note<?= $_class ? " {$_class}-note" : ''?>" id="note_<?= $_element->getId()?>"><span><?= $_note ?></span></p>
+        <?php endif ?>
+    </div>
+    <?php endif; ?>
+</li>
+<?php endif; ?>

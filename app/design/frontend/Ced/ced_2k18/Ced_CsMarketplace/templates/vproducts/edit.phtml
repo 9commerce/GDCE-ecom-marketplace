@@ -1,0 +1,325 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+
+// @codingStandardsIgnoreFile
+
+use \Magento\Framework\Locale\Format;
+?>
+<?php
+$_product = $block->getVproduct();
+
+$checkstatus = $block->getCheckStatus();
+
+$stockRegistry = $block->createBlock(\Magento\CatalogInventory\Api\StockRegistryInterface::class);
+
+$stockitem = $block->stockRegistry->getStockItem(
+        $_product->getId(),
+        $_product->getStore()->getWebsiteId()
+	);
+$typeId = $_product->getTypeId()!=null?$_product->getTypeId(): $block->getRequest()->getParam('type');
+$productformdata = [];
+if($block->_getSession()->getFormError() == true)
+	$productformdata = $block->_getSession()->getProductFormData();
+
+if (!$_product->getId()) {
+	$name = isset($productformdata['product']['name']) ? $productformdata['product']['name'] : '';
+	$description = isset($productformdata['product']['description']) ? $productformdata['product']['description'] : '';
+	$short_description = isset($productformdata['product']['short_description']) ? $productformdata['product']['short_description'] : '';
+	$sku = isset($productformdata['product']['sku']) ? $productformdata['product']['sku'] : '';
+	$weight = isset($productformdata['product']['weight']) ? $productformdata['product']['weight'] : '';
+	$qty = isset($productformdata['product']['stock_data']['qty']) ? $productformdata['product']['stock_data']['qty'] : '';
+	$is_in_stock = isset($productformdata['product']['stock_data']['is_in_stock']) ? $productformdata['product']['stock_data']['is_in_stock'] : '';
+	$tax_class_id = isset($productformdata['product']['tax_class_id']) ? $productformdata['product']['tax_class_id'] : '';
+	$price = isset($productformdata['product']['price']) ? $productformdata['product']['price'] : '';
+	$special_price = isset($productformdata['product']['special_price']) ? $productformdata['product']['special_price'] : '';
+
+} else if($_product->getId()){
+	$name = $_product->getName();
+	$description = $_product->getDescription();
+	$short_description = $_product->getShortDescription();
+	$sku = $_product->getSku();
+	if($_product->getTypeId() == \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE || $block->getRequest()->getParam('type') == \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
+		$weight = $_product->getWeight();
+	if($checkstatus == \Ced\CsMarketplace\Model\Vproducts::APPROVED_STATUS){
+		$status = $_product->getStatus();
+	}
+	$qty = $stockitem->getQty();
+	if($_product->getId()){
+		$is_in_stock = $stockitem->getIsInStock();
+		$tax_class_id = $_product->getTaxClassId();
+	}
+	$price = $block->getFormattedPrice($_product->getPrice());
+
+	$special_price_val = $block->getFormattedPrice($_product->getSpecialPrice());
+	if($special_price_val == "0.00"){
+		$special_price = isset($productformdata['product']['special_price']) ? $productformdata['product']['special_price'] : '';
+	}else{
+		$special_price = $block->getFormattedPrice($_product->getSpecialPrice());
+	}
+}
+$taxClasses = $block->getTaxModelCollection();
+
+$currency_code = $block->getStore($_product->getStoreId())->getBaseCurrencyCode();
+$curr_symbol = $block->getPriceCurrencyInterface()->getCurrencySymbol(null, $currency_code);
+
+?>
+
+<form
+action="<?= $block->getUrl('csmarketplace/vproducts/save',array("id"=>$_product->getId())); ?>"
+enctype="multipart/form-data" method="post"
+id="form-validate" role="form">
+<input type="hidden" name="type" id="type"
+value="<?= $typeId?>"/>
+<input type="hidden" name="set" id="set"
+value="<?= $_product->getAttributeSetId()!=null?$_product->getAttributeSetId():$block->getRequest()->getParam('set');?>"/>
+<div class="row">
+	<div class="col-md-12" style="margin-top:10px;">
+		<div class="panel panel-default">
+			<div class="panel-heading col-md-12 uptransform clearfix" style="font-weight:bold;padding:4px 15px;">
+				<div class="col-md-6 col-xs-12  panel_product_heading" style="line-height:31px;font-size:17px;">
+					<?= $_product->getId() ?__('Edit')." ".__($typeId)." ".__('Product'):__('New')." ".__( $typeId)." ".__('Product') ?>
+				</div>
+				<div class="buttons-set col-md-6  col-xs-12 buttons_scb" style="text-align:right;">
+					<button class="button btn btn-success uptransform product-button" title="Save" type="submit" id="save_butn"
+					style="float: none;">
+					<span><span><?= __('Save') ?></span></span>
+				</button>
+				<button type="reset" style="float: none;" class="uptransform button btn btn-warning product-button">
+					<span><span><?= __('Cancel') ?></span></span>
+				</button>
+				<?php if($_product->getId()){?>
+				<button style="float: none;" type="button" onCLick="if(confirm('<?= __('Are you sure?') ?>'))window.location='<?= $block->getDeleteUrl($_product)?>'" title="<?= __('Delete')." ".__('Product') ?>" class="uptransform button btn btn-danger product-button delete-button"><span><span><?= __('Delete') ?></span></span></button>
+				<?php }?>
+				<button style="float: none;" type="button" onCLick="window.location='<?= $block->escapeUrl($block->getBackUrl()) ?>'" title="<?= __('Back') ?>" class="button btn btn-info uptransform product-button back-button"><span><span><?= __('Back') ?></span></span></button>
+			</div>
+		</div>
+		<div class="panel-body panel-min-height ff">
+			<div class="col-md-12">
+				<br/>
+				<?php if(0){?>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="panel panel-default">
+							<div class="panel-heading col-md-12" style="text-transform: uppercase;font-weight:bold;padding:4px 15px;">
+								<?= __('General Information') ?>
+							</div>
+							<div class="panel-body">
+								<br/>
+								<?php }?>
+								<?php if($_product->getId()):?>
+								<label class="col-md-12 pl-xs-no" for="store_switcher"><?= __('Choose Store View') ?>:</label>
+								<div style="clear:both"></div>
+								<div class="col-md-12 pl-xs-no">
+									<?php
+									echo $block->getLayout()->createBlock(\Ced\CsMarketplace\Block\Vproducts\Store\Switcher::class)
+									->setSwitchUrl($block->getUrl(
+									        '*/*/*',
+                                            [
+                                                '_current'=>true,
+                                                '_query'=>false,
+                                                'store'=>null,
+                                                '_nosid'=>true
+                                            ]
+                                    ))->toHtml();
+
+									?>
+								</div>
+								<?php endif;?>
+								<?php
+								if($this->helper(\Ced\CsMarketplace\Helper\Data::class)->isSharingEnabled())
+									echo $block->getChildHtml('website'); ?>
+								<?= $block->getChildHtml('category'); ?>
+								<div style="clear:both;"></div>
+								<div class="form-group col-md-6 rtl-active">
+									<label class="required"><em>*</em><?= __('Product Name') ?></label>:
+									<div class="input-box">
+										<input type="text" value="<?= $name;?>" class="required-entry input-text form-control"
+										name="product[name]" id="name" />
+									</div>
+								</div>
+								<div class="form-group col-md-6 rtl-active"><label class="required"><em>*</em><?= __('SKU') ?></label>:
+									<div style="clear:both"></div>
+									<div class="input-box" style="padding-left:0">
+										<input name="product[sku]" id="sku"  type="text" value="<?= $sku;?>" class="form-control required-entry input-text" onChange="validateSku(this)" />
+									</div>
+									<div id="sku_exist" >
+										<span class="sku-success-msg sku_exist">&nbsp;<?= __('SKU Available') ?></span>
+									</div>
+									<div id="sku_not_exist" >
+										<span class="sku-error-msg sku_not_exist">&nbsp;<?= __('SKU Already Exist') ?></span>
+									</div>
+									<div style="clear:both"></div>
+								</div>
+								<div class="form-group col-md-12 rtl-active"><label><?= __('Description') ?></label>:
+									<div class="input-box">
+										<textarea name="product[description]" class="input-text description textarea" id="description"
+										rows="5" cols="75"><?= $description;?></textarea>
+									</div>
+								</div>
+								<div class="form-group col-md-12 rtl-active"><label><?= __('Short Description') ?></label>:
+									<div class="input-box">
+										<textarea name="product[short_description]" id="short_description" rows="5"
+										cols="75" class="input-text short_description textarea"><?= $short_description;?></textarea>
+									</div>
+								</div>
+								<?php if($_product->getTypeId() == \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE || $block->getRequest()->getParam('type') == \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE){ ?>
+									<div class="form-group col-md-6 rtl-active"><label class="required"><em>*</em><?= __('Weight') ?></label>:
+										<div class="input-box">
+											<input  type="text" value="<?= $weight;?>"  class="form-control required-entry validate-number validate-zero-or-greater input-text" name="product[weight]" id="weight" maxlength="40" />
+										</div>
+									</div>
+									<?php } ?>
+									<div class="form-group col-md-6 rtl-active"><label><?= __('Stock Availability') ?></label>:
+										<div class="input-box">
+											<select id="is_in_stock" class="form-control select"
+											name="product[stock_data][is_in_stock]">
+											<option <?= $is_in_stock=="-1"?"selected":" "?> value="-1"><?= __('--Please Select--'); ?></option>
+											<option <?= $is_in_stock==1?"selected":" "?> value="1"><?= __('In Stock'); ?></option>
+											<option <?= $is_in_stock==0?"selected":" "?> value="0"><?= __('Out of Stock'); ?></option>
+										</select>
+									</div>
+								</div>
+								<div class="form-group col-md-6 rtl-active">
+									<label class="required"><em>*</em><?= __('Stock') ?></label>:
+									<div class="input-box">
+										<input  type="text" name="product[stock_data][qty]" value="<?= $qty;?>" id="qty" class="form-control required-entry validate-digits input-text" maxlength="8"/>
+									</div>
+								</div>
+								<div class="form-group col-md-6 rtl-active">
+									<label class="required"><em>*</em><?= __('Tax Class') ?></label>:
+									<div class="input-box">
+										<select id="tax_class_id" class="form-control validate-select select" name="product[tax_class_id]">
+											<option <?= ($tax_class_id == '0') ? "selected" : ""?> value="0">
+												<?= __('None')?>
+											</option>
+											<?php foreach($taxClasses as $taxclass){ ?>
+											<option <?= ($tax_class_id == $taxclass->getId()) ? 'selected' : ''; ?> value="<?= $taxclass->getId() ?>">
+												<?= $taxclass->getClassName()?>
+											</option>
+											<?php } ?>
+										</select>
+									</div>
+								</div>
+								<div class="form-group col-md-6  rtl-active">
+									<label class="required"><em>*</em><?= __('Price') ?></label>:
+									<div class="input-box input-group price-imput-box">
+										<span class="input-group-addon"><?php  echo $curr_symbol;	?></span>
+										<input  type="text" name="product[price]" value="<?php if($price != '') echo $price;?>" id="price" class="form-control required-entry validate-zero-or-greater  input-text" />
+										<div class="clear"></div>
+									</div>
+								</div>
+								<div class="form-group col-md-6 rtl-active">
+									<label><?= __('Special Price') ?></label>:
+									<div class="input-box input-group">
+										<span class="input-group-addon"><?php  echo $curr_symbol;  ?></span>
+										<input  type="text" name="product[special_price]" value="<?php  if($special_price != '') echo $special_price;?>" id="special_price" class="form-control input-text validate-zero-or-greater " />
+									</div>
+								</div>
+								<?php if($checkstatus == \Ced\CsMarketplace\Model\Vproducts::APPROVED_STATUS){ ?>
+									<div class="form-group col-md-6 rtl-active">
+										<label class="required"><em>*</em><?= __('Status') ?></label>:
+										<div class="input-box">
+											<select id="is_in_stock" class="form-control select"
+											name="product[status]">
+											<option <?= $status==\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED?"selected":""?>  value="<?= \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED?>"><?= __('Enable'); ?></option>
+											<option <?= $status==\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED?"selected":""?>  value="<?= \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED?>"><?= __('Disable'); ?></option>
+										</select>
+									</div>
+								</div>
+								<?php } ?>
+								<div style="clear:both;"></div>
+								<?= $block->getChildHtml('media')?>
+								<?php if($_product->getTypeId() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE || $block->getRequest()->getParam('type') == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE){
+									echo $block->getChildHtml('downloadable');
+								} ?>
+								<p class="required"><?= __('* Required Fields') ?></p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+	<script>
+		require([
+			'jquery',
+			'mage/mage'
+			], function($){
+				var dataForm = $('#form-validate');
+				dataForm.mage('validation', {
+				}).find('input:text').attr('autocomplete', 'off');
+			});
+		</script>
+		<script type="text/javascript">
+			function validateSku(elem){
+				var sku=jQuery(elem).val();
+				var skulength=sku.length;
+				if(skulength==0){
+					alert("<?= __("SKU can't be empty") ?>");
+					jQuery('#sku_exist').css('display','none');
+					jQuery('#sku_not_exist').css('display','none');
+				}
+				else{
+					jQuery.ajax({
+						url: "<?= $block->getUrl('csmarketplace/vproducts/checksku',array('id'=>$_product->getId()));?>",
+						type: "POST",
+						data: {sku:sku},
+						dataType: 'html',
+						success:function($data){
+							$data=JSON.parse($data);
+							if($data.result==1){
+								jQuery('#sku_exist').css('display','block');
+								jQuery('#sku_not_exist').css('display','none');
+							}
+							else{
+								jQuery('#sku_not_exist').css('display','block');
+								jQuery('#sku_exist').css('display','none');
+								jQuery("#sku").attr('value','');
+							}
+						}
+					});
+				}
+			}
+
+            require([
+                "jquery",
+                "mage/translate",
+                "mage/adminhtml/wysiwyg/tiny_mce/setup"
+            ], function(jQuery){
+                description = new wysiwygSetup("description", {
+                    "width":"99%",
+                    "height":"150px",
+                    "tinymce":{"toolbar":"formatselect | bold italic underline | alignleft aligncenter alignright | bullist numlist | link table charmap","plugins":"advlist autolink lists link charmap media noneditable table contextmenu paste code help table",
+                    }
+                });
+                description.setup("exact");
+
+                shortDescription = new wysiwygSetup("short_description", {
+                    "width":"99%",
+                    "height":"150px",
+                    "tinymce":{"toolbar":"formatselect | bold italic underline | alignleft aligncenter alignright | bullist numlist | link table charmap","plugins":"advlist autolink lists link charmap media noneditable table contextmenu paste code help table",
+                    }
+                });
+                shortDescription.setup("exact");
+            });
+		</script>
+		<style>
+			#sku_exist, #sku_not_exist{
+				display:none;
+			}
+		</style>

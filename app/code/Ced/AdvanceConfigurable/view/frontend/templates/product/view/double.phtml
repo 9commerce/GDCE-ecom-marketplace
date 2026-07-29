@@ -1,0 +1,237 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_AdvanceConfigurable
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license      https://cedcommerce.com/license-agreement.txt
+ */
+?>
+<?php
+$store = $this->_storeManager->getStore();
+$json = json_decode($block->getJsonConfig());
+$configurable = json_decode(json_encode($json), True);
+$configurable = $block->getdoubleconfigurableoption();
+$_product = $block->getProduct();
+if (isset($block->notSaleableprodcts)) {
+    $notSaleableprodcts = $block->notSaleableprodcts;
+} else {
+    $notSaleableprodcts = [];
+}
+$horizontal = 0;
+if ($block->isEnabled()) {
+    if ($_product->getShowMatrix()) {
+        if ($configurable) {
+            $attributes = $_product->getTypeInstance(true)->getConfigurableAttributesAsArray($_product);
+            $productAttributesOptions = $_product->getTypeInstance(true)->getConfigurableOptions($_product);
+            $count = 1;
+            $count_attributes = 1;
+            $horizontalAttributes = [];
+            $attr = [];
+            ?>
+            <form id="matrix-form" method="post" class="matrix-form">
+                <div class="product-matrix-matrix-layout layout-2 product-matrix">
+                    <div id="error_message" class="error_message" style="display:none;color:red;"></div>
+                    <input type="hidden" value="<?php echo $_product->getId() ?>" name="product">
+                    <?php
+                    foreach ($configurable['attributes'] as $key1 => $value1) {
+                        if ($count_attributes == 1) {
+                            echo '<div class="vertical-div" id="vertical-div">';
+                            foreach ($value1['options'] as $key2 => $value2) {
+                                $attr[0][] = $key1 . '-' . $value2['id'];
+                                $horizontalAttributes[$key1 . '-' . $value2['id']] = $value2['products'];
+                                echo '<div class="' . $value2["label"] . ' vertical">' . ucfirst($value2["label"]) . '</div>';
+                            }
+                            echo '</div>';
+                        }
+                        if ($count_attributes == 2) {
+                            $previous = $this->getViewFileUrl('Ced_AdvanceConfigurable::images/new/previous.png');
+                            $next = $this->getViewFileUrl('Ced_AdvanceConfigurable::images/new/next.png');
+                            echo '<div class="style-2-table-wrap" id="style-2-table-wrap">
+								<div class="prev"  id="prev">
+                				<img src="' . $previous . '" alt="Previous" id="tLeft" class="mnavs" >
+            					</div>
+    							<div id="next" class="next"><img src="' . $next . '" alt="Next"  class="mnavs">
+    							</div><table class="matrix-table" id="my_table">';
+                            echo '<tr class="heading-tr">';
+                            foreach ($value1['options'] as $key2 => $value2) {
+                                $attr[1][] = $key1 . '-' . $value2['id'];
+                                $horizontalAttributes[$key1 . '-' . $value2['id']] = $value2['products'];
+                                $horizontal++;
+                                echo '<td class="' . $value2["label"] . '">' . ucfirst($value2["label"]) . '</td>';
+                            }
+                            echo '</tr>';
+                            break;
+                        }
+                        $count_attributes++;
+                    }
+                    $StockState = $this->stockState;
+                    foreach ($attr[0] as $k1 => $at1) {
+                        echo '<tr>';
+                        $prodIn1 = $horizontalAttributes[$at1];
+                        foreach ($attr[1] as $k2 => $at2) {
+                            $name = $at1 . ',' . $at2;
+                            $name = rtrim($name, ",");
+                            $prodIn2 = $horizontalAttributes[$at2];
+                            $id = array_values(array_intersect($prodIn1, $prodIn2));
+                            $inCondition = !isset($id) || (count($id) > 1) || !isset($id[0]);
+                            if (in_array($id, $notSaleableprodcts) || $inCondition) {
+                                /*without product*/
+                                echo '<td><div class="no-product"></div></td>';
+                            } else {
+                                $id = $id[0];
+                                /*with product*/
+                                echo '<td>';
+                                $price = $this->pricingHelper
+                                    ->currency($configurable['optionPrices'][$id]['finalPrice']['amount'], true, false);
+                                ?>
+                                <div class="div-label">+<?php echo $price; ?></div>
+                                <?php
+                                echo '<input type="text" pro-id = "' . $id . '" value="" name="child[' . $name . ']" placeholder="' . $StockState->getStockQty($id) . '" class="qty" min="0" max="' . $StockState->getStockQty($id) . '">';
+                                echo '<div class="qty-available">' . $StockState->getStockQty($id) . '</div></td>';
+                            }
+                        }
+                        echo '</tr>';
+                    }
+                    ?>
+                    </table>
+                </div>
+                <div class="spinner" style="display:none;">
+                    <img alt="Loading..."
+                         src="<?php echo $store->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_STATIC) ?>frontend/Magento/luma/en_US/images/loader-1.gif">
+                </div>
+                </div>
+                <div class="actions">
+                    <button id="add" class="action primary tocart" title="Add to Cart" type="button">
+                        <span>Add to Cart</span>
+                    </button>
+                    <div class="validation_message">
+                    </div>
+                </div>
+            </form>
+            <script>
+                require([
+                    'mage/url',
+                    'jquery'
+                ], function () {
+                    jQuery(".fieldset>div.configurable").hide();
+                    jQuery('.product-options-bottom').hide();
+                });
+            </script>
+        <?php } ?>
+    <?php } ?>
+<?php } ?>
+<script>
+    require([
+        "jquery",
+        'mage/mage'
+    ], function (jQuery) {
+        var validation = false;
+        var dataForm = jQuery('#matrix-form');
+        jQuery("#add").click(function () {
+            jQuery('#my_table .qty').each(function () {
+                if (((jQuery.isNumeric(this.value)) && (this.value > 0) && (Math.floor(this.value) == this.value))) {
+                    validation = true;
+                }
+            });
+            if (validation == true) {
+                jQuery('.spinner').css('display', 'block');
+                jQuery('.validation_message').html('<span style="color:green">Please wait. Adding item(s) to cart..</span>');
+                jQuery('button').attr('disabled', 'disabled');
+                var formData = jQuery('#matrix-form').serializeArray();
+                jQuery.ajax({
+                    type: 'POST',
+                    url: '<?php echo $this->getUrl("advanceconfig/cart/addtwo")?>',
+                    data: formData,
+                    success: function (data) {
+                        jQuery('.spinner').css('display', 'none');
+                        jQuery('button').prop("disabled", false);
+                        jQuery('.validation_message').hide();
+                    }
+                })
+            } else {
+                jQuery('.validation_message').html('<span style="color:red;">Please specify valid options.<span>');
+            }
+        });
+        jQuery('.qty').keyup(function (event) {
+            var max_qty = jQuery(this).attr('max');
+            max_qty = parseInt(max_qty);
+            if ((this.value <= max_qty) && (this.value > 0) && (Math.floor(this.value) == this.value)) {
+                jQuery(this).css('border-color', 'green');
+                jQuery('#error_message').hide();
+                jQuery('.qty').not(this).prop('disabled', false);
+                jQuery('#add').prop('disabled', false);
+            } else if (!this.value) {
+            } else if ((!jQuery.isNumeric(this.value)) || (this.value < 0) || (Math.floor(this.value) != this.value)) {
+                jQuery('#error_message').html('Please enter positive value for quantity.');
+                jQuery('#error_message').show();
+                jQuery('.qty').not(this).attr('disabled', 'true');
+                jQuery(this).css('border-color', 'red');
+                jQuery('#add').attr('disabled', 'true');
+            } else if (this.value == 0) {
+                jQuery(this).css('border-color', '#c2c2c2');
+                jQuery('#add').prop('disabled', false);
+                jQuery('.qty').not(this).prop('disabled', false);
+                jQuery('#error_message').hide();
+            } else {
+                jQuery(this).css('border-color', 'red');
+                jQuery('#error_message').html('Requested quantity is not available. Maximum stock available is ' + max_qty + ' !');
+                jQuery('#error_message').show();
+                jQuery('.qty').not(this).attr('disabled', 'true');
+                jQuery('#add').attr('disabled', 'true');
+            }
+        });
+    });
+</script>
+
+<!-- Script to navigate configurable grid -->
+<script>
+    require([
+        "jquery",
+        'mage/mage'
+    ], function (jQuery) {
+        jQuery('#prev').fadeOut();
+        var total = jQuery("#my_table tr:first td").length;
+        var current = 3;
+        if (total <= 3) {
+            jQuery('#next').hide();
+            jQuery('#prev').hide();
+            setTimeout(function () {
+                jQuery("#vertical-div").css('margin-top', '0');
+                jQuery("#style-2-table-wrap").css('padding-top', '0');
+            }, 3000);
+        } else {
+            jQuery('#prev').click(function (event) {
+                jQuery('#next').fadeIn();
+                if (current > 3) {
+                    jQuery('#my_table').css('margin-left', '+=140px');
+                    current -= 1;
+                    if (current == 3) {
+                        jQuery('#prev').fadeOut();
+                        jQuery('#next').fadeIn();
+                    }
+                }
+            });
+            jQuery('#next').click(function (event) {
+                jQuery('#prev').fadeIn();
+                if (current < total) {
+                    jQuery('#my_table').css('margin-left', '-=140px');
+                    current += 1;
+                    if (current == total) {
+                        jQuery('#next').fadeOut();
+                        jQuery('#prev').fadeIn();
+                    }
+                }
+            });
+        }
+    });
+</script>

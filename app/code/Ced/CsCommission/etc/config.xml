@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category  Ced
+ * @package   Ced_CsCommission
+ * @author    CedCommerce Core Team <connect@cedcommerce.com >
+ * @copyright Copyright CedCommerce (https://cedcommerce.com/)
+ * @license      https://cedcommerce.com/license-agreement.txt
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+    	 <ced_csmarketplace>
+	        <vendor>
+				<rates>
+					<miscellaneous><model>Ced\CsCommission\Model\Vendor\Rate\Miscellaneous</model></miscellaneous>
+				</rates>
+			</vendor>
+        </ced_csmarketplace>
+        <ced_vpayments>
+			<general>
+				<commission_mode_default>percentage</commission_mode_default>
+				<commission_fee_default>10</commission_fee_default>
+				<commission_mode_sales>fixed</commission_mode_sales>
+				<commission_fee_sales>0</commission_fee_sales>
+				<commission_mode_ship>fixed</commission_mode_ship>
+				<commission_fee_ship>0</commission_fee_ship>
+				<commission_mode_payments>fixed</commission_mode_payments>
+				<commission_fee_paymnets>0</commission_fee_paymnets>
+				<commission_mode_servicetax>fixed</commission_mode_servicetax>
+				<commission_fee_servicetax>0</commission_fee_servicetax>
+				<commission_fn>MAX</commission_fn>
+			</general>
+		</ced_vpayments>
+    </default>
+</config>

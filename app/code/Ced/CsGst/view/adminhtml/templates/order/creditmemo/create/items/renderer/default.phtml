@@ -1,0 +1,121 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php /** @var $block \Magento\Sales\Block\Adminhtml\Items\Renderer\DefaultRenderer */ ?>
+<?php 
+    $_item = $block->getItem();
+    $_order = $block->getOrder();
+    $block->setPriceDataObject($_item);
+    $gstHelper =  $this->helper('Ced\CsGst\Helper\Data');
+    $product = $gstHelper->create('Magento\Catalog\Model\Product')->load($_item->getProductId());
+?>
+<tr>
+    <td class="col-product"><?php echo $block->getColumnHtml($_item, 'name') ?>
+   
+    </td>
+    <td class="col-price">
+        <?php echo $block->getColumnHtml($_item, 'price'); ?>
+    </td>
+    <td class="col-ordered-qty"><?php echo $block->getColumnHtml($_item, 'qty') ?></td>
+    <?php if ($block->canParentReturnToStock($_item)) : ?>
+        <td class="col-return-to-stock">
+        <?php if ($block->canReturnItemToStock($_item)) : ?>
+            <input type="checkbox"
+                   class="admin__control-checkbox"
+                   name="creditmemo[items][<?php /* @escapeNotVerified */ echo $_item->getOrderItemId() ?>][back_to_stock]"
+                   value="1"<?php if ($_item->getBackToStock()):?> checked<?php endif;?>/>
+            <label class="admin__field-label"></label>
+        <?php endif; ?>
+        </td>
+    <?php endif; ?>
+    <td class="col-refund col-qty">
+    <?php if ($block->canEditQty()) : ?>
+        <input type="text"
+               class="input-text admin__control-text qty-input"
+               name="creditmemo[items][<?php /* @escapeNotVerified */ echo $_item->getOrderItemId() ?>][qty]"
+               value="<?php /* @escapeNotVerified */ echo $_item->getQty()*1 ?>"/>
+    <?php else : ?>
+        <?php /* @escapeNotVerified */ echo $_item->getQty()*1 ?>
+    <?php endif; ?>
+    </td>
+    <td class="col-subtotal">
+        <?php echo $block->getColumnHtml($_item, 'subtotal'); ?>
+    </td>
+    <td class="col-tax-amount"><?php /* @escapeNotVerified */ echo $block->displayPriceAttribute('tax_amount') ?></td>
+    <td class="col-discont"><?php /* @escapeNotVerified */ echo $block->displayPriceAttribute('discount_amount') ?></td>
+    <td class="col-total last">
+        <?php echo $block->getColumnHtml($_item, 'total'); ?>
+    </td>
+        <!-- Fetch Details Of GST -->
+<?php 
+    $gstAmt = 'NULL';
+    $igstAmt = 'NULL';
+    $amt = '';
+    $vendorId = $gstHelper->create('Ced\CsMarketplace\Model\Vproducts')->getVendorIdByProduct($_item->getProductId());
+    if($vendorId){
+    	$warehouse =  $gstHelper->getWarehouseForVendor($vendorId);
+    }else{
+    	$warehouse =  $gstHelper->getWarehouseForAdmin();
+    }
+    if(!$_order->getShippingAddress()){
+    
+    	$regionSelector = $_order->getBillingAddress();
+    }else{
+    	$regionSelector = $_order->getShippingAddress();
+    }
+    $regionId = $regionSelector->getRegionId();
+
+    
+    
+    if ($regionId == $warehouse) {
+            $rate = $_item->getOrderItem()->getTaxPercent(); 
+            $amt = $_item->getTaxAmount()/2;
+            $gstAmt =  $_order->formatPrice($amt);
+            $gstRate = ($rate/2).'%';        
+
+?>
+<!-- IGST -->
+    <td class="a-right">
+        <?php echo 'N/A'; ?>
+    </td>
+<!-- CGST -->
+    <td class="a-right">
+        
+            <?php echo $gstAmt; ?>
+            <div> <strong><?php echo __('Rate:'); ?></strong> <?php echo $gstRate; ?> </div>
+        
+    </td>
+<!-- SGST -->
+    <td class="a-right">
+        
+            <?php echo $gstAmt; ?>
+            <div> <strong><?php echo __('Rate:'); ?></strong> <?php echo $gstRate; ?> </div>
+        
+    </td>
+<?php    }else{
+    $igstAmt = $this->displayPriceAttribute('tax_amount');
+    $igstRate = (int)$_item->getOrderItem()->getTaxPercent().'%';
+?>
+<!-- IGST -->
+    <td class="a-right">
+        <?php echo $igstAmt; ?>
+        <div> <strong><?php echo __('Rate:'); ?></strong> <?php echo $igstRate; ?></div>
+    </td>
+<!-- CGST -->
+    <td class="a-right">
+        <?php echo 'N/A'; ?>
+    </td>
+<!-- SGST -->
+    <td class="a-right">
+        <?php echo 'N/A'; ?>
+    </td>
+<?php
+    }
+?>
+</tr>

@@ -1,0 +1,88 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsOrder
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+?>
+<?php /** @var $block \Ced\CsOrder\Block\Order\Creditmemo\Create\Form */ ?>
+<div id="<?= $block->getHtmlId() ?>">
+<table cellspacing="0" cellpadding="0" class="massaction">
+<tr>
+    <td><?php if ($block->getUseSelectAll()):?>
+        <a href="#" onclick="return <?= /* @noEscape */ $block->getJsObjectName() ?>.selectAll()">
+            <?= $block->escapeHtml(__('Select All')) ?>
+        </a>
+        <span class="separator">|</span>
+        <a href="#" onclick="return <?= /* @noEscape */ $block->getJsObjectName() ?>.unselectAll()">
+            <?= /* @noEscape */ $block->escapeHtml(__('Unselect All')) ?>
+        </a>
+        <span class="separator">|</span>
+        <?php endif; ?>
+        <a href="#" onclick="return <?= /* @noEscape */ $block->getJsObjectName() ?>.selectVisible()">
+            <?= $block->escapeHtml(__('Select Visible')) ?>
+        </a>
+        <span class="separator">|</span>
+        <a href="#" onclick="return <?= /* @noEscape */ $block->getJsObjectName() ?>.unselectVisible()">
+            <?= $block->escapeHtml(__('Unselect Visible')) ?>
+        </a>
+        <br>
+        <strong id="<?= /* @noEscape */ $block->getHtmlId() ?>-count">0</strong>
+        <?= /* @noEscape */ __('items selected') ?>
+    </td>
+    <td>
+        <div class="right">
+            <div class="entry-edit">
+                <form action="" id="<?= $block->getHtmlId() ?>-form" method="post">
+                    <?= $block->getBlockHtml('formkey')?>
+                    <fieldset>
+                        <span class="field-row">
+                            <label><?= $block->escapeHtml(__('Actions')) ?></label>
+                            <select id="<?= $block->getHtmlId() ?>-select"
+                                    class="required-entry select absolute-advice local-validation">
+                                <option value=""></option>
+                                <?php foreach ($block->getItems() as $_item): ?>
+                                    <option value="<?= /* @noEscape */ $_item->getId() ?>"
+                                        <?= ($_item->getSelected() ? ' selected="selected"' : '')?>>
+                                        <?= /* @noEscape */ $_item->getLabel() ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </span>
+                        <span class="outer-span" id="<?= $block->getHtmlId() ?>-form-hiddens"></span>
+                        <span class="outer-span" id="<?= $block->getHtmlId() ?>-form-additional"></span>
+                        <span class="field-row">
+                            <?= $block->getApplyButtonHtml() ?>
+                        </span>
+                    </fieldset>
+                </form>
+            </div>
+
+            <div class="no-display">
+            <?php foreach ($block->getItems() as $_item): ?>
+                <div id="<?= /* @noEscape */ $block->getHtmlId() ?>-item-<?= /* @noEscape */ $_item->getId() ?>-block">
+                    <?= $_item->getAdditionalActionBlockHtml() ?>
+                </div>
+            <?php endforeach; ?>
+            </div>
+        </div>
+    </td>
+</tr>
+</table>
+<?php if (!$block->getParentBlock()->canDisplayContainer()): ?>
+<script type="text/javascript">
+    <?= /* @noEscape */ $block->getJsObjectName() ?>.setGridIds('<?= /* @noEscape */ $block->getGridIdsJson() ?>');
+</script>
+<?php endif; ?>
+</div>

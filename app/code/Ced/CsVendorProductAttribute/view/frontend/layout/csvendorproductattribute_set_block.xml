@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the End User License Agreement (EULA)
+  * that is bundled with this package in the file LICENSE.txt.
+  * It is also available through the world-wide-web at this URL:
+  * https://cedcommerce.com/license-agreement.txt
+  *
+  * @category  Ced
+  * @package   Ced_CsVendorProductAttribute
+  * @author    CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright Copyright CEDCOMMERCE (https://cedcommerce.com/)
+  * @license      https://cedcommerce.com/license-agreement.txt
+  */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="vendor.csproduct.set.container">
+            <block class="Ced\CsVendorProductAttribute\Block\Product\Attribute\Set\Toolbar\Main\Grid"
+                   name="adminhtml.catalog.product.set.grid" as="grid">
+                <arguments>
+                    <argument name="id" xsi:type="string">setGrid</argument>
+                    <argument name="dataSource" xsi:type="object">
+                        Ced\CsVendorProductAttribute\Model\ResourceModel\Entity\Attribute\Grid\Collection
+                    </argument>
+                    <argument name="default_sort" xsi:type="string">set_name</argument>
+                    <argument name="default_dir" xsi:type="string">ASC</argument>
+                    <argument name="save_parameters_in_session" xsi:type="string">1</argument>
+                </arguments>
+                <block class="Ced\CsVendorProductAttribute\Block\Product\Attribute\Set\Toolbar\Main\Grid\ColumnSet"
+                       name="adminhtml.catalog.product.set.grid.columnSet" as="grid.columnSet">
+                    <arguments>
+                        <argument name="id" xsi:type="string">setGrid</argument>
+                        <argument name="rowUrl" xsi:type="array">
+                            <item name="path" xsi:type="string">csvendorproductattribute/set/add</item>
+                            <item name="extraParamsTemplate" xsi:type="array">
+                                <item name="id" xsi:type="string">getAttributeSetId</item>
+                            </item>
+                        </argument>
+                    </arguments>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="set_name">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Set</argument>
+                            <argument name="align" xsi:type="string">left</argument>
+                            <argument name="sortable" xsi:type="string">1</argument>
+                            <argument name="index" xsi:type="string">attribute_set_name</argument>
+                        </arguments>
+                    </block>
+                </block>
+            </block>
+        </referenceBlock>
+    </body>
+</page>

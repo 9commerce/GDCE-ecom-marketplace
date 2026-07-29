@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the End User License Agreement (EULA)
+  * that is bundled with this package in the file LICENSE.txt.
+  * It is also available through the world-wide-web at this URL:
+  * https://cedcommerce.com/license-agreement.txt
+  *
+  * @category   Ced
+  * @package    Ced_CsVendorProductAttribute
+  * @author     CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright  Copyright CEDCOMMERCE (http:s//cedcommerce.com/)
+  * @license    https://cedcommerce.com/license-agreement.txt
+  */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="catalog_entity_attribute_delete_after">
+        <observer name="attribute_delete_observer"
+                  instance="Ced\CsVendorProductAttribute\Observer\AttributeDeleteObserver"/>
+    </event>
+    <event name="eav_entity_attribute_set_save_after">
+        <observer name="attribute_set_delete_observer"
+                  instance="Ced\CsVendorProductAttribute\Observer\AttributeSetSaveObserver"/>
+    </event>
+    <event name="eav_entity_attribute_set_delete_after">
+        <observer name="attribute_set_delete_observer"
+                  instance="Ced\CsVendorProductAttribute\Observer\AttributeSetDeleteObserver"/>
+    </event>
+</config>

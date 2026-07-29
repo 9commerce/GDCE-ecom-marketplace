@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+-->
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">vendor_order_grid.vendor_order_grid_data_source</item>
+        </item>
+
+    </argument>
+    <settings>
+        <spinner>vendor_order_columns</spinner>
+        <deps>
+            <dep>vendor_order_grid.vendor_order_grid_data_source</dep>
+        </deps>
+    </settings>
+
+    <dataSource name="vendor_order_grid_data_source" component="Magento_Ui/js/grid/provider">
+        <settings>
+            <storageConfig>
+                <param name="indexField" xsi:type="string">id</param>
+            </storageConfig>
+            <updateUrl path="mui/index/render"/>
+        </settings>
+        <aclResource>Ced_CsMarketplace::vendor_order</aclResource>
+        <dataProvider class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider" name="vendor_order_grid_data_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>main_table.id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+
+    <listingToolbar name="listing_top">
+        <settings>
+            <sticky>true</sticky>
+        </settings>
+        <bookmark name="bookmarks"/>
+        <columnsControls name="columns_controls"/>
+        <filters name="listing_filters">
+        </filters>
+        <paging name="listing_paging"/>
+    </listingToolbar>
+    <columns name="vendor_order_columns">
+        <selectionsColumn name="ids">
+            <settings>
+                <indexField>id</indexField>
+                <visible>false</visible>
+            </settings>
+        </selectionsColumn>
+        <column name="created_at" class="Magento\Ui\Component\Listing\Columns\Date" component="Magento_Ui/js/grid/columns/date" sortOrder="10">
+            <settings>
+                <filter>dateRange</filter>
+                <dataType>date</dataType>
+                <label translate="true">Order Date</label>
+            </settings>
+        </column>
+        <column name="order_id" sortOrder="20">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Order #</label>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+            </settings>
+        </column>
+        <column name="vendor_name" sortOrder="30" class="Ced\CsMarketplace\Ui\Component\Listing\Columns\VendorLink">
+            <settings>
+                <filter>text</filter>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+                <label translate="true">Vendor Name</label>
+            </settings>
+        </column>
+        <column name="base_order_total" class="Magento\Sales\Ui\Component\Listing\Column\Price" sortOrder="40">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">G.T</label>
+            </settings>
+        </column>
+        <column name="shop_commission_base_fee" class="Magento\Sales\Ui\Component\Listing\Column\Price" sortOrder="50">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Commission Fee</label>
+            </settings>
+        </column>
+        <column name="net_vendor_earn" class="Magento\Sales\Ui\Component\Listing\Column\Price" sortOrder="60">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Vendor Payment</label>
+            </settings>
+        </column>
+        <column name="order_payment_state" component="Magento_Ui/js/grid/columns/select" sortOrder="80">
+            <settings>
+                <filter>select</filter>
+                <options class="Ced\CsMarketplace\Model\System\Config\OrderPaymentStatus"/>
+                <dataType>select</dataType>
+                <sortable>false</sortable>
+                <label translate="true">Order Payment State</label>
+            </settings>
+        </column>
+        <column name="payment_state" class="Ced\CsMarketplace\Ui\Component\Listing\Columns\PaymentStateLink" sortOrder="90">
+            <settings>
+                <filter>select</filter>
+                <options class="Ced\CsMarketplace\Model\System\Config\VendorPaymentStatus"/>
+                <label translate="true">Vendor Payment State</label>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+                <sortable>false</sortable>
+                <dataType>select</dataType>
+            </settings>
+        </column>
+        <actionsColumn name="actions" class="Ced\CsMarketplace\Ui\Component\Listing\Columns\OrderViewAction" sortOrder="100">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="viewUrlPath" xsi:type="string">sales/order/view</item>
+                    <item name="urlEntityParamName" xsi:type="string">order_id</item>
+                </item>
+            </argument>
+            <settings>
+                <indexField>entity_id</indexField>
+            </settings>
+        </actionsColumn>
+    </columns>
+</listing>

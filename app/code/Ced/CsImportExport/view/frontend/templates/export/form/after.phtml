@@ -1,0 +1,71 @@
+<?php
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the End User License Agreement (EULA)
+  * that is bundled with this package in the file LICENSE.txt.
+  * It is also available through the world-wide-web at this URL:
+  * http://cedcommerce.com/license-agreement.txt
+  *
+  * @category    Ced
+  * @package     Ced_CsImportExport
+  * @author  	 CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license      http://cedcommerce.com/license-agreement.txt
+  */
+
+// @codingStandardsIgnoreFile
+
+?>
+<fieldset class="admin__fieldset" id="export_filter_container" style="display:none;">
+    <legend class="admin__legend">
+        <span><?php /* @escapeNotVerified */ echo __('Entity Attributes'); ?></span>
+    </legend>
+    <br />
+    <form id="export_filter_form" action="<?php /* @escapeNotVerified */ echo $block->getUrl('*/*/export') ?>" method="post">
+        <input name="form_key" type="hidden" value="<?php /* @escapeNotVerified */ echo $block->getFormKey() ?>" />
+        <div id="export_filter_grid_container"><!-- --></div>
+    </form>
+    <button class="action- scalable" type="button" onclick="getFile();"><span><?php
+        /* @escapeNotVerified */ echo __('Continue')
+    ?></span></button>
+</fieldset>
+<script>
+require(['prototype'], function(){
+
+//<![CDATA[
+   $('entity').selectedIndex = 0; // forced resetting entity selector after page refresh
+//]]>
+
+});
+
+
+
+require([
+    "jquery",
+    "jquery/ui"
+], function($){
+$(".col-md-12 >div > div > div > div > div").append("<h4 class='expert_setting'>Export Settings</h4>");
+});
+</script>
+<style>
+.fieldset > .field:not(.choice) > .label{
+  text-align: left !important;
+}
+.admin__fieldset > .admin__field {
+  margin-bottom: 1rem !important
+ 
+}
+
+h4.expert_setting {
+  margin-bottom: 4px;
+  padding-top: 5px;
+  text-align: left;
+}
+.admin__fieldset {   
+    float: left;
+    width: 100%;
+ }
+</style>

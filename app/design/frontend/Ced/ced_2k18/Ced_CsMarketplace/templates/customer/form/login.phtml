@@ -1,0 +1,597 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+
+use Ced\CsMarketplace\Block\Vendor\Form\Login;
+
+
+?>
+
+<?php
+/** @var Login $block */
+
+/** @var \Ced\CsMarketplace\Helper\Tool\Image $helper */
+$helper = $block->imageHelper;
+
+/** @var \Ced\CsMarketplace\Helper\Data $dataHelper */
+$dataHelper = $block->_helper;
+
+$logoConfig = $dataHelper->getStoreConfig("ced_loginsignup/header/logo", $block->getCurrentStoreId());
+$logo = $logoConfig ? "ced/csmarketplace/" . $logoConfig : '';
+$logoImage = $helper->getResizeImage($logo, 'logo', 190, 45);
+$footerContent = $dataHelper->getStoreConfig(
+    "ced_csmarketplace/general/footer_content",
+    $block->getCurrentStoreId()
+);
+$isfooterEnable = $dataHelper->getStoreConfig(
+    "ced_csmarketplace/general/enable_footer",
+    $block->getCurrentStoreId()
+);
+$viewMarketplaceContent = $dataHelper->getStoreConfig(
+    'ced_csmarketplace/login_page/view_marketplace_content_active'
+);
+?>
+
+<?php if ($dataHelper->newLoginPageEnabled()) : ?>
+
+    <?php /******** New Login landing page start  ********/ ?>
+    <?php $topBannerHeading = $dataHelper->getStoreConfig(
+        'ced_csmarketplace/login_page/top_banner_heading',
+        $block->getCurrentStoreId()
+    ); ?>
+    <?php $topBannerContent = $dataHelper->getStoreConfig(
+        'ced_csmarketplace/login_page/top_banner_content',
+        $block->getCurrentStoreId()
+    ); ?>
+    <?php $topBannerFeatures = $dataHelper->getStoreConfig(
+        'ced_csmarketplace/login_page/top_banner_features',
+        $block->getCurrentStoreId()
+    ); ?>
+    <?php $topBannerFeaturesIcon = $dataHelper->getStoreConfig(
+        'ced_csmarketplace/login_page/top_banner_features_icon',
+        $block->getCurrentStoreId()
+    ); ?>
+    <?php $topBannerHeading = $dataHelper->getStoreConfig(
+        'ced_csmarketplace/login_page/top_banner_heading',
+        $block->getCurrentStoreId()
+    ); ?>
+    <?php $topBannerType = $dataHelper->getStoreConfig(
+        'ced_csmarketplace/login_page/banner',
+        $block->getCurrentStoreId()
+    ); ?>
+    <?php $customersContent = $dataHelper->getStoreConfig(
+        'ced_csmarketplace/login_page/total_customers_content',
+        $block->getCurrentStoreId()
+    ); ?>
+    <?php $sellersContent = $dataHelper->getStoreConfig(
+        'ced_csmarketplace/login_page/total_sellers_content',
+        $block->getCurrentStoreId()
+    ); ?>
+    <?php $productsContent = $dataHelper->getStoreConfig(
+        'ced_csmarketplace/login_page/total_products_content',
+        $block->getCurrentStoreId()
+    ); ?>
+
+
+    <?php /******** section-banner-content *********/ ?>
+    <main id="loginpagecontent"
+          data-bind="scope: 'loginpagecontent'">
+
+        <?php /********* section_register **********/ ?>
+        <?php if ($topBannerType == 'video') { ?>
+            <div class="section_banner_new video content_wrap_sec">
+                <video autoplay=""
+                       loop=""
+                       muted=""
+                       playsinline=""
+                       src="<?= /* @noEscape */ $helper->getMediaFileUrl($dataHelper->getStoreConfig(
+                           'ced_csmarketplace/login_page/background_video'
+                       )); ?>"
+                       width=""
+                       height="">
+                    <source src="<?= /* @noEscape */ $helper->getMediaFileUrl($dataHelper->getStoreConfig(
+                        'ced_csmarketplace/login_page/background_video'
+                    )); ?>"
+                            type="video/mp4">
+                    <source src="<?= /* @noEscape */ $helper->getMediaFileUrl($dataHelper->getStoreConfig(
+                        'ced_csmarketplace/login_page/background_video_webm'
+                    )); ?>"
+                            type="video/webm">
+                    <source src="<?= /* @noEscape */ $helper->getMediaFileUrl($dataHelper->getStoreConfig(
+                        'ced_csmarketplace/login_page/background_video_mov'
+                    )); ?>"
+                            type="video/mov">
+                </video>
+
+                <div class="video_wrapp">
+                    <div class="video_wrapp_inner">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-xs-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="content_wrapper">
+                                        <h1 class="banner_content">
+                                            <?= /* @noEscape */ $block->escapeHtml($topBannerHeading); ?>
+                                        </h1>
+                                        <p class="banner_paragraph">
+                                            <?= /* @noEscape */ $block->escapeHtml($topBannerContent); ?>
+                                        </p>
+                                        <div class="button_set">
+                                            <button type="button"
+                                                    class="btn btn-primary"
+                                                    onclick="location.href ='<?= /* @noEscape */ $block->getUrl("*/*/register"); ?>'">
+                                                <?= /* @noEscape */ __('Register Now'); ?>
+                                            </button>
+                                            <button class="btn btn-primary"
+                                                    onclick="location.href='<?= /* @noEscape */ $block->getUrl("contact"); ?>'">
+                                                <?= /* @noEscape */ __('Contact us'); ?>
+                                            </button>
+                                        </div>
+                                        <p class="icon_area">
+                                            <?php if ($topBannerFeatures != '') :
+                                                $topBannerFeatures = explode(',', $topBannerFeatures);
+                                                $topBannerFeaturesIcon = explode(',', $topBannerFeaturesIcon);
+                                                if (!empty($topBannerFeatures)) {
+                                                    foreach ($topBannerFeatures as $key => $tpfeature) {
+                                                        ?>
+                                                        <span class="card_icon">
+                                                            <i class="<?= /* @noEscape */ (isset($topBannerFeaturesIcon[$key]))?$topBannerFeaturesIcon[$key]:''; ?> icon_register"
+                                                               aria-hidden="true"></i>
+                                                            <?= /* @noEscape */ $tpfeature; ?>
+                                                        </span>
+                                                    <?php }
+                                                } endif; ?>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php } else { ?>
+            <div class="section_banner_new content_wrap_sec"
+                 style="<?php
+                      $backgroundImage = $dataHelper->getStoreConfig('ced_csmarketplace/login_page/background_image');
+                      if ($topBannerType == 'image' && $backgroundImage ) {
+                     echo 'background-image:url(' .
+                         $helper->getMediaFileUrl($backgroundImage) .
+                         ')';
+                 } ?>">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                            <h1 class="banner_content">
+                                <?= /* @noEscape */ $block->escapeHtml($topBannerHeading); ?>
+                            </h1>
+                            <p class="banner_paragraph">
+                                <?= /* @noEscape */ $block->escapeHtml($topBannerContent); ?>
+                            </p>
+                            <div class="button_set">
+                                <button type="button"
+                                        class="btn btn-primary"
+                                        onclick="location.href ='<?= /* @noEscape */  $block->getUrl("*/*/register"); ?>'">
+                                    <?= /* @noEscape */ __('Register Now'); ?>
+                                </button>
+                                <button class="btn btn-primary"
+                                        onclick="location.href='<?= /* @noEscape */ $block->getUrl("contact"); ?>'">
+                                    <?= /* @noEscape */ __('Contact us'); ?>
+                                </button>
+                            </div>
+                            <p class="icon_area">
+                                <?php if ($topBannerFeatures != '') :
+                                    $topBannerFeatures = explode(',', $topBannerFeatures);
+                                    $topBannerFeaturesIcon = explode(',', $topBannerFeaturesIcon);
+                                    if (!empty($topBannerFeatures)) {
+                                        foreach ($topBannerFeatures as $key => $tpfeature) {
+                                            ?>
+                                            <span class="card_icon">
+                                            <i class="<?= /* @noEscape */ (isset($topBannerFeaturesIcon[$key]))?$topBannerFeaturesIcon[$key]:''; ?> icon_register"
+                                               aria-hidden="true"></i>
+                                                <?= /* @noEscape */ $block->escapeHtml($tpfeature); ?>
+                                        </span>
+                                        <?php }
+                                    } endif; ?>
+                            </p>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="content_image">
+                                <img src="<?= /* @noEscape */ $block->getViewFileUrl('Ced_CsMarketplace::images/login_landing_page/banner_image.png'); ?>"
+                                     alt="<?= /* @noEscape */ __('banner iamge'); ?>"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
+        <?php /**********  End of section_register *********/ ?>
+
+
+        <?php /**********  Start of Admin info *********/ ?>
+        <div class="content_wrap_sec admin_info">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 rtl-active">
+                        <div class="col_info">
+                            <div class="inner">
+                                <h4 class="counter"
+                                    data-bind="text: loginpagecontent.totalCustomers()"></h4>
+                                <p class="counter-para"><?= /* @noEscape */ __('Customers'); ?></p>
+                                <p>
+                                    <?= /* @noEscape */ __($block->escapeHtml($customersContent)); ?>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 rtl-active">
+                        <div class="col_info">
+                            <div class="inner">
+                                <h4 class="counter"
+                                    data-bind="text: loginpagecontent.totalProducts()"></h4>
+                                <p class="counter-para"><?= /* @noEscape */ __('Products'); ?></p>
+                                <p>
+                                    <?= /* @noEscape */__($block->escapeHtml($productsContent)); ?>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 rtl-active">
+                        <div class="col_info">
+                            <div class="inner">
+                                <h4 class="counter"
+                                    data-bind="text: loginpagecontent.totalSellers()"></h4>
+                                <p class="counter-para"><?= /* @noEscape */ __('Vendors'); ?></p>
+                                <p>
+                                    <?= /* @noEscape */__($block->escapeHtml($sellersContent)); ?>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-12 col-lg-12 col-sm-12">
+                        <div class="line"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php /**********   End of Admin info **********/ ?>
+
+
+        <?php /***********   section_story **********/ ?>
+        <?php if ($dataHelper->getStoreConfig('ced_csmarketplace/login_page/our_story_active')) : ?>
+            <div class="section_story content_wrap_sec"
+                 id="story"
+                 data-bind="html: loginpagecontent.story()"></div>
+        <?php endif; ?>
+        <?php /***********  end of section_story **********/ ?>
+
+
+        <?php /***********   section_contact_us **********/ ?>
+        <?php if ($block->getStorePhoneNumber()) : ?>
+            <div class="section_contact_us content_wrap_sec">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-10 col-sm-12 col-md-10 contact_left"><?= /* @noEscape */ __('Need Help for Registration?Call Us Now '); ?>
+                            :
+                            <a href="JavaScript:void(0);">
+                                <span class="contact_span"><i class="fa fa-phone"
+                                                              aria-hidden="true"></i>
+                                    <strong><?= /* @noEscape */ $block->getStorePhoneNumber(); ?></strong>
+                                </span>
+                            </a>
+                        </div>
+                        <div class="col-lg-2 col-sm-12 col-md-2 contact_right">
+                            <button class="btn btn-primary"
+                                    onclick="location.href='<?= /* @noEscape */ $block->getUrl("contact"); ?>'"><?= /* @noEscape */ __('Contact Us'); ?>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+        <?php /***********  End of section_contact_us **********/ ?>
+
+
+        <?php /***********  section_steps_to_register **********/ ?>
+        <?php if ($dataHelper->getStoreConfig('ced_csmarketplace/login_page/steps_to_register_active')) : ?>
+            <div class="section_get_ready content_wrap_sec"
+                 id="steps"
+                 data-bind="html: loginpagecontent.steps()"></div>
+        <?php endif; ?>
+        <?php /*********** end of section_steps_to_register **********/ ?>
+
+
+        <?php
+        if ($viewMarketplaceContent)
+        {
+            ?>
+            <div class="section-view-marketplace content_wrap_sec">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-9 col-sm-12 col-md-9 contact-view-left rtl-active">
+                            <h2><?= /* @noEscape */__($block->escapeHtml($dataHelper->getStoreConfig('ced_vshops/login_page/view_marketplace_content_title'))); ?></h2>
+                            <p><?= /* @noEscape */__($block->escapeHtml($dataHelper->getStoreConfig('ced_vshops/login_page/view_marketplace_content_subtitle'))); ?></p>
+                        </div>
+                        <div class="col-lg-3 col-sm-12 col-md-3 contact-view-right rtl-active">
+                            <button class="btn btn-primary"
+                                    onclick="location.href ='<?= /* @noEscape */ $block->getUrl("*/vshops"); ?>'">
+                                <?= /* @noEscape */__('View Marketplace'); ?>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php
+        }
+        ?>
+
+        <?php /***********  section_features  ***********/ ?>
+        <?php if ($dataHelper->getStoreConfig('ced_csmarketplace/login_page/features_active')) : ?>
+            <div id="features"
+                 class="feature_sec content_wrap_sec"
+                 data-bind="html: loginpagecontent.features()"></div>
+        <?php endif; ?>
+        <?php /*********** end of section_features ***********/ ?>
+    </main>
+    <?php /***********  End of section-banner-content  **********/ ?>
+
+
+    <?php /*********** footer section  **********/ ?>
+    <footer>
+        <?php if ($isfooterEnable): ?>
+            <div class="section_footer">
+                <div class="container">
+                    <p class="footer_para"><?= /* @noEscape */ $block->escapeHtml($footerContent); ?></p>
+                    <ul class="footer_list_right">
+                        <?php if ($block->isFacebookLinkEnabled()) : ?>
+                            <li>
+                                <a href="<?= /* @noEscape */ $block->getFacebookId() != '' ?
+                                    'https://www.facebook.com/' . $block->getFacebookId() : 'JavaScript:void(0);'; ?>"
+                                   title="<?= /* @noEscape */ __('Facebook'); ?>">
+                                    <i class="fa fa-facebook footer-icon-facebook"
+                                       aria-hidden="true"></i>
+                                </a>
+                            </li>
+                        <?php endif; ?>
+                        <?php if ($block->isTwitterLinkEnabled()) : ?>
+                            <li>
+                                <a href="<?= /* @noEscape */ $block->getTwitterId() != '' ? 'https://twitter.com/' . $block->getTwitterId() : 'JavaScript:void(0);'; ?>"
+                                   title="<?= /* @noEscape */ __('Twitter'); ?>">
+                                    <i class="fa fa-twitter footer-icon" aria-hidden="true"></i>
+                                </a>
+                            </li>
+                        <?php endif; ?>
+                        <?php if ($block->isLinkedinLinkEnabled()) : ?>
+                            <li>
+                                <a href="<?= /* @noEscape */ $block->getLinkedinId() != '' ?
+                                    'https://in.linkedin.com/' . $block->getLinkedinId() : 'JavaScript:void(0);'; ?>"
+                                   title="<?= /* @noEscape */ __('Linkedin'); ?>">
+                                    <i class="fa fa-linkedin footer-icon"
+                                       aria-hidden="true"></i>
+                                </a>
+                            </li>
+                        <?php endif; ?>
+                        <?php if ($block->isInstagramLinkEnabled()) : ?>
+                            <li>
+                                <a href="<?= /* @noEscape */ $block->getInstagramId() != '' ?
+                                    '//www.instagram.com/' . $block->getInstagramId() : 'JavaScript:void(0);'; ?>"
+                                   title="<?= /* @noEscape */ __('Instagram'); ?>">
+                                    <i class="fa fa-instagram footer-icon"
+                                       aria-hidden="true"></i>
+                                </a>
+                            </li>
+                        <?php endif; ?>
+                    </ul>
+                </div>
+            </div>
+        <?php endif; ?>
+    </footer>
+    <?php /*********** end of footer section ***********/ ?>
+
+    <?php /**********  login popup if social login enable   **************/ ?>
+    <?php if ($dataHelper->isSocialLoginEnabled()) : ?>
+        <div class="overlay-popup social_login">
+            <div class="register-popup ">
+                <div class="login-right-form">
+                    <div class="popup-cancel-button">
+                        <button class="close-button-popup">
+                            <i class="fa fa-times"
+                               aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div class="panel_body sign_up_form_body">
+                        <?= /* @noEscape */ $block->getChildHtml('ced_vendorsociallogin_login'); ?>
+                    </div>
+                    <?= /* @noEscape */  $block->getLayout()->createBlock('Ced\CsMarketplace\Block\Vendor\Form\Login')
+                        ->setTemplate('Ced_CsMarketplace::customer/form/new_login_form.phtml')->toHtml(); ?>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+    <?php endif; ?>
+    <?php /***********  End of login popup if social login enable   **************/ ?>
+
+    <script type="text/x-magento-init">
+    {
+        "#loginpagecontent": {
+            "Magento_Ui/js/core/app": {
+               "components": {
+                    "loginpagecontent": {
+                        "component": "Ced_CsMarketplace/js/loginpage/information",
+                        "url" : "<?= /* @noEscape */ $block->getUrl('*/*/information') ?>"
+                    }
+                }
+            }
+        }
+    }
+
+
+    </script>
+
+    <?php /************** New Login landing page end  **************/ ?>
+
+<?php else : ?>
+
+    <?php /************** Old Login page start **************/ ?>
+    <div class="ced_vendor_before_login_wrapper">
+        <div class="ced_vendor_before_wrap clearfix">
+            <div class="ced_vendor_login"
+                 style="display:<?= /* @noEscape */  $block->getRequest()->getParam('step') ? 'none' : 'block' ?>;">
+                <div class="right">
+                    <h3 class="ced_vendor_from_title">
+                        <?= /* @noEscape */  __('Vendor Login') ?>
+                    </h3>
+                    <div class="panel_body login_form_body">
+                        <form class="form form-login"
+                              id="login-form"
+                              method="post"
+                              action="<?= /* @noEscape */ $block->getPostActionUrl() ?>"
+                              data-mage-init='{"validation":{}}'>
+                            <?= /* @noEscape */ $block->getBlockHtml('formkey'); ?>
+                            <fieldset>
+                                <div class="col2-set">
+                                    <div class="col-2 registered-users">
+                                        <div class="content">
+                                            <p><?= /* @noEscape */ __('Login to access your vendor account') ?></p>
+                                            <div class="form-group input-box">
+                                                <input type="email"
+                                                       name="login[username]"
+                                                       value="<?= /* @noEscape */ $block->escapeHtml($block->getUsername()) ?>"
+                                                       id="email"
+                                                       class="form-control input-text required-entry validate-email"
+                                                       placeholder="<?= /* @noEscape */ __('Email Address') ?>"
+                                                       title="<?= /* @noEscape */ __('Email Address') ?>"
+                                                       data-validate="{required:true, 'validate-email':true}"/>
+                                            </div>
+                                            <div class="form-group input-box"><input type="password"
+                                                                                     name="login[password]"
+                                                                                     value="<?= /* @noEscape */ $block->escapeHtml($block->getPassword()) ?>"
+                                                                                     class="form-control input-text required-entry validate-password"
+                                                                                     placeholder="<?= /* @noEscape */ __('Password') ?>"
+                                                                                     id="pass"
+                                                                                     title="<?= /* @noEscape */ __('Password') ?>"
+                                                                                     data-validate="{required:true, 'validate-password':true}"/>
+                                            </div>
+                                            <div class="clearfix">
+                                                <div class="checkbox">
+                                                    <input name="remember"
+                                                           type="checkbox"
+                                                           id="remember" <?= /* @noEscape */ $block->escapeHtml($block->getRememberMe()) ==
+                                                    1 ? 'checked="checked"' : ''; ?>>
+                                                    <label for="remember">
+                                                        <?= /* @noEscape */ __('Remember Me'); ?>
+                                                    </label>
+                                                </div>
+                                                <a href="<?= /* @noEscape */ $block->getForgotPasswordUrl(); ?>"
+                                                   class="f-right forgotpass">
+                                                    <?= /* @noEscape */ __('Forgot Your Password?') ?>
+                                                </a>
+                                            </div>
+                                            <button type="submit"
+                                                    class="button"
+                                                    title="<?= /* @noEscape */ __('Login') ?>"
+                                                    name="send"
+                                                    id="send2">
+                                                <span><span><?= /* @noEscape */ __('Login') ?></span></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="vendor_exitance">
+                                    <?= /* @noEscape */ __("Don't have a vendor account?") ?>
+                                    <a href="#"
+                                       class="new_venor"><?= /* @noEscape */ __('Sign up') ?></a>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                    <div class="panel_body sign_up_form_body">
+                        <?= /* @noEscape */ $block->getChildHtml('ced_vendorsociallogin_login'); ?>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ced_vendor_register clearfix"
+                 style="display:<?= /* @noEscape */  $block->getRequest()->getParam('step') ? 'block' : 'none' ?>;">
+                <div class="right">
+                    <h3 class="ced_vendor_from_title"><?= /* @noEscape */ __("Create Vendor Account") ?></h3>
+                    <div class="panel_body sign_up_form_body">
+                        <?= /* @noEscape */ $block->getChildHtml('customer_form_register') ?>
+                    </div>
+                    <div class="panel_body sign_up_form_body">
+                        <?= /* @noEscape */ $block->getChildHtml('ced_vendorsociallogin_login'); ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        <?php $minicart = [
+            'shoppingCartUrl' => '',
+            'checkoutUrl' => '',
+            'updateItemQtyUrl' => '',
+            'removeItemUrl' => '',
+            'imageTemplate' => '',
+            'baseUrl' => ''
+        ]; ?>
+        window.checkout = <?= /* @noEscape */ \Laminas\Json\Json::encode($minicart); ?>;
+        require([
+            'jquery',
+            'mage/mage',
+            'checkoutbalance',
+            'captcha'
+        ], function ($) {
+            $(document).ready(function () {
+                $(".new_venor").click(function () {
+                    var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?step=create';
+                    window.history.pushState({path: newurl}, '', newurl);
+                    $('.ced_vendor_login').fadeOut(1);
+                    $(".ced_vendor_register").fadeIn(1000);
+                });
+                $(".axisting_venor").click(function () {
+                    var clean_uri = location.protocol + "//" + location.host + location.pathname;
+                    window.history.replaceState({}, document.title, clean_uri);
+                    $('.ced_vendor_register').fadeOut(1);
+                    $(".ced_vendor_login").fadeIn(1000);
+                });
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        require(['jquery', 'mage/mage'], function (jQuery) {
+            jQuery(window).load(function () {
+                var formDataCount = "<?= /* @noEscape */ $block->getRequest()->getParam('step') ?>";
+                if (formDataCount === 'create') {
+                    jQuery('.new_venor').trigger('click');
+                }
+            });
+        });
+    </script>
+    <?php if ($isfooterEnable): ?>
+        <div class="ced_vendor_footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <p><?= /* @noEscape */ $footerContent; ?></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+    <?php /************** Old Login page end *************/ ?>
+<?php endif; ?>

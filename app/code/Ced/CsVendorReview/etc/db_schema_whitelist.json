@@ -1,0 +1,33 @@
+{
+    "ced_csvendorreview_rating": {
+        "column": {
+            "id": true,
+            "rating_label": true,
+            "rating_code": true,
+            "sort_order": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "ced_csvendorreview_review": {
+        "column": {
+            "id": true,
+            "vendor_id": true,
+            "vendor_name": true,
+            "customer_id": true,
+            "customer_name": true,
+            "quality": true,
+            "pricing": true,
+            "service": true,
+            "value": true,
+            "subject": true,
+            "review": true,
+            "status": true,
+            "created_at": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    }
+}

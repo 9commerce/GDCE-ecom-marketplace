@@ -1,0 +1,22 @@
+{
+    "name": "ced/module-csvendorproductattribute",
+    "description": "Product attribute creation functionality for vendor",
+    "require": {
+        "php": "~7.3.0|~7.4.0|~8.1.0",
+        "magento/magento-composer-installer": "*"
+    },
+    "type": "magento2-module",
+    "version": "1.0.11",
+    "license": [
+        "EULA"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Ced\\CsVendorProductAttribute\\": ""
+        }
+    },
+    "minimum-stability": "stable"
+}

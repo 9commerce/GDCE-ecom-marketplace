@@ -1,0 +1,70 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+
+<div id="popup-mpdal">
+    <?php
+        $args = $block->getModules();
+?>
+<h1 class="page-heading">
+    <?= /* @noEscape */ __('Invalid License') ?>
+</h1>
+<?php if(strlen($args) > 0) { ?>
+    <p><?= /* @noEscape */ __('For Following Module(s):')?> <?= /* @noEscape */ $args; ?></p>
+<?php } ?>
+<p><?= /* @noEscape */ __('In order to use these module(s) you have to '); ?>
+<a id="activate" href="<?= /* @noEscape */ $this->getUrl('adminhtml/system_config/edit/section/cedcore/'); ?>" title="<?= /* @noEscape */ __('Activate'); ?>"><?= /* @noEscape */ __('Activate'); ?></a>
+<?= /* @noEscape */ __(' these module(s) before use.') ?></p>
+</div>
+<script>
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal'
+        ],
+        function(
+            $,
+            modal
+        ) {
+            var options = {
+                type: 'popup',
+                responsive: true,
+                innerScroll: true,
+                title: '',
+                buttons: [{
+                    text: $.mage.__('Activate'),
+                    class: '',
+                    click: function () {
+                        /*this.closeModal();*/
+                        window.location='<?= /* @noEscape */ $this->getUrl('adminhtml/system_config/edit/section/cedcore/'); ?>';
+
+                    }
+                }]
+            };
+
+            var popup = modal(options, $('#popup-mpdal'));
+
+            $('#popup-mpdal').modal('openModal');
+        }
+    );
+</script>
+
+

@@ -1,0 +1,66 @@
+<?php
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license      https://cedcommerce.com/license-agreement.txt
+ */
+
+// @codingStandardsIgnoreFile
+?>
+
+<script>
+require([
+    "jquery",
+    "jquery/ui"
+], function($){
+
+//<![CDATA[
+    $.extend(true, $, {
+        calendarConfig: {
+            dayNames: <?= $days['wide']?>,
+            dayNamesMin: <?= $days['abbreviated']?>,
+            monthNames: <?= $months['wide']?>,
+            monthNamesShort: <?= $months['abbreviated']?>,
+            infoTitle: "<?= __('About the calendar');?>",
+            firstDay: <?= $firstDay?>,
+            closeText: "<?= __('Close');?>",
+            currentText: "<?= __('Go Today'); ?>",
+            prevText: "<?= __('Previous');?>",
+            nextText: "<?= __('Next');?>",
+            weekHeader: "<?= __('WK'); ?>",
+            timeText: "<?= __('Time');?>",
+            hourText: "<?= __('Hour');?>",
+            minuteText: "<?= __('Minute');?>",
+            dateFormat: $.datepicker.RFC_2822,
+            showOn: "button",
+            showAnim: "",
+            changeMonth: true,
+            changeYear: true,
+            buttonImageOnly: null,
+            buttonImage: null,
+            showButtonPanel: true,
+            showWeek: true,
+            timeFormat: '',
+            showTime: false,
+            showHour: false,
+            showMinute: false
+        }
+    });
+
+    enUS = <?= $enUS?>; // en_US locale reference
+//]]>
+
+});
+</script>

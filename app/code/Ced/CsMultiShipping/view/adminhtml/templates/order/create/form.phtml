@@ -1,0 +1,303 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/**
+ * @var $block \Magento\Sales\Block\Adminhtml\Order\Create\Shipping\Method\Form
+ * @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer
+ */
+?>
+<?php
+/** @var \Magento\Tax\Helper\Data $taxHelper */
+$taxHelper = $block->getData('taxHelper');
+?>
+<?php //$_shippingRateGroups = $block->getShippingRates(); ?>
+<?php $_shippingRateGroups = $block->getRatesByVendor();
+$_address = $this->getQuote()->getShippingAddress();
+?>
+
+<?php if ($_shippingRateGroups): ?>
+    <div id="order-shipping-method-choose" class="control">
+        <dl class="admin__order-shipment-methods">
+            <?php
+            $_sole = count($_shippingRateGroups) == 1;
+            foreach ($_shippingRateGroups as $code => $_rates):
+                ?>
+                <?php if ($code != 'vendor_rates') { ?>
+                <dt class="admin__order-shipment-methods-title"><?= $block->escapeHtml($_rates['title']) ?>
+                </dt>
+                <dd class="admin__order-shipment-methods-options">
+                    <ul class="admin__order-shipment-methods-options-list vendor_<?= /* @noEscape */ $_address->getId() ?>">
+                        <?php
+                        $_sole = $_sole && count($_rates['rates']) == 1;
+                        foreach ($_rates['rates'] as $_rate):
+                            $shippingCodePrice[] = "'" . $_rate->getCode() . "':" . (float)$_rate->getPrice();
+                            ?>
+                            <?php $_code = $_rate->getCode() ?>
+                            <?php $_spCode = str_replace('~','_',$_rate->getCode()); ?>
+                            <?php $_radioProperty = 'name="shipping_method'.$code.'" type="radio"' ?>
+
+                            <li class="admin__field-option">
+                                <?php if ($_rate->getErrorMessage()): ?>
+                                    <div class="messages">
+                                        <div class="message message-error error">
+                                            <div><?= $block->escapeHtml($_rate->getErrorMessage()) ?></div>
+                                        </div>
+                                    </div>
+                                <?php else: ?>
+                                    <dl class="items methods-shipping">
+                                        <?php if ($_sole): ?>
+                                            <input type="radio"
+                                                   name="shipping_method[<?= /* @noEscape */ $_address->getId() . '_' . $code ?>]"
+                                                   value="<?= /* @noEscape */ $block->escapeHtml($_rate->getCode()) ?>"
+                                                   id="s_method_<?= /* @noEscape */ $_address->getId() . '_' . $code ?>_<?= /* @noEscape */ $_rate->getCode() ?>"
+                                                   class="admin__control-radio radio solo method vendor_rate_<?= /* @noEscape */  $_address->getId() ?>"
+                                            />
+                                        <?php else: ?>
+
+                                            <input type="radio" name="shipping_method[<?= /* @noEscape */ $_address->getId() . '_' . $code ?>]"
+                                                   value="<?= /* @noEscape */ $_rate->getCode() ?>"
+                                                   id="s_method_<?= /* @noEscape */ $_address->getId() . '_' . $code ?>_<?= /* @noEscape */ $_rate->getCode() ?>"
+                                                <?php
+                                                if (in_array($_rate->getCode(), $block->getSelectedMethod($_address))) {
+                                                    echo 'checked="checked"';
+                                                }
+                                                ?>
+                                                   class="admin__control-radio radio method vendor_rate_<?= /* @noEscape */ $_address->getId() ?> required-entry _required" />
+
+                                        <?php endif; ?>
+                                        <label class="admin__field-label" for="s_method_<?= /* @noEscape */ $_address->getId() . '_' . $code ?>_<?= /* @noEscape */ $_rate->getCode() ?>">
+                                            <?= $block->escapeHtml($_rate->getMethodTitle() ?
+                                                $_rate->getMethodTitle() : $_rate->getMethodDescription()) ?> -
+                                            <strong>
+                                                <?php $_excl = $block->getShippingPrice(
+                                                    $_rate->getPrice(),
+                                                    $taxHelper->displayShippingPriceIncludingTax()
+                                                ); ?>
+                                                <?php $_incl = $block->getShippingPrice($_rate->getPrice(), true); ?>
+
+                                                <?= /* @noEscape */ $_excl ?>
+                                                <?php if ($taxHelper->displayShippingBothPrices() && $_incl != $_excl): ?>
+                                                    (<?= $block->escapeHtml(__('Incl. Tax')) ?> <?= /* @noEscape */ $_incl ?>)
+                                                <?php endif; ?>
+                                            </strong>
+                                        </label>
+                                    </dl>
+                                <?php endif; ?>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </dd>
+            <?php } endforeach; ?>
+        </dl>
+        <script type="text/javascript">
+            require(['jquery'],
+                function($){
+                    var address_id = '<?= /* @noEscape */ $this->getQuote()->getShippingAddress()->getId() ?>';
+                    var SEPARATOR = '<?= /* @noEscape */
+                        \Ced\CsMultiShipping\Model\Shipping::SEPARATOR;?>';
+                    var METHODS_SEPARATOR = '<?= /* @noEscape */
+                        \Ced\CsMultiShipping\Model\Shipping::METHOD_SEPARATOR;?>';
+                    $('.vendor_rate_'+address_id).on('click',function(){
+                        var flagg = true;
+                        var rates = new Array();
+                        var sortedrate = new Array();
+                        $('.vendor_'+address_id).each(function(ind, elm){
+                            var flag = false;
+                            $(elm).find('.radio').each(function(i, inpt){
+                                if(inpt.checked){
+                                    flag = true;
+                                    rates.push(inpt.value);
+                                }
+                            });
+                            if(!flag){
+                                flagg = false;
+                            }
+                        });
+                        if(flagg){
+                            for(var i = 0; i < rates.length; i ++){
+                                var sortedValue = rates[i].split(SEPARATOR);
+                                var pos = isNaN(parseInt(sortedValue[1])) ? 0 :
+                                    parseInt(sortedValue[1]);
+                                sortedrate[pos] = rates[i];
+                            }
+
+                            var rate = '';
+                            for(var i=0;i< sortedrate.length;i++){
+                                if(sortedrate[i]!=undefined) {
+                                    if(rate){
+                                        rate = rate + METHODS_SEPARATOR + sortedrate[i];
+                                        order.setShippingMethod('vendor_rates_'+rate);
+                                    }else{
+                                        rate =  sortedrate[i];
+                                    }
+                                    if (rates.length == 1){
+                                        order.setShippingMethod('vendor_rates_'+rate);
+                                    }
+                                }
+                            }
+                            rate = rate.replace('~', '_');
+                            rate = rate.replace('~', '_');
+                            if($('s_method_'+address_id+'_vendor_rates_'+rate)) {
+                                document.getElementById('s_method_'+address_id+'_vendor_rates_'+rate).checked = true;
+                            }
+
+                        }
+                    });
+                });
+        </script>
+        <?php
+
+        $market_rate =  $block->getVendorShippingRates($_address); ?>
+        <dl style="display:none;" class="items methods-shipping">
+            <?php $_sole = count($market_rate) == 1;
+            foreach ($market_rate as $code => $_rates): ?>
+
+                <?php if ($code == 'vendor_rates') { ?>
+                    <dd class="item-content">
+                        <fieldset class="fieldset">
+                            <?php $shippingCodePrice = []; ?>
+                            <?php $_sole = $_sole && count($_rates) == 1;
+                            foreach ($_rates as $_rate): ?>
+                                <?php $shippingCodePrice[] = "'".$_rate->getCode()."':".(float)$_rate->getPrice(); ?>
+                                <?php $_spCode = str_replace('~','_',$_rate->getCode()); ?>
+                                <div class="field choice">
+                                    <?php if ($_rate->getErrorMessage()): ?>
+                                        <strong>
+                                            <?= /* @noEscape */ $block->escapeHtml($_rate
+                                                ->getCarrierTitle()) ?>:
+                                            <?= /* @noEscape */ $block->escapeHtml($_rate
+                                                ->getErrorMessage()) ?>
+                                        </strong>
+                                    <?php else: ?>
+                                    <?php if ($_sole): ?>
+                                    <input type="radio" name="shipping_method"
+                                           value="<?= /* @noEscape */ $_rate->getCode() ?>"
+                                           id="s_method_<?= /* @noEscape */ $_address->getId() ?>_<?= /* @noEscape */ $_spCode ?>"
+                                           class="radio solo method" checked="checked"/>
+                                    <?php else: ?>
+                                    <input type="radio" name="shipping_method"
+                                           value="<?= /* @noEscape */ $_rate->getCode() ?>"
+                                           id="s_method_<?= /* @noEscape */ $_address->getId() ?>_<?= /* @noEscape */ $_spCode ?>"
+                                        <?php
+                                        if ($_rate->getCode() === $block->getAddressShippingMethod($_address)) {
+                                            echo 'checked="checked"';
+                                        } ?>
+                                           class="radio" />
+
+                                    <?php if ($_rate->getCode() === $block->getAddressShippingMethod($_address)): ?>
+                                        <script type="text/javascript">
+                                            lastPrice = <?php echo (float)$_rate->getPrice(); ?>;
+                                        </script>
+                                    <?php endif; ?>
+                                    <?php endif; ?>
+
+                                        <label class="admin__field-label" for="s_method_<?= /* @noEscape */ $_address->getId() ?>_<?= /* @noEscape */ $_spCode ?>">
+                                            <?= $block->escapeHtml($_rate->getMethodTitle() ?
+                                                $_rate->getMethodTitle() : $_rate->getMethodDescription()) ?> -
+                                            <strong>
+                                                <?php $_excl = $block->getShippingPrice(
+                                                    $_rate->getPrice(),
+                                                    $taxHelper->displayShippingPriceIncludingTax()
+                                                ); ?>
+                                                <?php $_incl = $block->getShippingPrice($_rate->getPrice(), true); ?>
+
+                                                <?= /* @noEscape */ $_excl ?>
+                                                <?php if ($taxHelper->displayShippingBothPrices() && $_incl != $_excl): ?>
+                                                    (<?= $block->escapeHtml(__('Incl. Tax')) ?> <?= /* @noEscape */ $_incl ?>)
+                                                <?php endif; ?>
+                                            </strong>
+                                        </label>
+                                    <?php endif ?>
+                                </div>
+                            <?php endforeach; ?>
+                        </fieldset>
+                    </dd>
+                <?php } ?>
+            <?php endforeach; ?>
+        </dl>
+    </div>
+
+    <?= /* @noEscape */ $secureRenderer->renderStyleAsTag("display:none", 'div#order-shipping-method-choose') ?>
+    <?php if ($_rate = $block->getActiveMethodRate()): ?>
+        <div id="order-shipping-method-info" class="order-shipping-method-info">
+            <dl class="admin__order-shipment-methods">
+                <dt class="admin__order-shipment-methods-title">
+                    <?= $block->escapeHtml($block->getCarrierName($_rate->getCarrier())) ?>
+                </dt>
+                <dd class="admin__order-shipment-methods-options">
+                    <?= $block->escapeHtml($_rate->getMethodTitle() ?
+                        $_rate->getMethodTitle() : $_rate->getMethodDescription()) ?> -
+                    <strong>
+                        <?php $_excl = $block->getShippingPrice(
+                            $_rate->getPrice(),
+                            $taxHelper->displayShippingPriceIncludingTax()
+                        ); ?>
+                        <?php $_incl = $block->getShippingPrice($_rate->getPrice(), true); ?>
+
+                        <?= /* @noEscape */ $_excl ?>
+                        <?php if ($taxHelper->displayShippingBothPrices() && $_incl != $_excl): ?>
+                            (<?= $block->escapeHtml(__('Incl. Tax')) ?> <?= /* @noEscape */ $_incl ?>)
+                        <?php endif; ?>
+                    </strong>
+                </dd>
+            </dl>
+            <a href="#"
+               class="action-default">
+                <span><?= $block->escapeHtml(__('Click to change shipping method')) ?></span>
+            </a>
+        </div>
+        <?= /* @noEscape */ $secureRenderer->renderEventListenerAsTag(
+            'onclick',
+            "$('order-shipping-method-info').hide();$('order-shipping-method-choose').show();event.preventDefault()",
+            'div#order-shipping-method-info a.action-default'
+        ) ?>
+    <?php else: ?>
+        <?php $scriptString = <<<script
+        require(['prototype'], function(){
+            $('order-shipping-method-choose').show();
+        });
+        script;
+        ?>
+        <?= /* @noEscape */ $secureRenderer->renderTag('script', [], $scriptString, false) ?>
+    <?php endif; ?>
+<?php elseif ($block->getIsRateRequest()): ?>
+    <div class="order-shipping-method-summary">
+        <strong class="order-shipping-method-not-available">
+            <?= $block->escapeHtml(__('Sorry, no quotes are available for this order1.')) ?>
+        </strong>
+    </div>
+<?php else: ?>
+    <div id="order-shipping-method-summary" class="order-shipping-method-summary">
+        <a href="#" class="action-default">
+            <span><?= $block->escapeHtml(__('Get shipping methods and rates')) ?></span>
+        </a>
+        <input type="hidden" name="order[has_shipping]" value="" class="required-entry" />
+    </div>
+    <?= /* @noEscape */ $secureRenderer->renderEventListenerAsTag(
+        'onclick',
+        "order.loadShippingRates();event.preventDefault();",
+        'div#order-shipping-method-summary a.action-default'
+    ) ?>
+<?php endif; ?>
+<div id="shipping-method-overlay" class="order-methods-overlay" style="display: none">
+    <span><?= $block->escapeHtml(__('You don\'t need to select a shipping method.')) ?></span>
+</div>
+<?= /* @noEscape */ $secureRenderer->renderStyleAsTag("display: none;", 'div#shipping-method-overlay') ?>
+<?php $scriptString = <<<script
+    require(["Magento_Sales/order/create/form"], function(){
+
+script;
+$scriptString .= "order.overlay('shipping-method-overlay', " . ($block->getQuote()->isVirtual() ? 'false' : 'true') .
+    ');' . PHP_EOL;
+$scriptString .= "order.overlay('address-shipping-overlay', " . ($block->getQuote()->isVirtual() ? 'false' : 'true') .
+    ');' . PHP_EOL;
+$scriptString .= "order.isOnlyVirtualProduct = " . ($block->getQuote()->isVirtual() ? 'true' : 'false') . ';' . PHP_EOL;
+$scriptString .= <<<script
+    });
+script;
+?>
+<?= /* @noEscape */ $secureRenderer->renderTag('script', [], $scriptString, false) ?>
+

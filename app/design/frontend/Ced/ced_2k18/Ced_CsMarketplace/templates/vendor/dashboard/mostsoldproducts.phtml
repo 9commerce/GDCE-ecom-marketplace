@@ -1,0 +1,67 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license      https://cedcommerce.com/license-agreement.txt
+ */
+// @codingStandardsIgnoreFile
+?>
+<?php $collection = $block->getBestSellerProducts();?>
+
+<div class="panel panel-default most-sold-product">
+	<div class="panel-body">
+		<div class="table-responsive">
+			<table class="table table-hover table-striped table-bordered">
+				<thead>
+					<tr>
+						<th class="head"><?= __('Product Name') ?></th>
+						<th class="head"><?= __('Qty Ordered') ?></th>
+						<th class="head"><?= __('Product Price') ?></th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php if(count($collection)>0): ?>
+						<?php foreach ($collection as $_product):
+						    $name = $_product->getName();
+						    if($_product->getTypeId()=='configurable')
+						        continue;
+						    if(strlen($_product->getName()) > 10 && !$_product->getHasOptions())
+						       $name = substr($_product->getName(),0,10).'...';
+					 ?>
+									<td class="date"><?=   $name;	 ?></td>
+									<td class="ship"><?= $_product->getQtyOrdered() ?></td>   							
+									<td class="total">
+										<?=  $block->convertPrice($_product->getPrice()) ?>
+									</td>
+								</tr>
+						<?php endforeach; ?>
+					<?php else: ?>
+						<tr>
+							<td colspan="6">
+								<div>
+									<p><?= __('No Record Available'); ?></p>
+								</div>
+							</td>
+						</tr>		
+					<?php endif ?>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<style>
+	.ced_order_info::before {
+		content: none !important;
+	}								
+</style>

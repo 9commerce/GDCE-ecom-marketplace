@@ -1,0 +1,57 @@
+<?php
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+?>
+
+
+<?php
+$marketplaceHelper = $block->helper('Ced\CsMarketplace\Helper\Data');
+$stringUtils = $marketplaceHelper->getStringUtils();
+if ($_item = $block->getItem()): ?>
+    <h5 class="title"><span id="order_item_<?= /* @noEscape */ $_item->getId() ?>_title">
+            <?= /* @noEscape */ $block->escapeHtml($_item->getName()) ?></span></h5>
+    <div>
+        <strong><?= /* @noEscape */ __('SKU') ?>:</strong>
+        <?= /* @noEscape */ implode('<br />',
+            $block->helper('Magento\Catalog\Helper\Data')->splitSku($block->escapeHtml($block->getSku()))); ?>
+    </div>
+    <?php if ($block->getOrderOptions()): ?>
+        <dl class="item-options">
+        <?php foreach ($block->getOrderOptions() as $_option): ?>
+            <dt><?= /* @noEscape */ $_option['label'] ?></dt>
+            <dd>
+            <?php if (isset($_option['custom_view']) && $_option['custom_view']): ?>
+                <?= /* @noEscape */ $block->getCustomizedOptionValue($_option); ?>
+            <?php else: ?>
+                <?= /* @noEscape */ nl2br($block->escapeHtml($_option['value'])); ?>
+                <?php $stringUtils->truncate($_option['value'], 55, '', $_remainder);?>
+                <?php if ($_remainder):?>
+                    ... <span id="<?= /* @noEscape */ $_id = 'id' . uniqid()?>"><?= /* @noEscape */ $_remainder ?></span>
+                    <script>
+                    $('<?= /* @noEscape */ $_id ?>').hide();
+                    $('<?= /* @noEscape */ $_id ?>').up().observe('mouseover', function(){$('<?= /* @noEscape */ $_id ?>').show();});
+                    $('<?= /* @noEscape */ $_id ?>').up().observe('mouseout',  function(){$('<?= /* @noEscape */ $_id ?>').hide();});
+                    </script>
+                <?php endif;?>
+            <?php endif;?>
+            </dd>
+        <?php endforeach; ?>
+        </dl>
+    <?php endif; ?>
+    <?= /* @noEscape */ $block->escapeHtml($_item->getDescription()) ?>
+<?php endif; ?>

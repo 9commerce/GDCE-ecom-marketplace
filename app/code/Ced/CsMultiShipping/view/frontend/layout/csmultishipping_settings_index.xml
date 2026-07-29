@@ -1,0 +1,37 @@
+<!--
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMultiShipping
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="vendorpanel"
+      xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <update handle="csmarketplace_vendor"/>
+    <body>
+        <referenceContainer name="after.body.start">
+            <block class="Magento\Framework\View\Element\Js\Components" name="head.components" as="components"
+                   template="Ced_CsMultiShipping::js/components.phtml"/>
+        </referenceContainer>
+        <referenceBlock name="vendor.dashboard.wrapper" >
+            <block class="Ced\CsMultiShipping\Block\Vsettings\Shipping\Address" name="csmultishipping.address"
+                   template="Ced_CsMultiShipping::vsettings/address.phtml" cacheable="false">
+                <arguments>
+                    <argument name="view_model" xsi:type="object">Magento\Customer\ViewModel\Address</argument>
+                    <argument name="directory_view_model" xsi:type="object">Ced\CsMultiShipping\ViewModel\TaxHelper</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+    </body>
+</page>

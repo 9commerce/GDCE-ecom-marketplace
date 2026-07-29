@@ -1,0 +1,23 @@
+{
+    "name": "ced/module-vendorsociallogin",
+    "description": "Social Login for Magento2. Help customers to login on magento2 store by using Facebook, Twitter, Google and Linkedin",
+    "require": {
+        "php": "~7.3.0|~7.4.0|~8.1.0",
+        "magento/magento-composer-installer": "*"
+    },
+    "type": "magento2-module",
+    "version": "1.0.5",
+    "license": [
+        "EULA"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Ced\\VendorsocialLogin\\": ""
+        }
+    },
+    "minimum-stability": "stable"
+}
+

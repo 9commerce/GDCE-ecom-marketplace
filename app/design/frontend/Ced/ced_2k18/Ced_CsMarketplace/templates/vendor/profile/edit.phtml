@@ -1,0 +1,280 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license      https://cedcommerce.com/license-agreement.txt
+ */
+// @codingStandardsIgnoreFile
+?>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default vendor-profile-edit">
+            <div class="panel-heading col-md-12 uptransform">
+                <div style="line-height:31px;font-size:17px;" class="col-md-6 col-xs-12  panel_product_heading">
+                    <?= __('Edit')." ".__('Profile Information') ?>
+                </div>
+                <div style="text-align:right;" class="buttons-set col-md-6  col-xs-12 buttons_scb">
+                    <button class="button btn btn-primary uptransform pull-right"
+                            onClick="profileEdit();" title="Edit" type="submit">
+						<span>
+							<span><?= __('Save') ?></span>
+						</span>
+                    </button>
+                </div>
+            </div>
+            <div class="clear_both"></div>
+            <div class="panel-body">
+                <div class="col-md-12">
+                    <div class="fieldset">
+                        <ul class="form-list">
+                            <?= $this->getFormHtml(); ?>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <p class="back-link col-md-6">
+                        <a href="<?= $this->getUrl('csmarketplace/vendor/profileview') ?>">
+                            <small>&laquo; </small><?= __('Back') ?>
+                        </a>
+                    </p>
+                    <p class="required col-md-6" ><?= __('* Required Fields') ?></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script>
+    require(["jquery","mage/mage"],function($){
+        $('#edit_form').mage('validation', {
+        });
+    });
+    function profileEdit(){
+        require(["jquery"],function($){
+            var ret = $('#edit_form').valid();
+            if(ret==true){
+                $('#edit_form').submit();
+            }
+        });
+    }
+</script>
+<script>
+    require([
+        'jquery',
+        'jquery/ui',
+    ], function($){
+        window.onload = function() {
+            var country_id = document.getElementById('country_id').value;
+            var rurl ='<?= $this->getUrl("*/*/country",array("_nosid"=>true))?>';
+
+            $.ajax({
+                url: rurl,
+                type: "POST",
+                data: {cid:country_id},
+                dataType: 'html',
+                success: function(stateform) {
+                    stateform = JSON.parse(stateform);
+
+                    if(!country_id.length){
+                        document.getElementById('region').parentNode.parentNode.style.display='none';
+                        document.getElementById('region_id').parentNode.parentNode.style.display='none';
+                        return;
+                    }
+                    if(stateform=='true'){
+                        document.getElementById('region').parentNode.parentNode.style.display='none';
+                        document.getElementById('region_id').parentNode.parentNode.style.display='block';
+                    }else{
+                        document.getElementById('region_id').parentNode.parentNode.style.display='none';
+                        document.getElementById('region').parentNode.parentNode.style.display='block';
+                    }
+                }
+            });
+
+            let _URL = window.URL || window.webkitURL;
+            let company_banner = $("#company_banner");
+            let profile_picture = $("#profile_picture");
+            let company_logo = $("#company_logo");
+            company_banner.attr('accept', 'image/*');
+            profile_picture.attr('accept', 'image/*');
+            company_logo.attr('accept', 'image/*');
+
+            profile_picture.change(function (e) {
+                var val = $(this).val();
+                switch(val.substring(val.lastIndexOf('.') + 1).toLowerCase()){
+                    case 'jpg': case 'png': case 'jpeg':
+                        break;
+                    default:
+                        $(this).val('');
+                        // error message here
+                        alert("Allowed file type : .jpg .png .jpeg");
+                        break;
+                }
+            })
+
+            company_logo.change(function (e) {
+                var val = $(this).val();
+                switch(val.substring(val.lastIndexOf('.') + 1).toLowerCase()){
+                    case 'jpg': case 'png': case 'jpeg':
+                        break;
+                    default:
+                        $(this).val('');
+                        // error message here
+                        alert("Allowed file type : .jpg .png .jpeg");
+                        break;
+                }
+            })
+            company_banner.change(function(e) {
+                var val = $(this).val();
+                switch(val.substring(val.lastIndexOf('.') + 1).toLowerCase()){
+                    case 'jpg': case 'png': case 'jpeg':
+                        break;
+                    default:
+                        $(this).val('');
+                        // error message here
+                        alert("Allowed file type : .jpg .png .jpeg");
+                        break;
+                }
+                var fileUpload = this;
+                //Check whether HTML5 is supported.
+                if (typeof (fileUpload.files) != "undefined") {
+                    //Initiate the FileReader object.
+                    var reader = new FileReader();
+                    //Read the contents of Image File.
+                    reader.readAsDataURL(fileUpload.files[0]);
+                    reader.onload = function (e) {
+                        //Initiate the JavaScript Image object.
+                        var image = new Image();
+
+                        //Set the Base64 string return from FileReader as source.
+                        image.src = e.target.result;
+
+                        //Validate the File Height and Width.
+                        image.onload = function () {
+                            var width = this.width;
+                            var height = this.height;
+                            var ratio = width/height;
+                            var correctImage = width > height;
+                            var minimage = width >= 1000 && height >= 300;
+                            var allowedRatio  = 1000/300;
+                            var validate  = (ratio >= 3.16  && ratio <= 3.5);
+                            if (!correctImage || !minimage || !(validate)) {
+                                alert("Minimum allowed banner dimension is 1000px X 300px and width to height ratio must be around 10:3. Current image dimension is "+width+"px X "+height+"px. ");
+                                company_banner.val(null);
+                                return false;
+                            }
+
+                            return true;
+                        };
+
+                    }
+                } else {
+                    alert("This browser does not support HTML5.");
+                    company_banner.val(null);
+                    return false;
+                }
+
+            });
+        };
+
+        country_id.onchange = function() {
+            var country_id = document.getElementById('country_id').value;
+            var rurl ='<?= $this->getUrl("*/*/country",array("_nosid"=>true))?>';
+            $.ajax({
+                url: rurl,
+                type: "POST",
+                data: {cid:country_id},
+                dataType: 'html',
+                success: function(stateform) {
+                    stateform = JSON.parse(stateform);
+                    if(!country_id.length){
+                        document.getElementById('region').parentNode.parentNode.style.display='none';
+                        document.getElementById('region_id').parentNode.parentNode.style.display='none';
+                        return;
+                    }
+                    if(stateform=='true'){
+                        document.getElementById('region').parentNode.parentNode.style.display='none';
+                        document.getElementById('region_id').parentNode.parentNode.style.display='block';
+                    }else{
+                        document.getElementById('region_id').parentNode.parentNode.style.display='none';
+                        document.getElementById('region').parentNode.parentNode.style.display='block';
+                    }
+                }
+            });
+        };
+    });
+</script>
+<script type="text/x-magento-init">
+		{
+		"#country_id": {
+		"regionUpdater": {
+		"optionalRegionAllowed": "true",
+		"regionListId": "#region_id",
+		"regionInputId": "#region",
+		"postcodeId": "#zip_code",
+		"form": "#edit_form",
+		"regionJson": <?php  echo $this->helper('Magento\Directory\Helper\Data')->getRegionJson() ?>,
+		"defaultRegion": "<?php  echo $block->getRegionId() ?>",
+		"countriesWithOptionalZip": <?= $this->helper('Magento\Directory\Helper\Data')->getCountriesWithOptionalZip(true) ?>
+	}
+}
+}
+</script>
+<script>
+    require([
+        'jquery',
+        'jquery/ui',
+    ], function($){
+        $(document).ready(function() {
+            if((".change_password").length){
+                $(".change_password").parent().parent().hide();
+                $(".change_password").prop('disabled', true);
+            }
+            else {
+                setTimeout(changePassword, 50);
+            }
+        });
+
+        function changePassword() {
+            if((".change_password").length){
+                $(".change_password").prop('disabled', true);
+                $(".change_password").parent().parent().hide();
+            }
+            else {
+                setTimeout(changePassword, 50);
+            }
+        }
+
+        if($('#password-check').length){
+            $('#password-check').change(function() {
+                if(this.checked) {
+                    $(".change_password").parent().parent().show();
+                    $(".change_password").prop('disabled', false);
+                    $('.change_password').addClass('required-entry');
+                }else{
+                    $(".change_password").parent().parent().hide();
+                    $(".change_password").prop('disabled', true);
+                    $('.change_password').removeClass('required-entry');
+                }
+            });
+        }
+    });
+</script>
+<style>
+    #password-check{
+        width: 2% !important;
+    }
+    .mage-error{
+        color: red;
+    }
+</style>

@@ -1,0 +1,134 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsTransaction
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+-->
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">
+                requested_transaction_listing.requested_transaction_listing_data_source
+            </item>
+        </item>
+    </argument>
+    <settings>
+        <spinner>requested_transaction_columns</spinner>
+        <deps>
+            <dep>requested_transaction_listing.requested_transaction_listing_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="requested_transaction_listing_data_source" component="Magento_Ui/js/grid/provider">
+        <settings>
+            <storageConfig>
+                <param name="indexField" xsi:type="string">id</param>
+            </storageConfig>
+            <updateUrl path="mui/index/render"/>
+        </settings>
+        <dataProvider class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider"
+                      name="requested_transaction_listing_data_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <listingToolbar name="listing_top">
+        <settings>
+            <sticky>true</sticky>
+        </settings>
+        <columnsControls name="columns_controls"/>
+        <bookmark name="bookmarks" class="Ced\CsMarketplace\Component\Bookmark">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/controls/bookmarks/bookmarks</item>
+                    <item name="displayArea" xsi:type="string">dataGridActions</item>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="saveUrl" xsi:type="url" path="csmarketplace/bookmark/save"/>
+                        <item name="deleteUrl" xsi:type="url" path="csmarketplace/bookmark/delete"/>
+                        <item name="namespace" xsi:type="string">requested_transaction_listing</item>
+                    </item>
+                </item>
+            </argument>
+        </bookmark>
+        <filters name="listing_filters"/>
+        <paging name="listing_paging"/>
+        <massaction name="listing_massaction"
+                    component="Magento_Ui/js/grid/tree-massactions">
+            <action name="request">
+                <settings>
+                    <confirm>
+                        <message translate="true">Request payment for selected items?</message>
+                        <title translate="true">Request Payment</title>
+                    </confirm>
+                    <url path="cstransaction/vpayments/massRequest"/>
+                    <type>request</type>
+                    <label translate="true">Request</label>
+                </settings>
+            </action>
+        </massaction>
+    </listingToolbar>
+
+    <columns name="requested_transaction_columns">
+        <selectionsColumn name="ids" sortOrder="0">
+            <settings>
+                <indexField>id</indexField>
+            </settings>
+        </selectionsColumn>
+
+        <column name="created_at" class="Magento\Ui\Component\Listing\Columns\Date"
+                component="Magento_Ui/js/grid/columns/date" sortOrder="1">
+            <settings>
+                <filter>dateRange</filter>
+                <dataType>date</dataType>
+                <label translate="true">Order Date</label>
+            </settings>
+        </column>
+        <column name="order_increment_id" sortOrder="10">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Order Id</label>
+            </settings>
+        </column>
+        <column name="sku" sortOrder="10">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Product Sku</label>
+            </settings>
+        </column>
+        <column name="item_fee" sortOrder="20" class="Magento\Sales\Ui\Component\Listing\Column\Price">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Pending Amount</label>
+            </settings>
+        </column>
+        <column name="amount_refunded" sortOrder="30" class="Magento\Sales\Ui\Component\Listing\Column\Price">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Cancelled Amount</label>
+            </settings>
+        </column>
+        <column name="action" class="Ced\CsTransaction\Ui\Component\Listing\Columns\RequestedTransaction\Action"
+                sortOrder="40">
+            <settings>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+                <sortable>false</sortable>
+                <label translate="true">Action</label>
+            </settings>
+        </column>
+    </columns>
+</listing>

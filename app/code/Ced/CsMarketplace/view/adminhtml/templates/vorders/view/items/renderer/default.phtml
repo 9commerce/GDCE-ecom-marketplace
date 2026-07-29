@@ -1,0 +1,236 @@
+<?php
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php $_item = $block->getItem() ?>
+<?php $block->setPriceDataObject($_item) ?>
+<tr<?php if (!$block->canDisplayGiftmessage()): ?> class="border"<?php endif; ?>>
+    <td>
+        <?php if ($block->canDisplayContainer()): ?>
+        <div id="<?= /* @noEscape */ $block->getHtmlId() ?>" class="item-container">
+        <?php endif; ?>
+        <div class="item-text">
+            <?= /* @noEscape */ $block->getColumnHtml($_item, 'name') ?>
+        </div>
+        <?php if ($block->canDisplayContainer()): ?>
+        </div>
+        <?php endif ?>
+    </td>
+    <td class="a-right"><?= /* @noEscape */ $block->displayPriceAttribute('original_price') ?></td>
+    <td class="a-right">
+        <?php if ($block->helper('Magento\Tax\Helper\Data')->displaySalesBothPrices() || $block->helper('Magento\Tax\Helper\Data')->displaySalesPriceExclTax()): ?>
+            <span class="price-excl-tax">
+                <?php if ($block->helper('Magento\Tax\Helper\Data')->displaySalesBothPrices()): ?>
+                    <span class="label"><?= /* @noEscape */ __('Excl. Tax'); ?>:</span>
+                <?php endif; ?>
+
+                <?php if ($block->helper('Magento\Weee\Helper\Data')->typeOfDisplay(array(0, 1, 4), 'sales', $_item->getStoreId())): ?>
+                    <?= /* @noEscape */ $block->displayPrices(
+                        $_item->getBasePrice()+$_item->getBaseWeeeTaxAppliedAmount()+$_item->getBaseWeeeTaxDisposition(),
+                        $_item->getPrice()+$_item->getWeeeTaxAppliedAmount()+$_item->getWeeeTaxDisposition()
+                    );
+                    ?>
+                <?php else: ?>
+                    <?= /* @noEscape */ $block->displayPrices($_item->getBasePrice(), $_item->getPrice()) ?>
+                <?php endif; ?>
+
+
+                <?php if ($block->helper('Magento\Weee\Helper\Data')->getApplied($_item)): ?>
+                    <br />
+                    <?php if ($block->helper('Magento\Weee\Helper\Data')->typeOfDisplay($_item, 1, 'sales', $_item->getStoreId())): ?>
+                        <small>
+                        <?php foreach ($block->helper('Magento\Weee\Helper\Data')->getApplied($_item) as $tax): ?>
+                            <span class="nobr"><?= /* @noEscape */ $tax['title']; ?>: <?= /* @noEscape */ $block->displayPrices($tax['base_amount'], $tax['amount']); ?></span>
+                        <?php endforeach; ?>
+                        </small>
+                    <?php elseif ($block->helper('Magento\Weee\Helper\Data')->typeOfDisplay($_item, 2, 'sales', $_item->getStoreId())): ?>
+                        <?php foreach ($block->helper('Magento\Weee\Helper\Data')->getApplied($_item) as $tax): ?>
+                            <span class="nobr"><small><?= /* @noEscape */ $tax['title']; ?>: <?= /* @noEscape */ $block->displayPrices($tax['base_amount_incl_tax'], $tax['amount_incl_tax']); ?></small></span>
+                        <?php endforeach; ?>
+                    <?php elseif ($block->helper('Magento\Weee\Helper\Data')->typeOfDisplay($_item, 4, 'sales', $_item->getStoreId())): ?>
+                        <small>
+                        <?php foreach ($block->helper('Magento\Weee\Helper\Data')->getApplied($_item) as $tax): ?>
+                            <span class="nobr"><?= /* @noEscape */ $tax['title']; ?>: <?= /* @noEscape */ $block->displayPrices($tax['base_amount_incl_tax'], $tax['amount_incl_tax']); ?></span>
+                        <?php endforeach; ?>
+                        </small>
+                    <?php endif; ?>
+
+                    <?php if ($block->helper('Magento\Weee\Helper\Data')->typeOfDisplay($_item, 2, 'sales', $_item->getStoreId())): ?>
+                        <br />
+                        <span class="nobr"><?= /* @noEscape */ $block->helper('Magento\Weee\Helper\Data')->__('Total'); ?>:<br />
+                        <?= /* @noEscape */ $block->displayPrices(
+                            $_item->getBasePrice()+$_item->getBaseWeeeTaxAppliedAmount()+$_item->getBaseWeeeTaxDisposition(),
+                            $_item->getPrice()+$_item->getWeeeTaxAppliedAmount()+$_item->getWeeeTaxDisposition()
+                        );
+                        ?>
+                        </span>
+                    <?php endif; ?>
+                <?php endif; ?>
+            </span>
+            <br />
+        <?php endif; ?>
+        <?php if ($block->helper('Magento\Tax\Helper\Data')->displaySalesBothPrices() || $block->helper('Magento\Tax\Helper\Data')->displaySalesPriceInclTax()): ?>
+            <span class="price-incl-tax">
+                <?php if ($block->helper('Magento\Tax\Helper\Data')->displaySalesBothPrices()): ?>
+                    <span class="label"><?= /* @noEscape */ __('Incl. Tax'); ?>:</span>
+                <?php endif; ?>
+                <?php $_incl = $block->helper('checkout')->getPriceInclTax($_item); ?>
+                <?php $_baseIncl = $block->helper('checkout')->getBasePriceInclTax($_item); ?>
+
+                <?php if ($block->helper('Magento\Weee\Helper\Data')->typeOfDisplay($_item, array(0, 1, 4), 'sales', $_item->getStoreId())): ?>
+                    <?= /* @noEscape */ $block->displayPrices($_baseIncl+$_item->getBaseWeeeTaxAppliedAmount(), $_incl+$_item->getWeeeTaxAppliedAmount()); ?>
+                <?php else: ?>
+                    <?= /* @noEscape */ $block->displayPrices($_baseIncl-$_item->getBaseWeeeTaxDisposition(), $_incl-$_item->getWeeeTaxDisposition()) ?>
+                <?php endif; ?>
+
+                <?php if ($block->helper('Magento\Weee\Helper\Data')->getApplied($_item)): ?>
+                    <br />
+                    <?php if ($block->helper('Magento\Weee\Helper\Data')->typeOfDisplay($_item, 1, 'sales', $_item->getStoreId())): ?>
+                        <small>
+                        <?php foreach ($block->helper('Magento\Weee\Helper\Data')->getApplied($_item) as $tax): ?>
+                            <span class="nobr"><?= /* @noEscape */ $tax['title']; ?>: <?= /* @noEscape */ $block->displayPrices($tax['base_amount'], $tax['amount']); ?></span>
+                        <?php endforeach; ?>
+                        </small>
+                    <?php elseif ($block->helper('Magento\Weee\Helper\Data')->typeOfDisplay($_item, 2, 'sales', $_item->getStoreId())): ?>
+                        <?php foreach ($block->helper('Magento\Weee\Helper\Data')->getApplied($_item) as $tax): ?>
+                            <span class="nobr"><small><?= /* @noEscape */ $tax['title']; ?>: <?= /* @noEscape */ $block->displayPrices($tax['base_amount_incl_tax'], $tax['amount_incl_tax']); ?></small></span>
+                        <?php endforeach; ?>
+                    <?php elseif ($block->helper('Magento\Weee\Helper\Data')->typeOfDisplay($_item, 4, 'sales', $_item->getStoreId())): ?>
+                        <small>
+                        <?php foreach ($block->helper('Magento\Weee\Helper\Data')->getApplied($_item) as $tax): ?>
+                            <span class="nobr"><?= /* @noEscape */ $tax['title']; ?>: <?= /* @noEscape */ $block->displayPrices($tax['base_amount_incl_tax'], $tax['amount_incl_tax']); ?></span>
+                        <?php endforeach; ?>
+                        </small>
+                    <?php endif; ?>
+
+                    <?php if ($block->helper('Magento\Weee\Helper\Data')->typeOfDisplay($_item, 2, 'sales', $_item->getStoreId())): ?>
+                        <br />
+                        <span class="nobr"><?= /* @noEscape */ $block->helper('Magento\Weee\Helper\Data')->__('Total'); ?>:<br /> <?= /* @noEscape */ $block->displayPrices($_baseIncl+$_item->getBaseWeeeTaxAppliedAmount(), $_incl+$_item->getWeeeTaxAppliedAmount()); ?></span>
+                    <?php endif; ?>
+                <?php endif; ?>
+            </span>
+        <?php endif; ?>
+
+    </td>
+    <td><?= /* @noEscape */ $block->getColumnHtml($_item, 'qty') ?></td>
+
+    <td class="a-right">
+        <?php if ($block->helper('Magento\Tax\Helper\Data')->displaySalesBothPrices() || $block->helper('Magento\Tax\Helper\Data')->displaySalesPriceExclTax()): ?>
+            <span class="price-excl-tax">
+                <?php if ($block->helper('Magento\Tax\Helper\Data')->displaySalesBothPrices()): ?>
+                    <span class="label"><?= /* @noEscape */ __('Excl. Tax'); ?>:</span>
+                <?php endif; ?>
+
+                <?php if ($block->helper('Magento\Weee\Helper\Data')->typeOfDisplay(array(0, 1, 4), 'sales', $_item->getStoreId())): ?>
+                    <?= /* @noEscape */ $block->displayPrices(
+                        $_item->getBaseRowTotal()+$_item->getBaseWeeeTaxAppliedRowAmount()+$_item->getBaseWeeeTaxRowDisposition(),
+                        $_item->getRowTotal()+$_item->getWeeeTaxAppliedRowAmount()+$_item->getWeeeTaxRowDisposition()
+                    );
+                    ?>
+                <?php else: ?>
+                    <?= /* @noEscape */ $block->displayPrices($_item->getBaseRowTotal(), $_item->getRowTotal()) ?>
+                <?php endif; ?>
+
+
+                <?php if ($block->helper('Magento\Weee\Helper\Data')->getApplied($_item)): ?>
+                    <?php if ($block->helper('Magento\Weee\Helper\Data')->typeOfDisplay($_item, 1, 'sales', $_item->getStoreId())): ?>
+                        <small>
+                        <?php foreach ($block->helper('Magento\Weee\Helper\Data')->getApplied($_item) as $tax): ?>
+                            <span class="nobr"><?= /* @noEscape */ $tax['title']; ?>: <?= /* @noEscape */ $block->displayPrices($tax['base_row_amount'], $tax['row_amount']); ?></span>
+                        <?php endforeach; ?>
+                        </small>
+                    <?php elseif ($block->helper('Magento\Weee\Helper\Data')->typeOfDisplay($_item, 2, 'sales', $_item->getStoreId())): ?>
+                        <?php foreach ($block->helper('Magento\Weee\Helper\Data')->getApplied($_item) as $tax): ?>
+                            <span class="nobr"><small><?= /* @noEscape */ $tax['title']; ?>: <?= /* @noEscape */ $block->displayPrices($tax['base_row_amount_incl_tax'], $tax['row_amount_incl_tax']); ?></small></span>
+                        <?php endforeach; ?>
+                    <?php elseif ($block->helper('Magento\Weee\Helper\Data')->typeOfDisplay($_item, 4, 'sales', $_item->getStoreId())): ?>
+                        <small>
+                        <?php foreach ($block->helper('Magento\Weee\Helper\Data')->getApplied($_item) as $tax): ?>
+                            <span class="nobr"><?= /* @noEscape */ $tax['title']; ?>: <?= /* @noEscape */ $block->displayPrices($tax['base_row_amount_incl_tax'], $tax['row_amount_incl_tax']); ?></span>
+                        <?php endforeach; ?>
+                        </small>
+                    <?php endif; ?>
+
+                    <?php if ($block->helper('Magento\Weee\Helper\Data')->typeOfDisplay($_item, 2, 'sales', $_item->getStoreId())): ?>
+                        <br />
+                        <span class="nobr"><?= /* @noEscape */ $block->helper('Magento\Weee\Helper\Data')->__('Total'); ?>:<br />
+                        <?= /* @noEscape */ $block->displayPrices(
+                            $_item->getBaseRowTotal()+$_item->getBaseWeeeTaxAppliedRowAmount()+$_item->getBaseWeeeTaxRowDisposition(),
+                            $_item->getRowTotal()+$_item->getWeeeTaxAppliedRowAmount()+$_item->getWeeeTaxRowDisposition()
+                        );
+                        ?>
+                        </span>
+                    <?php endif; ?>
+                <?php endif; ?>
+            </span>
+            <br />
+        <?php endif; ?>
+        <?php if ($block->helper('Magento\Tax\Helper\Data')->displaySalesBothPrices() || $block->helper('Magento\Tax\Helper\Data')->displaySalesPriceInclTax()): ?>
+            <span class="price-incl-tax">
+                <?php if ($block->helper('Magento\Tax\Helper\Data')->displaySalesBothPrices()): ?>
+                    <span class="label"><?= /* @noEscape */ __('Incl. Tax'); ?>:</span>
+                <?php endif; ?>
+                <?php $_incl = $block->helper('checkout')->getSubtotalInclTax($_item); ?>
+                <?php $_baseIncl = $block->helper('checkout')->getBaseSubtotalInclTax($_item); ?>
+                <?php if ($block->helper('Magento\Weee\Helper\Data')->typeOfDisplay($_item, array(0, 1, 4), 'sales', $_item->getStoreId())): ?>
+                    <?= /* @noEscape */ $block->displayPrices($_baseIncl+$_item->getBaseWeeeTaxAppliedRowAmount(), $_incl+$_item->getWeeeTaxAppliedRowAmount()); ?>
+                <?php else: ?>
+                    <?= /* @noEscape */ $block->displayPrices($_baseIncl-$_item->getBaseWeeeTaxRowDisposition(), $_incl-$_item->getWeeeTaxRowDisposition()) ?>
+                <?php endif; ?>
+
+
+                <?php if ($block->helper('Magento\Weee\Helper\Data')->getApplied($_item)): ?>
+
+                    <br />
+                    <?php if ($block->helper('Magento\Weee\Helper\Data')->typeOfDisplay($_item, 1, 'sales', $_item->getStoreId())): ?>
+                        <small>
+                        <?php foreach ($block->helper('Magento\Weee\Helper\Data')->getApplied($_item) as $tax): ?>
+                            <span class="nobr"><?= /* @noEscape */ $tax['title']; ?>: <?= /* @noEscape */ $block->displayPrices($tax['base_row_amount'], $tax['row_amount']); ?></span>
+                        <?php endforeach; ?>
+                        </small>
+                    <?php elseif ($block->helper('Magento\Weee\Helper\Data')->typeOfDisplay($_item, 2, 'sales', $_item->getStoreId())): ?>
+                        <?php foreach ($block->helper('Magento\Weee\Helper\Data')->getApplied($_item) as $tax): ?>
+                            <span class="nobr"><small><?= /* @noEscape */ $tax['title']; ?>: <?= /* @noEscape */ $block->displayPrices($tax['base_row_amount_incl_tax'], $tax['row_amount_incl_tax']); ?></small></span>
+                        <?php endforeach; ?>
+                    <?php elseif ($block->helper('Magento\Weee\Helper\Data')->typeOfDisplay($_item, 4, 'sales', $_item->getStoreId())): ?>
+                        <small>
+                        <?php foreach ($block->helper('Magento\Weee\Helper\Data')->getApplied($_item) as $tax): ?>
+                            <span class="nobr"><?= /* @noEscape */ $tax['title']; ?>: <?= /* @noEscape */ $block->displayPrices($tax['base_row_amount_incl_tax'], $tax['row_amount_incl_tax']); ?></span>
+                        <?php endforeach; ?>
+                        </small>
+                    <?php endif; ?>
+
+                    <?php if ($block->helper('Magento\Weee\Helper\Data')->typeOfDisplay($_item, 2, 'sales', $_item->getStoreId())): ?>
+                        <br /><span class="nobr"><?= /* @noEscape */ $block->helper('Magento\Weee\Helper\Data')->__('Total'); ?>:<br /> <?= /* @noEscape */ $block->displayPrices($_baseIncl+$_item->getBaseWeeeTaxAppliedRowAmount(), $_incl+$_item->getWeeeTaxAppliedRowAmount()); ?></span>
+                    <?php endif; ?>
+                <?php endif; ?>
+            </span>
+        <?php endif; ?>
+    </td>
+    <td class="a-right"><?= /* @noEscape */ $block->displayPriceAttribute('tax_amount') ?></td>
+    <td class="a-right"><?= /* @noEscape */ $block->displayPriceAttribute('discount_amount') ?></td>
+    <td class="a-right last">
+        <?= /* @noEscape */ $block->displayPrices(
+            $_item->getBaseRowTotal() - $_item->getBaseDiscountAmount() + $_item->getBaseTaxAmount() + $_item->getBaseWeeeTaxAppliedRowAmount(),
+            $_item->getRowTotal() - $_item->getDiscountAmount() + $_item->getTaxAmount() + $_item->getWeeeTaxAppliedRowAmount()
+        ); ?>
+    </td>
+</tr>

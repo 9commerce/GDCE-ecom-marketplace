@@ -1,0 +1,66 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+// @codingStandardsIgnoreFile
+
+$trans_id = ($this->getData('transaction_id'))?$this->getData('transaction_id'):null;
+$transaction = $this->helper('Ced\CsMarketplace\Helper\Data')->getTransaction($trans_id);
+$vendor = $this->getData('vendor_name');
+$acl = $this->helper('Ced\CsMarketplace\Helper\Acl');
+$priceHelper = $this->helper('Magento\Framework\Pricing\Helper\Data');
+
+?>
+<p><?= /* @noEscape */ __('Hello') . ' ' . (($vendor != null)?$vendor:'')?></p>
+<p><?= /* @noEscape */ __('You have got the payment for the following order(s)')?>:</p>
+<p>
+    <?php
+        if($transaction->getAmountDesc()){
+            foreach(json_decode($transaction->getAmountDesc(), true) as $key => $value){
+                /* @noEscape */ echo $key.'<br>';
+            }
+        }
+    ?>
+</p>
+<table class="containtable" bgcolor="FFFFFF" cellspacing="2" cellpadding="15" border="0" width="600" style="border:1px solid #E0E0E0; margin: auto;" summary="<?= /* @noEscape */ __('Transaction Description') ?>">
+    <caption><?= /* @noEscape */ __('Transaction Description') ?></caption>
+    <tbody>
+        <tr>
+			<td align="center"><?= /* @noEscape */ __('Transaction Id')?></td>
+			<td align="center"><?= /* @noEscape */ $transaction->getTransactionId(); ?></td>
+		</tr>
+		<tr>
+			<td align="center"><?= /* @noEscape */ __('Transaction Date')?></td>
+			<td align="center"><?= /* @noEscape */ $transaction->getCreatedAt(); ?></td>
+		</tr>
+		<tr>
+			<td align="center"><?= /* @noEscape */ __('Transaction Mode')?></td>
+			<td align="center"><?= /* @noEscape */ $acl->getDefaultPaymentTypeLabel($transaction->getData('payment_method')); ?></td>
+		</tr>
+		<tr>
+			<td align="center"><?= /* @noEscape */ __('Amount')?></td>
+			<td align="center"><?= /* @noEscape */ $priceHelper->currency($transaction->getBaseAmount(), true, false); ?></td>
+		</tr>
+		<tr>
+			<td align="center"><?= /* @noEscape */ __('Adjustment Amount')?></td>
+			<td align="center"><?= /* @noEscape */ $priceHelper->currency($transaction->getBaseFee(), true, false); ?></td>
+		</tr>
+	    <tr>
+			<td align="center"><?= /* @noEscape */ __('Net Amount')?></td>
+			<td align="center"><?= /* @noEscape */ $priceHelper->currency($transaction->getBaseNetAmount(), true, false); ?></td>
+		</tr>
+   	</tbody>
+</table>

@@ -1,0 +1,81 @@
+<!--
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMultiShipping
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+-->
+<form id="co-shipping-method-form" data-bind="blockLoader: isLoading, visible: isVisible()">
+    <p class="field note" data-bind="visible: (shippingRates().length <= 0)">
+        <!-- ko text: $t('Sorry, no quotes are available for this order at this time')--><!-- /ko -->
+    </p>
+    <fieldset class="fieldset rate" data-bind="visible: (shippingRates().length > 0)">
+        <dl class="items methods" data-bind="foreach: shippingRateGroups">
+            <dt class="item-title"><span data-bind="text: $data"></span></dt>
+            <dd class="item-options  vendor-rates" data-bind="foreach: $parent.getRatesForGroup($data)">
+				<!-- ko if: carrier_code != 'vendor_rates' -->
+                <div data-bind="css: {'field choice item': available, 'message error': !available}">
+                    <!-- ko ifnot: (available) -->
+                    <div data-bind="text: error_message"></div>
+                    <!-- /ko -->
+                    <!-- ko if: (available) -->
+                    <input
+                           type="radio"
+                           class="radio"
+                           data-bind="click: $parents[1].selectVirtualMethod,
+                                attr: {
+                                        value: carrier_code + '_' + method_code,
+                                        id: carrier_code + '_' + method_code,
+										name: 'estimate_method' + $parentContext.$index()
+                                        }
+                                "></input>
+                    <label class="label" data-bind="attr: {for: carrier_code + '_' + method_code}">
+                        <!-- ko text: method_title --><!-- /ko -->
+                        <!-- ko text: $parents[1].getFormattedPrice(amount) --><!-- /ko -->
+                    </label>
+                    <!-- /ko -->
+                </div>
+				<!-- /ko -->
+            </dd>
+        </dl>
+		<dl style="display:none" class="items methods" data-bind="foreach: shippingRateGroups">
+            <dd class="item-options" data-bind="foreach: $parent.getRatesForGroup($data)">
+				<!-- ko if: carrier_code == 'vendor_rates' -->
+                <div data-bind="css: {'field choice item': available, 'message error': !available}">
+                    <!-- ko ifnot: (available) -->
+                    <div data-bind="text: error_message"></div>
+                    <!-- /ko -->
+                    <!-- ko if: (available) -->
+                    <input name="estimate_method"
+                           type="radio"
+                           class="radio"
+                           data-bind="
+                                click: $parents[1].selectShippingMethod,
+								checked: $parents[1].selectedShippingMethod,
+                                attr: {
+                                        value: carrier_code + '_' + method_code,
+                                        id: carrier_code + '_' + method_code.replace('~', '-')
+                                    }
+                                "></input>
+                    <label class="label" data-bind="attr: {for: carrier_code + '_' + method_code.replace('~', '-')}">
+                        <!-- ko text: method_title --><!-- /ko -->
+                        <!-- ko text: $parents[1].getFormattedPrice(amount) --><!-- /ko -->
+                    </label>
+                    <!-- /ko -->
+                </div>
+				<!-- /ko -->
+            </dd>
+        </dl>
+    </fieldset>
+</form>

@@ -1,0 +1,40 @@
+<?php
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the End User License Agreement (EULA)
+  * that is bundled with this package in the file LICENSE.txt.
+  * It is also available through the world-wide-web at this URL:
+  * http://cedcommerce.com/license-agreement.txt
+  *
+  * @category    Ced
+  * @package     Ced_CsProduct
+  * @author   CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license      http://cedcommerce.com/license-agreement.txt
+  */
+
+// @codingStandardsIgnoreFile
+
+ /** @var $block \Magento\Cms\Block\Adminhtml\Wysiwyg\Images\Content */
+?>
+<div class="media-gallery-modal" data-mage-init='{"mediabrowser": <?= $block->escapeHtml($block->getFilebrowserSetupObject()) ?>}'>
+    <div class="page-main-actions">
+        <div class="page-actions">
+            <div class="page-actions-inner">
+                <div class="page-action-buttons">
+                    <?php echo $block->getButtonsHtml(); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="side-col"><?= $block->getChildHtml('wysiwyg_images.tree') ?></div>
+    <div class="main-col">
+        <div id="error-message" data-action="show-error"></div>
+        <div id="contents-uploader" class="contents-uploader"><?= $block->getChildHtml('wysiwyg_images.uploader') ?></div>
+        <div id="contents"></div>
+    </div>
+</div>
+

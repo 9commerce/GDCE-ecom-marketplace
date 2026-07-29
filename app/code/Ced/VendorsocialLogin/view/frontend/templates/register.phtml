@@ -1,0 +1,45 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category  Ced
+ * @package   Ced_VendorsocialLogin
+ * @author    CedCommerce Core Team <connect@cedcommerce.com >
+ * @copyright Copyright CedCommerce (https://cedcommerce.com/)
+ * @license      https://cedcommerce.com/license-agreement.txt
+ */
+?>
+<div class="ced-sociallogin-login">
+    <div class="account-login">
+    <h2><?= $block->escapeHtml('SocialLogin') ?></h2>
+        <div class="<?= $block->escapeHtml($block->_getColSet()) ?> ced-sociallogin-login-lower">
+            <?php if ($block->googleEnabled()): ?>
+            <div class="<?= $block->escapeHtml($block->_getButtCol()) ?> ced-sociallogin-login-lower-google">
+                <?= $block->getChildHtml('ced_google_login_button'); ?>
+            </div>
+            <?php endif; ?>
+            <?php if ($block->facebookEnabled()): ?>
+            <div class="<?= $block->escapeHtml($block->_getButtCol()); ?> ced-sociallogin-login-lower-facebook">
+                <?= $block->getChildHtml('ced_facebook_login_button'); ?>
+            </div>
+            <?php endif; ?>
+            <?php if ($block->twitterEnabled()): ?>
+            <div class="<?= $block->escapeHtml($block->_getButtCol()) ?> ced-sociallogin-login-lower-twitter">
+                <?= $block->getChildHtml('ced_twitter_login_button'); ?>
+            </div>
+            <?php endif; ?>
+             <?php if ($block->linkedinEnabled()): ?>
+            <div class="<?= $block->escapeHtml($block->_getButtCol()) ?> ced-sociallogin-login-lower-linkedin">
+                    <?= $block->getChildHtml('ced_linkedin_login_button'); ?>
+            </div>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>

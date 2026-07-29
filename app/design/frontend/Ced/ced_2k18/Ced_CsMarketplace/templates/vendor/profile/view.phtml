@@ -1,0 +1,249 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+// @codingStandardsIgnoreFile
+
+$groupCollection = $this->getVendorAttributeInfo();
+$vendor_info = $this->getVendor();
+$percent = 0.00;
+if($this->_totalattr) {
+	$percent = round(($this->_savedattr * 100)/$this->_totalattr);
+}
+$image = $this->helper(\Ced\CsMarketplace\Helper\Tool\Image::class);
+
+$vattribute_enabled = FALSE;
+if($block->isModuleEnable('Ced_CsVattribute')) {
+	$vattribute_enabled = TRUE;
+}
+$viewModel = $block->getViewModel();
+
+?>
+<div class="row">
+	<div class="col-md-12">
+		<div class="vendor-profile">
+			<div class="my-account">
+				<?php
+				$imageAttributes = array('profile_picture');
+				$phtml = '';
+				$cnt = 0;
+				$groupWiseFieldsOdd = [];
+				$groupWiseFieldsEven = [];
+				foreach($groupCollection as $group) {
+					$attributes = $vendor_info->getAttributes($group->getId(), true);
+					if (count($attributes)==0) {
+						continue;
+					}
+					$att_cnt = 0;
+					$html = $phtml;
+					$phtml = '';
+					$country_id = $vendor_info->getData('country_id');
+					$c_id  = $block->getCountryIdValue($country_id);
+					foreach ($attributes as $attr){
+						$attribute = $this->getVendorAttribute($attr->getid(), 0);
+						if(!$attribute->getisVisible()) continue;
+						$att_cnt++;
+						if($vendor_info->getData($attr->getAttributeCode()) && !in_array($attr->getAttributeCode(),\Ced\CsMarketplace\Model\Form::$VENDOR_PROFILE_RESTRICTED_ATTRIBUTES)){
+							if(in_array($attr->getAttributeCode(),$imageAttributes)) { continue; }
+							$label = $vattribute_enabled?$attr->getFrontend()->getLabel():__($attr->getFrontend()->getLabel());
+							if ($attr->getAttributeCode() == 'region_id') {
+								if ($c_id == 'false') {
+									continue;
+								}
+							}
+							if ($attr->getAttributeCode() == 'region') {
+								if ($c_id == 'true') {
+									continue;
+								}
+							}
+							$html .= '<tr>';
+							$html .= '<td class="item">'.__($attr->getStoreLabel() ? $attr->getStoreLabel() : $attr->getFrontend()->getLabel()).':</td>';
+							$vShopUrl = $this->getVendor()->getVendorShopUrl();
+							switch($attr->getAttributeCode()) {
+								case 'profile_picture':
+								case 'company_logo': $html .= '';
+								case 'company_banner':
+								$imgUrl = $this->getMediaUrl().'/'.$vendor_info->getData($attr->getAttributeCode());
+								$html .= '<td><span class="attribute-value">'.'<a onclick="imagePreview(\''.$attr->getAttributeCode().'\'); return false;" href="'.$imgUrl.'"><img style="display: inline;" width="90" height="22" class="small-image-preview v-middle" alt="'.__($attr->getFrontend()->getLabel()).'" title="'.$attr->getFrontend()->getLabel().'" id="'.$attr->getAttributeCode().'" src="'.$image->getResizeImage($vendor_info->getData($attr->getAttributeCode()), 'logo', 22, 22).'"></a></span></td>';
+								break;
+								case 'shop_url' :
+								$html .= '<td><span class="attribute-value">'.'<a target="_blank" href="'.$vShopUrl.'">'.__($vendor_info->getData($attr->getAttributeCode())).'</a></span></td>';
+								break;
+								case 'email' :
+								$vemail = $vendor_info->getData($attr->getAttributeCode());
+								$html .= '<td><span class="attribute-value">'.'<a href="mailto:'.$vemail.'">'.__($vendor_info->getData($attr->getAttributeCode())).'</a></span></td>';
+								break;
+								case 'created_at' :
+								$vcreatedat_time = $block->formatDate($vendor_info->getData($attr->getAttributeCode()),\IntlDateFormatter::MEDIUM, true);
+								$convertdate = (new \DateTime())->setTimestamp(strtotime($vcreatedat_time));
+								$vcreatedat = $convertdate->format(\Magento\Framework\Stdlib\DateTime::DATETIME_PHP_FORMAT);
+								
+								$datetime_v = $block->formatDate($vendor_info->getData($attr->getAttributeCode()),\IntlDateFormatter::MEDIUM, true);
+								$date_t = date('Y-m-d h:i:s', strtotime($datetime_v));
+
+								$html .='<td><span class="attribute-value">'.$date_t.'</span></td>';
+								break;
+								case 'region_id' :
+								$html .='<td><span class="attribute-value">'.$block->getRegionFromId($vendor_info->getData($attr->getAttributeCode())).'</span></td>';
+								break;
+								case 'country_id' :
+								$html .='<td><span class="attribute-value">'.$block->getCountryId($vendor_info->getData($attr->getAttributeCode())).'</span></td>';
+								break;
+								case 'group' :
+								$vgroup = $block->getGroup($vendor_info->getData($attr->getAttributeCode()));
+								$html .='<td><span class="attribute-value">'.__($block->getGroup($vendor_info->getData($attr->getAttributeCode()))).'</span></td>';
+								break;
+								default :
+								if(is_array($vendor_info->getData($attr->getAttributeCode()))){
+									$html .='<td><span class="attribute-value">'. __(implode(', ', $vendor_info->getData($attr->getAttributeCode()))).'</span></td>';
+								} else {
+									if($attr->usesSource()){
+										$data = $attr->getSource()->getOptionText($vendor_info->getData($attr->getAttributeCode()));
+										if(is_array($data)){
+											$data = implode(', ',$data);
+										}
+										$html .='<td><span class="attribute-value">'. __($data).'</span></td>';
+									}else {
+										if($attr->getData('frontend_input') == 'file') {
+							        if ($vendor_info->getData($attr->getAttributeCode())) {
+							        	$url = $this->getMediaUrl().'/'.$vendor_info->getData($attr->getAttributeCode());
+							    		$html .='<td><span class="attribute-value"><a class="fa fa-file"  href="'.$url.'" target="_blank" ></a></span></td>';
+							        }
+							    }elseif($attr->getData('frontend_input') == 'image') {
+							        if ($vendor_info->getData($attr->getAttributeCode())) {
+							        	$imgattrUrl = $this->getMediaUrl().'/'.$vendor_info->getData($attr->getAttributeCode());
+
+							    		$html .= '<td><span class="attribute-value">'.'<a target="_blank" onclick="imagePreview(\''.$attr->getAttributeCode().'\'); return false;" href="'.$imgattrUrl.'"><img style="display: inline;" width="22" height="22" class="small-image-preview v-middle" alt="'.__($attr->getFrontend()->getLabel()).'" id="'.$attr->getAttributeCode().'" src="'.$imgattrUrl.'"></a></span></td>';
+							        }
+							    }elseif ($attr->getFrontendInput() == 'date')
+										{
+											$html .='<td><span class="attribute-value">'. __($block->getDate($vendor_info->getData($attr->getAttributeCode()), 'm/d/y')).'</span></td>';
+										} else {
+										    $html .='<td><span class="attribute-value">'.$block->escapeHtml( __($vendor_info->getData($attr->getAttributeCode()))).'</span></td>';
+										}
+									}
+								}
+							}
+							$html .="</tr>";
+						}
+					}
+					if($att_cnt) {
+						if($cnt % 2 == 1 || $cnt == 2) {
+							$groupWiseFieldsEven[$group->getAttributeGroupName()] = $html;
+						} else {
+							$groupWiseFieldsOdd[$group->getAttributeGroupName()] = $html;
+						}
+						$cnt++;
+					}
+				}
+				?>
+				<?php if ($viewModel->profileEdit()): ?>
+				<div class="page-main-actions">
+				    <div class="page-actions">
+				        <div class="page-actions-inner">
+				            <div class="page-actions-buttons">
+				            	<div class="vendor_edit">
+									<a href="<?php echo $this->getUrl('csmarketplace/vendor/profile',array('_secure'=>true)); ?>"><?php echo __('Edit')?>
+                                                                        </a>
+								</div>
+								</div>
+				        </div>
+				    </div>
+				</div>
+				<?php endif; ?>
+				<div class="addresses-primary">
+						<!-- vendor display -->
+						<div class="vendor_information">
+							<div class="vendor-information-inner">
+								<?php foreach($groupWiseFieldsOdd as $groupName=>$html) { ?>
+								<div class="panel panel-default">
+								<h2 class="panel-heading">
+											<?php  echo __($groupName); ?>
+										</h2>
+									<div class="panel-body">
+										<?php if(strlen($html)){ ?>
+										<div class="table-responsive">
+											<table class="table table-striped">
+												<?Php echo $html; ?>
+											</table>
+										</div>
+										<?php } else { ?>
+										<?php echo __("You have not saved any information in this group."); ?>
+										<?php } ?>
+									</div>
+								</div>
+								<?php } ?>
+							</div>
+						</div>
+					</div>
+									</div>
+				<div class="addresses-primary">
+					<?php foreach($groupWiseFieldsEven as $groupName=>$html) { ?>
+					<div class="panel panel-default">
+						<h2 class="panel-heading">
+							<?php echo __($groupName); ?>
+						</h2>
+						<div class="panel-body">
+							<?php if(strlen($html)){ ?>
+							<div class="table-responsive1">
+								<table class="table table-striped">
+									<?Php echo $html; ?>
+								</table>
+							</div>
+                                                    <?php } else { ?>
+							<?php echo __("You have not saved any information in this group."); ?>
+							<?php } ?>
+						</div>
+					</div>
+                                    <?php } ?>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	<?php $minicart = [
+	'shoppingCartUrl' => '',
+	'checkoutUrl' => '',
+	'updateItemQtyUrl' => '',
+	'removeItemUrl' => '',
+	'imageTemplate' => '',
+	'baseUrl' => ''
+	]; ?>
+	window.checkout = <?php echo \Laminas\Json\Json::encode($minicart); ?>;
+	require([
+		'jquery',
+		'mage/mage',
+		'checkoutbalance',
+		'captcha',
+		'text'
+		], function($){
+			$(document).ready(function(){
+				$("#vendor-login-tab").click(function(){
+					$("#login-form-body").fadeIn(1000);
+					jQuery("#vendor-login-tab").addClass('active');
+					$("#vendor-sign-up-tab").removeClass('active');
+					$("#sign-up-form-body").fadeOut(1);
+				});
+				$("#vendor-sign-up-tab").click(function(){
+					$("#sign-up-form-body").fadeIn(1000);
+					$("#vendor-sign-up-tab").addClass('active');
+					$("#vendor-login-tab").removeClass('active');
+					$("#login-form-body").fadeOut(1);
+				});
+			});
+		});
+</script>

@@ -1,0 +1,45 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsOrder
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+?>
+<div class="row">
+    <?= $block->getMessagesBlock()->getGroupedHtml() ?>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="icon-head head-products page-header"><?= $block->escapeHtml(__('Shipment List')) ?>
+            <div style="float:right" class="content-buttons-placeholder" style="width: 0px; height: 14px;">
+                <p class="content-buttons form-buttons">
+                    <?= $block->getButtonsHtml() ?>
+                </p>
+            </div>
+        </h1>
+        <div style="clear:both;"></div>
+    </div>
+</div>
+<?= $block->getChildHtml('store_switcher'); ?>
+<div>
+    <?= $block->getGridHtml() ?>
+</div>
+
+<script type="text/javascript">
+    var BLANK_URL = '<?= /* @noEscape */ $block->getJsUrl() ?>blank.html';
+    var BLANK_IMG = '<?= /* @noEscape */ $block->getJsUrl() ?>spacer.gif';
+    var BASE_URL = '<?= /* @noEscape */ $block->getUrl('*') ?>';
+    var SKIN_URL = '<?= /* @noEscape */ $block->getSkinUrl() ?>';
+    var FORM_KEY = '<?= /* @noEscape */ $block->getFormKey() ?>';
+</script>

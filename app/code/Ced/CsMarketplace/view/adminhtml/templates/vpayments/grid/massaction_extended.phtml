@@ -1,0 +1,109 @@
+<?php
+ 
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<div id="<?= /* @noEscape */ $block->getHtmlId() ?>">
+<div class="massaction">
+    <div class="entry-edit">
+        <?php if ($block->getHideFormElement() !== true):?>
+            <form action="" id="<?= /* @noEscape */ $block->getHtmlId() ?>-form" method="post">
+        <?php endif ?>
+                <?= $block->getBlockHtml('formkey')?>
+                <span class="field-row">
+                    <label class="label"><?= /* @noEscape */ __('Select Product Actions') ?></label>
+                    <select id="<?= /* @noEscape */ $block->getHtmlId() ?>-select" class="select absolute-advice local-validation">
+                        <option value=""><?= /* @noEscape */ __('-- Please select --')?></option>
+                        <?php foreach ($block->getItems() as $_item): ?>
+                            <option value="<?= /* @noEscape */ $_item->getId() ?>"<?= /* @noEscape */ ($_item->getSelected() ? ' selected="selected"' : '')?>><?= /* @noEscape */ $_item->getLabel() ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </span>
+                <span class="outer-span" id="<?= /* @noEscape */ $block->getHtmlId() ?>-form-hiddens"></span>
+                <span class="outer-span" id="<?= /* @noEscape */ $block->getHtmlId() ?>-form-additional"></span>
+                <span class="field-row">
+                    <?= $block->getApplyButtonHtml() ?>
+                </span>
+        <?php if ($block->getHideFormElement() !== true):?>
+            </form>
+        <?php endif ?>
+        <div class="no-display">
+            <?php foreach ($block->getItems() as $_item): ?>
+                <div id="<?= $block->getHtmlId() ?>-item-<?= /* @noEscape */ $_item->getId() ?>-block">
+                    <?= $_item->getAdditionalActionBlockHtml() ?>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+    <div class="entry-select">
+        <select id="massaction-select" class="select">
+            <option value="">
+                <?= /* @noEscape */ __('Mass Actions')?>
+            </option>
+            <?php if ($block->getUseSelectAll()):?>
+                <option value="selectAll">
+                    <?= /* @noEscape */ __('Select All') ?>
+                </option>
+                <option value="unselectAll">
+                    <?= /* @noEscape */ __('Unselect All') ?>
+                </option>
+            <?php endif; ?>
+            <option value="selectVisible">
+                <?= /* @noEscape */ __('Select Visible') ?>
+            </option>
+            <option value="unselectVisible">
+                <?= /* @noEscape */ __('Unselect Visible') ?>
+            </option>
+        </select>
+        <span class="items">
+            <strong id="<?= /* @noEscape */ $block->getHtmlId() ?>-count">0</strong> <?= /* @noEscape */ __('items selected') ?>
+        </span>
+    </div>
+</div>
+<script>
+    require(['jquery'], function($){
+        'use strict';
+        $('#massaction-select').change(function () {
+            var massAction = $('option:selected', this).val();
+            switch (massAction) {
+                <?php if ($block->getUseSelectAll()):?>
+                case 'selectAll':
+                    return <?= /* @noEscape */ $block->getJsObjectName() ?>.selectAll();
+                    break
+                case 'unselectAll':
+                    return <?= /* @noEscape */ $block->getJsObjectName() ?>.unselectAll();
+                    break
+                <?php endif; ?>
+                case 'selectVisible':
+                    return <?= /* @noEscape */ $block->getJsObjectName() ?>.selectVisible();
+                    break
+                case 'unselectVisible':
+                    return <?= /* @noEscape */ $block->getJsObjectName() ?>.unselectVisible();
+                    break
+            }
+        });
+ 
+    });
+ 
+    <?php if (!$block->getParentBlock()->canDisplayContainer()): ?>
+        <?= /* @noEscape */ $block->getJsObjectName() ?>.setGridIds('<?= /* @noEscape */ $block->getGridIdsJson() ?>');
+    <?php endif; ?>
+</script>
+</div>

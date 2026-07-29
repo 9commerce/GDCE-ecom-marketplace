@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsTransaction
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+  <table name="ced_cstransaction_vorder_items" resource="default" engine="innodb" comment="ced_cstransaction_vorder_items">
+    <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="Entity ID"/>
+    <column xsi:type="int" name="parent_id" padding="10" unsigned="true" nullable="false" identity="false" default="0" comment="Parent ID"/>
+    <column xsi:type="int" name="order_item_id" padding="10" unsigned="true" nullable="false" identity="false" default="0" comment="Order Item Id"/>
+    <column xsi:type="varchar" name="order_id" nullable="false" length="30" comment="Order Id"/>
+    <column xsi:type="varchar" name="order_increment_id" nullable="false" length="30" comment="Order Increment Id"/>
+    <column xsi:type="int" name="vendor_id" padding="10" unsigned="true" nullable="false" identity="false" comment="Vendor Id"/>
+    <column xsi:type="int" name="qty_ready_to_pay" padding="10" unsigned="true" nullable="true" identity="false" default="0" comment="Quantity Ready To Pay"/>
+    <column xsi:type="int" name="qty_paid" padding="10" unsigned="true" nullable="false" identity="false" default="0" comment="Quantity Paid"/>
+    <column xsi:type="decimal" name="total_invoiced_amount" scale="4" precision="10" unsigned="true" nullable="false" default="0" comment="Total Invoiced Amount"/>
+    <column xsi:type="decimal" name="total_creditmemo_amount" scale="4" precision="10" unsigned="true" nullable="false" default="0" comment="Total CreditMemo Amount"/>
+    <column xsi:type="decimal" name="amount_paid" scale="4" precision="10" unsigned="true" nullable="false" default="0" comment="Amount Paid"/>
+    <column xsi:type="int" name="qty_ready_to_refund" padding="10" unsigned="true" nullable="false" identity="false" default="0" comment="Quantity Ready To Refund"/>
+    <column xsi:type="int" name="qty_pending_to_refund" padding="10" unsigned="true" nullable="false" identity="false" default="0" comment="Quantity Pending To Refund"/>
+    <column xsi:type="int" name="qty_refunded" padding="10" unsigned="true" nullable="false" identity="false" default="0" comment="Quantity Refunded"/>
+    <column xsi:type="decimal" name="amount_refunded" scale="4" precision="10" unsigned="true" nullable="false" default="0" comment="Amount Refunded"/>
+    <column xsi:type="varchar" name="currency" nullable="false" length="10" comment="Currency"/>
+    <column xsi:type="text" name="sku" nullable="false" comment="SKU"/>
+    <column xsi:type="decimal" name="base_row_total" scale="4" precision="10" unsigned="false" nullable="false" comment="Base Row Total"/>
+    <column xsi:type="decimal" name="row_total" scale="4" precision="10" unsigned="false" nullable="false" comment="Row Total"/>
+    <column xsi:type="decimal" name="item_fee" scale="4" precision="10" unsigned="false" nullable="false" comment="Item Fee"/>
+    <column xsi:type="decimal" name="item_commission" scale="4" precision="10" unsigned="false" nullable="false" comment="Item Commission"/>
+    <column xsi:type="text" name="shop_commission_type_id" nullable="false" comment="Shop Commission Type"/>
+    <column xsi:type="decimal" name="shop_commission_rate" scale="4" precision="10" unsigned="false" nullable="false" comment="Shop Commission Rate "/>
+    <column xsi:type="decimal" name="shop_commission_base_fee" scale="4" precision="10" unsigned="false" nullable="false" comment="Shop Commission Base Fee"/>
+    <column xsi:type="decimal" name="shop_commission_fee" scale="4" precision="10" unsigned="false" nullable="false" comment="Shop Commission Fee"/>
+    <column xsi:type="int" name="product_qty" padding="11" unsigned="false" nullable="false" identity="false" comment="Product Qty"/>
+    <column xsi:type="varchar" name="item_payment_state" nullable="false" length="11" comment="Item Payment State"/>
+    <column xsi:type="varchar" name="billing_country_code" nullable="false" length="100" comment="Billing Country Code"/>
+    <column xsi:type="varchar" name="shipping_country_code" nullable="false" length="100" comment="Shipping Country Code"/>
+    <column xsi:type="int" name="is_requested" unsigned="false" nullable="false" identity="false" comment="is requested"/>
+    <column xsi:type="varchar" name="amount_ready_to_refund" nullable="false" length="255" comment="Amount Ready To Refund"/>
+    <column xsi:type="int" name="qty_ordered" unsigned="false" nullable="false" identity="false" comment="Qty Ordered"/>
+    <column xsi:type="int" name="qty_for_pay_now" unsigned="false" nullable="false" identity="false" comment="Qty For Pay Now"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="id"/>
+    </constraint>
+  </table>
+  <table name="ced_csmarketplace_vendor_payments" resource="default">
+    <column xsi:type="text" name="item_wise_amount_desc" nullable="true" comment="Item Wise Amount Desc"/>
+    <column xsi:type="decimal" name="total_shipping_amount" scale="4" precision="10" unsigned="false" nullable="true" comment="Total Shipping Amount"/>
+  </table>
+  <table name="ced_csmarketplace_vendor_payments_requested" resource="default" engine="innodb" comment="ced_csmarketplace_vendor_payments_requested">
+    <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Entity ID"/>
+    <column xsi:type="int" name="vendor_id" padding="10" unsigned="true" nullable="false" identity="false" comment="Vendor Id"/>
+    <column xsi:type="varchar" name="order_id" nullable="false" length="30" comment="Order Id"/>
+    <column xsi:type="decimal" name="amount" scale="4" precision="10" unsigned="true" nullable="false" default="0" comment="Amount"/>
+    <column xsi:type="int" name="status" padding="10" unsigned="true" nullable="false" identity="false" comment="Status"/>
+    <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Created At"/>
+    <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP" comment="Updated At"/>
+    <column xsi:type="int" name="vorder_item_id" unsigned="false" nullable="true" identity="false" comment="Vendor Order Item ID"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="entity_id"/>
+    </constraint>
+  </table>
+</schema>

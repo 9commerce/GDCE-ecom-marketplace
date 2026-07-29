@@ -1,0 +1,77 @@
+{
+    "ced_csorder_invoice": {
+        "column": {
+            "id": true,
+            "invoice_id": true,
+            "vendor_id": true,
+            "invoice_order_id": true,
+            "base_shipping_amount": true,
+            "shipping_amount": true,
+            "shipping_code": true,
+            "shipping_description": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "CED_CSORDER_INVOICE_VENDOR_ID_INVOICE_ID": true
+        },
+        "index": {
+            "CED_CSORDER_INVOICE_VENDOR_ID": true,
+            "CED_CSORDER_INVOICE_INVOICE_ID": true
+        }
+    },
+    "ced_csorder_shipment": {
+        "column": {
+            "id": true,
+            "shipment_id": true,
+            "vendor_id": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "CED_CSORDER_SHIPMENT_VENDOR_ID_SHIPMENT_ID": true
+        },
+        "index": {
+            "CED_CSORDER_SHIPMENT_VENDOR_ID": true,
+            "CED_CSORDER_SHIPMENT_SHIPMENT_ID": true
+        }
+    },
+    "ced_csorder_creditmemo": {
+        "column": {
+            "id": true,
+            "creditmemo_id": true,
+            "vendor_id": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "CED_CSORDER_CREDITMEMO_VENDOR_ID_CREDITMEMO_ID": true
+        },
+        "index": {
+            "CED_CSORDER_CREDITMEMO_VENDOR_ID": true,
+            "CED_CSORDER_CREDITMEMO_CREDITMEMO_ID": true
+        }
+    },
+    "sales_order_status_history": {
+        "column": {
+            "vendor_id": true
+        }
+    },
+    "sales_invoice_comment": {
+        "column": {
+            "vendor_id": true
+        }
+    },
+    "sales_shipment_comment": {
+        "column": {
+            "vendor_id": true
+        }
+    },
+    "sales_creditmemo_comment": {
+        "column": {
+            "vendor_id": true
+        }
+    },
+    "ced_csmarketplace_vendor_sales_order": {
+        "column": {
+            "vendor_order_approval": true
+        }
+    }
+}

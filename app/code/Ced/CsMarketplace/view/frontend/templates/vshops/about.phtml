@@ -1,0 +1,39 @@
+<?php
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php if($block->getVendor()->getData('about')){?>
+    <div class="item title" data-role="collapsible">
+        <a class="switch" data-toggle="trigger" href="#tab-about">
+            <svg width="10" height="11" viewBox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 9.30432L1 1.30432M9 1.30432L1 9.30432" stroke="#3A3A3A" stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"/>
+            </svg>
+            <?= __('Read About Us') ?>
+        </a>
+    </div>
+    <div id="tab-about" class="item content" data-role="content">
+        <div class="about-shop">
+            <?= /* @noEscape */ $block->getVendor()->getData('about') ; ?>
+        </div>
+    </div>
+<?php }?>

@@ -1,0 +1,61 @@
+<?php
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license      https://cedcommerce.com/license-agreement.txt
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+/** @var $block \Magento\Sales\Block\Adminhtml\Items\Column\Name*/
+
+/** @var $filtermanager \Magento\Framework\Filter\FilterManager*/
+$filtermanager = $this->helper('Ced\CsMarketplace\Helper\Data')->getFilterManager();
+$_remainder ='';
+?>
+<?php if ($_item = $this->getItem()): ?>
+    <h5 class="title"><span id="order_item_<?php echo $_item->getId() ?>_title"><?php echo $block->escapeHtml($_item->getName()) ?></span></h5>
+    <div>
+        <strong><?php echo __('SKU') ?>:</strong>
+        <?php echo implode('<br />', $this->helper('Magento\Catalog\Helper\Data')->splitSku($block->escapeHtml($block->getSku()))); ?>
+    </div>
+    <?php if ($this->getOrderOptions()): ?>
+        <!-- <dl class="item-options">
+        <?php /*foreach ($this->getOrderOptions() as $_option): */?>
+            <dt><?php /*echo $_option['label'] */?></dt>
+            <dd>
+            <?php /*if (isset($_option['custom_view']) && $_option['custom_view']): */?>
+                <?php /*echo $this->getCustomizedOptionValue($_option); */?>
+            <?php /*else: */?>
+                <?php /*echo nl2br($this->escapeHtml($_option['value'])); */?>
+                <?php /*//$filtermanager->truncate($_option['value'], 55, '', $_remainder);*/?>
+                <?php /*$filtermanager->truncate($_option['value'], 55);*/?>
+                <?php /*if ($_remainder):*/?>
+                    ... <span id="<?php /*echo $_id = 'id' . uniqid()*/?>"><?php /*echo $_remainder */?></span>
+                    <script type="text/javascript">
+                    $('<?php /*echo $_id */?>').hide();
+                    $('<?php /*echo $_id */?>').up().observe('mouseover', function(){$('<?php /*echo $_id */?>').show();});
+                    $('<?php /*echo $_id */?>').up().observe('mouseout',  function(){$('<?php /*echo $_id */?>').hide();});
+                    </script>
+                <?php /*endif;*/?>
+            <?php /*endif;*/?>
+            </dd>
+        <?php /*endforeach; */?>
+        </dl>-->
+    <?php endif; ?>
+    <?php echo $block->escapeHtml($_item->getDescription()) ?>
+<?php endif; ?>

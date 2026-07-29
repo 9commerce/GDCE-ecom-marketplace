@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the End User License Agreement (EULA)
+  * that is bundled with this package in the file LICENSE.txt.
+  * It is also available through the world-wide-web at this URL:
+  * https://cedcommerce.com/license-agreement.txt
+  *
+  * @category  Ced
+  * @package   Ced_CsVendorProductAttribute
+  * @author    CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright Copyright CEDCOMMERCE (https://cedcommerce.com/)
+  * @license      https://cedcommerce.com/license-agreement.txt
+  */
+-->
+<page layout="vendor-2columns-left" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="notifications" remove="true"/>
+        <referenceBlock name="locale.switcher" remove="true"/>
+        <referenceContainer name="legal" remove="true"/>
+        <referenceContainer name="content">
+            <block template="Magento_Catalog::catalog/product/attribute/form.phtml"
+                   class="Magento\Catalog\Block\Adminhtml\Product\Attribute\Edit" name="attribute_edit_content">
+                <container name="form" label="Form">
+                    <block class="Magento\Catalog\Block\Adminhtml\Product\Attribute\Edit\Tab\Main" as="main"/>
+                    <block class="Magento\Eav\Block\Adminhtml\Attribute\Edit\Options\Options" as="advanced-options"/>
+                    <block class="Magento\Catalog\Block\Adminhtml\Product\Attribute\Edit\Tab\Advanced" as="options"/>
+                    <block class="Magento\Eav\Block\Adminhtml\Attribute\Edit\Options\Labels" as="labels"/>
+                    <block class="Magento\Catalog\Block\Adminhtml\Product\Attribute\Edit\Tab\Front" as="front-options"/>
+                </container>
+            </block>
+            <block class="Magento\Backend\Block\Template" name="attribute_edit_js"
+                   template="Magento_Catalog::catalog/product/attribute/js.phtml"/>
+        </referenceContainer>
+    </body>
+</page>

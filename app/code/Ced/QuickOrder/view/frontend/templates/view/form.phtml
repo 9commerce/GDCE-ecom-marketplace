@@ -1,0 +1,1106 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_QuickOrder
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+?>
+<?php
+$baseUrl  = $block->getBaseUrl();
+$getUrl  = $block->getUrlInterface();
+$loaderurl = $block->getViewFileUrl('Ced_QuickOrder/images/animation.gif');
+$getdirectoryList = $block->getdirectoryList();
+?>
+<div id="quickorder-form" class="quickorder-form">
+    <div class="quick-form-error-content-product error-mssage" style="display: none;">
+        <div class="message-error error message">
+            <div class="error-content-message"></div>
+        </div>
+    </div>
+    <div class="message message-success success quick-form-success-content-product" style="display: none;">
+        <div id="quickorder_message" data-ui-id="messages-message-success">
+            <div class="success-content-message"></div>
+        </div>
+    </div>
+    <form id="ced-quickorder-form" method="post">
+        <table id="ced-quick-order" class="ced-quick-order">
+            <thead class="ced-quick-order-header">
+            <tr>
+                <th class="th-name"><?= /* @noEscape */ __('Search By Name/Sku')?></th>
+                <th class="th-sku"><?= /* @noEscape */ __('SKU')?></th>
+                <th class="th-qty"><?= /* @noEscape */ __('Qty')?></th>
+                <th class="th-price"><?= /* @noEscape */ __('Price')?></th>
+                <th class="th-ation"><?= /* @noEscape */ __('Action')?></th>
+            </tr>
+            </thead>
+            <tbody  class="quick-order-body">
+            <tr class='item-area' id="tr-quick-order1">
+                <td class="td-productname">
+                    <div class="input-wrapper-result">
+                        <input class="productname  required"
+                               name="product[1][productname]" value="" autocomplete="off" type="text" required="">
+
+                        <div class="item_loader"></div>
+                        <input type ="hidden" value ='' name ='product[1][productid]' class ='product_id'>
+                        <input type ="hidden" value ='' name ='product[1][product_type]' class ='product_type'>
+                        <input type ="hidden" value ='1' name ='hiddentrId[]' class ='hidden_tr_id'>
+                        <input type = "hidden" value="" name="product[1][price]" class="hidden_price">
+                        <input type="hidden" name="spanCurrencySymbol[]" value="" class="spanCurrencySymbol">
+                        <input type="hidden" name="totalProductQtyHidden[]" class="total-product-qty-hidden">
+                        <div class="image-loader" style="display: none;">
+                            <img src="<?= /* @noEscape */ $loaderurl?>" width="25" height="25">
+                        </div>
+                        <div class="bids" style="display: none;"></div>
+                    </div>
+                </td>
+                <td id="sku" class="ced-text-sku"><span class='item-sku'></span></td>
+                <td class="ced-txt-ced-txt-td-qty">
+                <input type="text" class="ced-txtQty required" name="product[1][qty]" value="" min="0">
+                </td>
+                <td class="pprice"><span class="txt-show-symbol-price"></span><span class='txt-price'></span></td>
+                <td class="td-addtocart-remove-action">
+                    <div class="add-to-cart">
+                        <button type ="button" class="quick-add-to-cart-btn">
+                        </button>
+                        <span class="add-tool">add to cart</span>
+                    </div>
+                </td>
+            </tr>
+            <tr class='item-area' id="tr-quick-order2">
+                <td class="td-productname">
+                    <div class="input-wrapper-result">
+                        <input class="productname  required"
+                               name="product[2][productname]" value="" autocomplete="off" type="text">
+                        <div class="item_loader"></div>
+                        <input type ="hidden" value ='' name ='product[2][productid]' class ='product_id'>
+                        <input type ="hidden" value ='' name ='product[2][product_type]' class ='product_type'>
+                        <input type ="hidden" value ='2' name ='hiddentrId[]' class ='hidden_tr_id'>
+                        <input type="hidden" name="spanCurrencySymbol[]" value="" class="spanCurrencySymbol">
+                        <input type = "hidden" value="" name="product[2][price]" class="hidden_price">
+                        <input type="hidden" name="totalProductQtyHidden[]" class="total-product-qty-hidden">
+                        <div class="image-loader" style="display: none;">
+                            <img
+                                    src="<?= /* @noEscape */ $loaderurl ?>"
+                                    width="25" height="25">
+                        </div>
+                        <div class="bids" style="display: none;"></div>
+                    </div>
+                </td>
+                <td id="sku" class="ced-text-sku"><span class='item-sku'></span></td>
+                <td class="ced-txt-ced-txt-td-qty">
+                <input  type="text" class="ced-txtQty required"  name="product[2][qty]" value="" min="0">
+                </td>
+                <td class="pprice"><span class="txt-show-symbol-price"></span><span class='txt-price'></span></td>
+                <td class="td-addtocart-remove-action">
+                   <div class="add-to-cart">
+                        <button type="button" class="quick-add-to-cart-btn">
+                        </button>
+                        <span class="add-tool">add to cart</span>
+                   </div>
+                   <div class="remove-from-cart">
+                        <button type="button" class="quick-remove-row">
+                        </button>
+                        <span class="del-tool">delete</span>
+                   </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+    <table class="ced-add-item">
+        <tr>
+            <td>
+                <button class="quick-tr-add" id="quick-tr-add">
+                    <span><?= /* @noEscape */ __('Add Item')?></span>
+                </button>
+            </td>
+            <td>
+                <button class="add-all" id = 'add-all'>
+                    <span><?= /* @noEscape */ __('Add all to Cart')?></span>
+                </button>
+            </td>
+
+        </tr>
+    </table>
+</div>
+<table class="bulkadd-csv">
+    <tr>
+        <td class="upload_csv">
+            <div class="uploadcsv_wrap">
+                <input type="file" name="file" value="" onchange="uploadCsv()" class="uploadCsvFile" id="uploadCsvFile">
+                <label for="uploadCsvFile"><?= /* @noEscape */ __('Upload csv')?></label>
+            </div>
+        </td>
+        <td class="download_csv">
+            <a href="<?= /* @noEscape */ $getUrl->getUrl('quickorder/index/download/')?>">
+            <span><?= /* @noEscape */ __('Download Sample CSV')?></span>
+            <i class="fa fa-download"></i></span><<?= /* @noEscape */ __('Download Sample Csv')?></span></a>
+        </td>
+    </tr>
+</table>
+<script type="application/javascript">
+    require([
+        "jquery",
+        'mage/mage'
+    ], function($){
+        $("#ced-quick-order").on('keyup', '.productname',function(){
+            var valueLength = $(this).val().length;
+            if (valueLength<=2){
+                return;
+            }
+            if(valueLength<=0){
+                $(this).find(".input-wrapper-result").remove();
+            }
+            var nextEl = $(this).next();
+            var curEle = $(this);
+            curEle.parent().find('.image-loader').show();
+            var hiddenTrId = curEle.parent().find('.hidden_tr_id').val();
+            $.ajax({
+                url: '<?= /* @noEscape */ $getUrl->getUrl('quickorder/index/showresult')?>',
+                cache: true,
+                data:{query:$(this).val(),hiddenTrId:hiddenTrId},
+                success: function(response) {
+                $('.search-result').remove();
+                nextEl.append(response);
+                curEle.parent().find('.image-loader').hide();
+            }
+        })
+    });
+    });
+
+    require([
+        "jquery",
+        'mage/mage'
+    ], function($){
+        $("#ced-quick-order").on('click', '.productname',function(){
+            var valueLength = $(this).val().length;
+            if(valueLength<=0){
+                $(this).find(".input-wrapper-result").remove();
+                $(this).find(".configurable-options-select").remove();
+                return;
+            }
+            var nextEl = $(this).next();
+            var curEle = $(this);
+            curEle.parent().find('.image-loader').show();
+            var hiddenTrId = curEle.parent().find('.hidden_tr_id').val();
+            $.ajax({
+                url: '<?= /* @noEscape */ $getUrl->getUrl('quickorder/index/showresult')?>',
+                cache: true,
+                data:{query:$(this).val(),hiddenTrId:hiddenTrId},
+                success: function(response) {
+                    $('.search-result').remove();
+                    nextEl.append(response);
+                    curEle.parent().find('.image-loader').hide();
+                }
+            })
+        })
+    });
+
+    require([
+        "jquery",
+        'Magento_Catalog/js/price-utils',
+        'mage/mage'
+    ], function($, priceUtils){
+        $("#ced-quick-order").on('click', '.li-data-result',function(){
+            $(this).parents('tr').find('.bids').css('display','none');
+            var trId = $(this).parents('tr').find('.hidden_tr_id').val();
+            $("#tr-quick-order"+trId).find('.configurable-options-select').remove();
+            $("#tr-quick-order"+trId).find('.requiredFieldCustomCss').removeClass("requiredFieldCustomCss");
+            $("#tr-quick-order"+trId).find('.configurableAttributeProducts').remove();
+            $('.quick-form-error-content-product').css('display','none');
+            var productname = $(this).find('.span-name').text();
+            var type = $(this).find('.span-type').text();
+            var getPrice = $(this).find('.get-price').text();
+            var totalProductQty = $(this).find('.total-product-qty').text();
+            var currencySymbol = $(this).find('.span-currency-symbol').text();
+            var sku = $(this).find('.span-sku').text();
+            var price = $(this).find('.span-price').text();
+            var format = {decimalSymbol:"."};
+            var newPrice = priceUtils.formatPrice(getPrice,format);
+            $("#tr-quick-order"+trId).addClass(sku);
+            $(this).parents('tr').find('.hidden_price').val(getPrice);
+            var qty = $(this).find('.span-qty').text();
+            var productid = $(this).find('.span-productid').text();
+            $(this).parents('tr').find('.productname').val(productname);
+            $(this).parents('tr').find('.product_type').val(type);
+            $(this).parents('tr').find('.item-sku').text(sku);
+            $(this).parents('tr').find('.ced-txtQty').attr('value',qty);
+            $(this).parents('tr').find('.txt-show-symbol-price').text(currencySymbol);
+            $(this).parents('tr').find('.total-product-qty-hidden').val(totalProductQty);
+            $(this).parents('tr').find('.txt-price').text(newPrice);
+            $(this).parents('tr').find('.product_id').val(productid);
+            $('.search-result').remove();
+        });
+    });
+
+    var count;
+    require([
+        "jquery",
+        'mage/mage'
+    ], function($){
+        $(document).ready(function(){
+            // count = $("#ced-quick-order tr").length;
+            var count = $('#ced-quick-order tr:last').find('.hidden_tr_id').val();
+        });
+        $("#quick-tr-add").click(function(){
+            // count = $("#ced-quick-order tr").length;
+            var count = $('#ced-quick-order tr:last').find('.hidden_tr_id').val();
+            count++;
+            $('#ced-quick-order').append('<tr class="item-area" id="tr-quick-order'+count+'">'
+                +'<td class="td-productname">'+
+                '<div class="input-wrapper-result">'+
+                '<input class="productname  required" '
+                +'name="product['+count+'][productname]" value="" autocomplete="off" type="text">'+
+                '<div class="item_loader"></div>'+
+                '<div class="bids" style="display: none;"></div>'+
+                '<input type ="hidden" value ="" '
+                +'name ="product['+count+'][productid]" class ="product_id">'
+                +'<input type ="hidden" value ='+count+' name ="hiddentrId[]" class ="hidden_tr_id">'+
+                '<input type="hidden" name="spanCurrencySymbol[]" value="" class="spanCurrencySymbol">'+
+                '<input type = "hidden" value="" name="product['+count+'][price]" class="hidden_price">'+
+                '<input type = "hidden" value="" name="product['+count+'][product_type]" class="product_type">'+
+                '<input type="hidden" name="totalProductQtyHidden[]" class="total-product-qty-hidden">'+
+                '<div class="image-loader" style="display: none;">'+
+                '<img src="<?= /* @noEscape */ $loaderurl ?>" width="25" height="25">'+
+                '</div>'+
+                '</div>'+
+                '</td>'+
+                '<td id="sku" class="ced-text-sku"><span class="item-sku"></span></td>'+
+                '<td class="ced-txt-ced-txt-td-qty">'
+                +'<input class="ced-txtQty required" name="product['+count+'][qty]" type="text" value="" min="0"></td>'+
+                '<td class="pprice"><span class="txt-show-symbol-price"></span><span class="txt-price"></span></td>'+
+                '<td class="td-addtocart-remove-action">'+
+                '<div class="add-to-cart">'+
+                '<button type="button" class="quick-add-to-cart-btn"></button>'+
+                '<span class="add-tool">add to cart</span></div>'+
+                '<div class="remove-from-cart">'+
+                '<button type="button" class="quick-remove-row"></button>'
+                +'<span class="del-tool">delete</span></div></td>'+'</tr>');
+        });
+    });
+
+    require([
+        "jquery",
+        'mage/mage'
+    ], function($){
+        $("#remove-item").click(function(){
+            $('#ced-quick-order tr.item-area:last').remove()
+        });
+    });
+
+    require([
+        "jquery",
+        'mage/mage',
+        'Magento_Ui/js/model/messageList'
+    ], function($,mage,message){
+        var checkValueRegex = /^\d+$/;
+        $("#add-all").click(function(){
+            var returnValue = true;
+            var customRequired = true;
+            var customRequiredArray = [];
+            var qtyCustomBlankRequiredArray = [];
+            var qtyCustomDeciNegativeRequiredArray = [];
+            var qtyValuewithoutissue =[];
+            var productvaluewithoutissue = [];
+            var qtyMoreValue = [];
+            $(this).parents('tr').find(".ced-txtQty").removeClass("requiredFieldCustomCss");
+            $('#ced-quick-order tbody tr').each(function(){
+                var trValue = "";
+                if($(this).find(".product_id").val()!='' && $(this).find(".hidden_price").val()!=''){
+                    trValue = $(this).find(".hidden_tr_id").val();
+                    productvaluewithoutissue.push(trValue);
+                }
+                if($(this).find(".product_id").val()=='' && $(this).find(".hidden_price").val()==''){
+                    returnValue = false;
+                    customRequired = false;
+                    trValue = $(this).find(".hidden_tr_id").val();
+                    customRequiredArray.push(trValue);
+                }else if($(this).find(".productname").val()==''){
+                    returnValue = false;
+                    customRequired = false;
+                    trValue = $(this).find(".hidden_tr_id").val();
+                    customRequiredArray.push(trValue);
+                }
+                else{
+                    customRequired = true;
+                }
+            });
+            $(function () {
+                $.each(productvaluewithoutissue, function (index, value) {
+                    $("#tr-quick-order"+value).find(".productname").removeClass("requiredFieldCustomCss");
+                });
+                $.each(customRequiredArray, function (index, value) {
+                    $("#tr-quick-order"+value).find(".productname").removeClass("requiredFieldCustomCss");
+                    $("#tr-quick-order"+value).find(".productname").addClass("requiredFieldCustomCss");
+                });
+            });
+            if(returnValue==false){
+                $('.quick-form-success-content-product').css('display','none');
+                $('.quick-form-error-content-product').css('display','none');
+                $('.error-content-message').text('<?= /* @noEscape */ __('Please select the products')?>');
+                $('.quick-form-error-content-product').css('display','block');
+                return returnValue;
+            }
+            // opening if qty field is negative and decimal
+            $('#ced-quick-order tbody tr').each(function() {
+                
+                var trValue = "";
+                var checkTestValue = $(this).find(".ced-txtQty").val();
+                trValue = $(this).find(".hidden_tr_id").val();
+                if(checkTestValue % 1 != 0 || checkTestValue<0){
+                    returnValue = false;
+                    customRequired = false;
+                    qtyCustomDeciNegativeRequiredArray.push(trValue);
+                } else if(!checkTestValue){
+                    returnValue = false;
+                    customRequired = false;
+                    qtyCustomDeciNegativeRequiredArray.push(trValue);
+                }
+                else {
+                    customRequired = true;
+                }
+                qtyValuewithoutissue.push(trValue);
+            });
+
+            $(function () {
+                $.each(qtyValuewithoutissue, function (index, value) {
+                    $("#tr-quick-order"+value).find(".ced-txtQty").removeClass("requiredFieldCustomCss");
+                });
+                $.each(qtyCustomDeciNegativeRequiredArray, function (index, value) {
+                    $("#tr-quick-order"+value).find(".ced-txtQty").addClass("requiredFieldCustomCss");
+                });
+            });
+            if(returnValue == false)
+            {
+                $('.quick-form-error-content-product').css('display','none');
+                $('.quick-form-success-content-product').css('display','none');
+                $(".quick-form-error-content-product").removeAttr("style");
+                $(".error-content-message").text('<?= /* @noEscape */ __('Must enter a valid Quantity')?>');
+                $(".quick-form-error-content-product").css("display:block");
+                $(this).parents('tr').find('.ced-txtQty').val('');
+                return;
+            }
+            // closong for negative and decimal qty field
+            $('#ced-quick-order tbody tr').each(function(){
+                $(this).find('.input-box').each(function () {
+                    if($(this).find('.select-attribute-box').val()==''){
+                        $(this).find('.select-attribute-box').val();
+                        return returnValue = false;
+                    }
+                })
+            });
+            if(returnValue==false){
+                $('.quick-form-success-content-product').css('display','none');
+                $('.quick-form-error-content-product').css('display','none');
+                $('.error-content-message').text('<?= /* @noEscape */ __('Please Select the product attributes')?>');
+                $('.quick-form-error-content-product').css('display','block');
+                return returnValue;
+            }
+            $('#ced-quick-order tbody tr').each(function() {
+                var requestedQty = $(this).find(".ced-txtQty").val();
+                var totalQty = $(this).find(".total-product-qty-hidden").val();
+                if(parseInt(requestedQty)>parseInt(totalQty)){
+                    trValue = $(this).find(".hidden_tr_id").val();
+                    qtyMoreValue.push(trValue);
+                    if(qtyMoreValue){
+                        returnValue = false;
+                    }
+                }
+            });
+            if (returnValue == false) {
+                $.each(qtyMoreValue, function (index, value) {
+                    $("#tr-quick-order"+value).find(".ced-txtQty").addClass("requiredFieldCustomCss");
+                });
+                $('.quick-form-success-content-product').css('display','none');
+                $('.quick-form-error-content-product').css('display','none');
+                $('.error-content-message').text('<?= /* @noEscape */ __('Product Quantity You are requesting is not available')?>');
+                $('.quick-form-error-content-product').css('display','block');
+                return returnValue;
+            }
+            var formData = $('#ced-quickorder-form').serialize();
+            $.ajax({
+                type: 'POST',
+                showLoader:true,
+                url: '<?= /* @noEscape */ $getUrl->getUrl('quickorder/cart/bulkadd')?>',
+                data: formData,
+            })
+                .success (function(result){
+                    $('#ced-quick-order tbody tr').each(function(){
+                        $(this).find('.requiredFieldCustomCss').removeClass("requiredFieldCustomCss");
+                    })
+                    // requiredFieldCustomCss
+                    if(result.success == true){
+                        $('.quick-form-error-content-product').css('display','none');
+                        $('.quick-form-success-content-product').css('display','none');
+                        $('.success-content-message').text('<?= /* @noEscape */ __('Products are successfully added to cart')?>');
+                        $('.quick-form-success-content-product').css('display','block');
+                    }
+                    else if(result.catch == true){
+                        $('.quick-form-success-content-product').css('display','none');
+                        $('.quick-form-error-content-product').css('display','none');
+                        $('.error-content-message').text('<?= /* @noEscape */ __('Product is not available')?>');
+                        $('.quick-form-error-content-product').css('display','block');
+                    }
+                    else{
+                        $('.quick-form-success-content-product').css('display','none');
+                        $('.quick-form-error-content-product').css('display','none');
+                        $('.error-content-message').text('<?= /* @noEscape */ __('Product is not available')?>');
+                        $('.quick-form-error-content-product').css('display','block');
+                    }
+                });
+        });
+    });
+
+    require([
+        "jquery",
+        'Magento_Catalog/js/price-utils',
+        'mage/mage'
+    ], function($,priceUtils){
+        $("#ced-quick-order").on('keyup', '.ced-txtQty',function(){
+            var qty = $(this).val();
+            if(!parseInt(qty)){
+                $(this).val('');
+                return;
+            }
+            if(!qty){
+                return;
+            }
+            var qty = qty.replace(/\D/g,'');
+            $(this).val(qty);
+            var product_type = $(this).parents('.item-area').find('.product_type').val();
+            var price = $(this).parents('.item-area').find('.hidden_price').val();
+            var totalProductQty = $(this).parents('.item-area').find('.total-product-qty-hidden').val();
+            if(parseFloat(totalProductQty)<parseFloat(qty)){
+                alert('This quantity is not available');
+                $(this).val('');
+                $(this).parents('tr').find('.txt-price').text(0);
+                return;
+            }
+            var totalPrice = qty*price;
+            var format = {decimalSymbol:"."};
+            var newPrice = priceUtils.formatPrice(totalPrice,format);
+            $(this).parents('.item-area').find('.txt-price').text(newPrice);
+        });
+    });
+
+    require([
+        "jquery",
+        'mage/mage',
+        'Magento_Ui/js/model/messageList'
+    ], function($,mage,message){
+        $("#ced-quick-order").on('click', '.quick-add-to-cart-btn',function(){
+            var txtQtyValue =$(this).parents('tr').find('.ced-txtQty').val();
+            var product_id = $(this).parents('tr').find('.product_id').val();
+            var productname = $(this).parents('tr').find('.productname').val();
+            var checkValueRegex = /^\d+$/;
+            if(txtQtyValue % 1 != 0 || txtQtyValue<0){
+                $('.quick-form-error-content-product').css('display','none');
+                $('.quick-form-success-content-product').css('display','none');
+                $(".quick-form-error-content-product").removeAttr("style");
+                $(".error-content-message").text('<?= /* @noEscape */ __('Must enter a valid Quantity')?>');
+                $(".quick-form-error-content-product").css("display:block");
+                $(this).parents('tr').find(".ced-txtQty").addClass("requiredFieldCustomCss");
+                return;
+            }
+            if(product_id=='' || productname==''){
+                $(this).parents('tr').find(".productname").addClass("requiredFieldCustomCss");
+                $(".error-content-message").text('<?= /* @noEscape */ __('Please select the product')?>');
+                $(".quick-form-error-content-product").css("display:block");
+                return;
+            }
+            if(txtQtyValue==''){
+                $('.quick-form-error-content-product').css('display','none');
+                $('.quick-form-success-content-product').css('display','none');
+                $(".quick-form-error-content-product").removeAttr("style");
+                $(".error-content-message").text('<?= /* @noEscape */ __('Please fillup the Qty')?>');
+                $(".quick-form-error-content-product").css("display:block");
+                $(this).parents('tr').find(".ced-txtQty").addClass("requiredFieldCustomCss");
+                return;
+            }
+            var config_hidden_val = $(this).parents('tr').find('.config_hidden_val').val();
+            if(config_hidden_val==''){
+                $('.quick-form-error-content-product').css('display','none');
+                $('.quick-form-success-content-product').css('display','none');
+                $(".quick-form-error-content-product").removeAttr("style");
+                $(".error-content-message").text('<?= /* @noEscape */ __('Please Select the product attributes')?>');
+                $(".quick-form-error-content-product").css("display:block");
+                return;
+            }
+            var returnValue = true;
+            $(this).parents('tr').find(".config_hidden_val_by_attributes input").each(function(){
+                if($(this).val()==''){
+                    return returnValue = false;
+                }
+            });
+            if(returnValue == false){
+                $('.quick-form-error-content-product').css('display','none');
+                $('.quick-form-success-content-product').css('display','none');
+                $(".quick-form-error-content-product").removeAttr("style");
+                $(".error-content-message").text('<?= /* @noEscape */ __('Please select the Products Attributes')?>');
+                $(".quick-form-error-content-product").css("display:block");
+                return returnValue;
+            }
+            $(this).parents('tr').find(".ced-txtQty").removeClass("requiredFieldCustomCss");
+            var formData = $(this).parents('tr.item-area').find('input').serialize();
+            $(this).parents('tr').find(".ced-txtQty").removeClass("requiredFieldCustomCss");
+            $.ajax({
+                type: 'POST',
+                showLoader:true,
+                url: '<?= /* @noEscape */ $getUrl->getUrl('quickorder/cart/add')?>',
+                data: formData,
+            })
+                .success (function(result){
+                    if(result.success == true){
+                        $('.quick-form-error-content-product').css('display','none');
+                        $('.quick-form-success-content-product').css('display','none');
+                        $('.success-content-message').text('<?= /* @noEscape */ __('Product is successfully added to cart')?>');
+                        $('.quick-form-success-content-product').css('display','block');
+                    }
+                    else if(result.failure == true){
+                        console.log('failure');
+                        $('.quick-form-success-content-product').css('display','none');
+                        $('.quick-form-error-content-product').css('display','none');
+                        $('.error-content-message').text('<?= /* @noEscape */ __('Something went wrong while adding the product add to cart')?>');
+                        $('.quick-form-error-content-product').css('display','block');
+                    }
+                    else{
+                        console.log('lastelse');
+                        $('.quick-form-success-content-product').css('display','none');
+                        $('.quick-form-error-content-product').css('display','none');
+                        $('.error-content-message').text('<?= /* @noEscape */ __('Something went wrong while adding the product add to cart')?>');
+                        $('.quick-form-error-content-product').css('display','block');
+                    }
+                    if(result.catch == true){
+                        $('.quick-form-success-content-product').css('display','none');
+                        $('.quick-form-error-content-product').css('display','none');
+                        $('.error-content-message').text('<?= /* @noEscape */ __('Respected Quantity is not available')?>');
+                        $('.quick-form-error-content-product').css('display','block');
+                    }
+                });
+        });
+    });
+
+    require([
+        "jquery",
+        'mage/mage'
+    ], function($,mage){
+        $("#ced-quick-order").on('click','.quick-remove-row',function(){
+            var hidden_tr_id_val = $(this).parents('tr').find('.hidden_tr_id').val();
+            $("#tr-quick-order"+hidden_tr_id_val).remove();
+        })
+    });
+
+    require([
+        "jquery",
+        'mage/mage'
+    ], function($,){
+        $(".page-wrapper").on('click',function(){
+            $('.search-result').remove();
+        });
+    });
+
+    function uploadCsv(){
+        require([
+            'jquery',
+            'Magento_Catalog/js/price-utils',
+            'mage/mage',
+            'jquery/ui'
+        ], function($,priceUtils){
+            var count = $("#ced-quick-order tr").length;
+            var formdata = new FormData();
+            var file_data;
+            var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(.csv)$");
+            file_data = $('.uploadCsvFile').prop('files')[0];
+             var fileName = $('.uploadCsvFile').val();
+             var get_ext = fileName.split('.');
+             get_ext = get_ext.reverse();
+            var exts = ['csv'];
+             $.inArray ( get_ext[0].toLowerCase(), exts ) > -1
+             if ( $.inArray ( get_ext[0].toLowerCase(), exts ) > -1 ){
+                formdata.append("file", file_data);
+                $.ajax({
+                    url: '<?= /* @noEscape */ $getUrl->getUrl('quickorder/csv/index/')?>',
+                    type: "POST",
+                    data: formdata,
+                    showLoader: true,
+                    contentType: false,
+                    processData: false,
+                    success: function (result) {
+                        if (result.skuArrayText == 'skuArray') {
+                            var skuArray = result.skuArray;
+                            $('.quick-form-error-content-product').css('display','none');
+                            $('.quick-form-success-content-product').css('display','none');
+                            $(".quick-form-error-content-product").removeAttr("style");
+                            $(".error-content-message").text(skuArray+'<?= /* @noEscape */ __(' products cannot be imported due to invalid sku or invalid quantity .Please check the csv')?>');
+                            $(".quick-form-error-content-product").css("display:block");
+                            return false;
+                        }
+                        if(result == 'blank_csv'){
+                            $('.quick-form-error-content-product').css('display','none');
+                            $('.quick-form-success-content-product').css('display','none');
+                            $(".quick-form-error-content-product").removeAttr("style");
+                            $(".error-content-message").text('<?= /* @noEscape */ __('Nothing to import')?>');
+                            $(".quick-form-error-content-product").css("display:block");
+                            return false;
+                        }
+                        if(result == 'invalid_sku_qty'){
+                            $('.quick-form-error-content-product').css('display','none');
+                            $('.quick-form-success-content-product').css('display','none');
+                            $(".quick-form-error-content-product").removeAttr("style");
+                            $(".error-content-message").text('<?= /* @noEscape */ __('Nothing to import')?>');
+                            $(".quick-form-error-content-product").css("display:block");
+                            return false;
+                        }
+                        if (result.null_collection_all_invalid == 'null_collection_all_invalid') {
+                            var unimportedSku = result.unimportedSku;
+                            $('.quick-form-error-content-product').css('display','none');
+                            $('.quick-form-success-content-product').css('display','none');
+                            $(".quick-form-error-content-product").removeAttr("style");
+                            $(".error-content-message").text(unimportedSku+'<?= /* @noEscape */ __('products cannot be imported due to invalid sku or invalid quantity .Please check the csv')?>');
+                            $(".quick-form-error-content-product").css("display:block");
+                            return false;
+                        }
+                        if(result.data_import == 'data_import') {
+                            var trValueArray = [];
+                            $('#ced-quick-order tbody tr').each(function(){
+                                var trValue = "";
+                                if($(this).find(".product_id").val()==''){
+                                    trValue = $(this).find(".hidden_tr_id").val();
+                                    trValueArray.push(trValue);
+                                }
+                            });
+                            $.each(trValueArray, function(key,value){
+                                $("#tr-quick-order"+value).remove();
+                            });
+                            $.each(result.collectionArray, function(key,value){
+                                var format = {decimalSymbol:"."};
+                                var multiplePrice = value.price*value.qty;
+                                var newPrice = priceUtils.formatPrice(multiplePrice,format);
+                                var singlePrice = priceUtils.formatPrice(value.price,format);
+                                if(value.product_type=='simple'){
+                                    if($("table tr").hasClass(value.sku)){
+                                        //-------------------FOR QTY UPDATE-----------------------//
+                                        var valueOne = $("."+value.sku).find(".ced-txtQty").val(); 
+                                        var secondValue = value.qty; 
+                                        var total = parseInt(valueOne) + parseInt(secondValue);
+                                        $("."+value.sku).find(".ced-txtQty").val(+total);
+                                         //-------------------FOR QTY UPDATE END-----------------------//
+
+                                          //-------------------FOR PRICE UPDATE-----------------------//
+                                        var valueOnePrice = $("."+value.sku).find(".txt-price").text();
+                                        var secondValuePrice = newPrice;
+                                        var totalPrice = parseInt(valueOnePrice) + parseInt(secondValuePrice);
+                                        $("."+value.sku).find(".txt-price").text(+totalPrice);
+                                         //-------------------FOR PRICE UPDATE END-----------------------//
+                                    }
+                                    else{
+                                          $('#ced-quick-order').append('<tr class="item-area '
+                                            +value.sku+'" id="tr-quick-order'
+                                            +count+'">'+
+                                        '<td class="td-productname">'+
+                                        '<div class="input-wrapper-result">'+
+                                        '<input class="productname  required" name="product['+count+'][productname]" '
+                                        +'value="'+value.name+'" autocomplete="off" type="text">'+
+                                        '<div class="item_loader"></div>'+
+                                        '<input type ="hidden" value ="'+value.product_id+'" '
+                                        +'name ="product['+count+'][productid]" class ="product_id">'+
+                                        '<input type ="hidden" value ='+count+' name ="hiddentrId[]" '
+                                        +'class ="hidden_tr_id">'+
+                                        '<input type="hidden" name="spanCurrencySymbol[]" '
+                                        +'value="'+value.symbol+'" class="spanCurrencySymbol">'+
+                                        '<input value="'+singlePrice+'" name="product['+count+'][price]" '
+                                        +'class="hidden_price" type = "hidden" >'+
+                                        '<input type = "hidden" value="'+value.product_type+'" '
+                                        +' name="product['+count+'][product_type]" class="product_type">'+
+                                        '<input type="hidden" name="totalProductQtyHidden[]" '
+                                        +'class="total-product-qty-hidden" value="'+value.total_qty+'">'+
+                                        '<div class="image-loader" style="display: none;">'+
+                                        '<img src="<?= /* @noEscape */ $loaderurl ?>" width="25" height="25">'+
+                                        '</div>'+
+                                        '<div class="bids" style="display: none;"></div>'+
+                                        '</div>'+
+                                        '</td>'+
+                                        '<td id="sku" class="ced-text-sku"><span class="item-sku">'
+                                        +value.sku+'</span></td>'+
+                                        '<td class="ced-txt-ced-txt-td-qty">'+
+                                        '<input class="ced-txtQty required" '+
+                                        'name="product['+count+'][qty]" type="text" value="'+value.qty
+                                        +'" min="0"></td>'+
+                                        '<td class="pprice"><span class="txt-show-symbol-price">'
+                                        +value.symbol+'</span><span class="txt-price">'+newPrice+'</span></td>'+
+                                        ' <td class="td-addtocart-remove-action">'
+                                            +'<div class="add-to-cart">'+
+                                            '<button type="button" class="quick-add-to-cart-btn">'+
+                                                '</button>'+
+                                            '<span class="add-tool">add to cart</span>'+
+                                            '</div>'+
+                                            '<div class="remove-from-cart">'+
+                                                '<button type="button" class="quick-remove-row">'+
+                                                '</button>'+
+                                                '<span class="del-tool">delete</span>'+
+                                            '</div>'+
+                                        '</td>'+'</tr>'
+                                        );
+                                    }
+                                }
+                                else if(value.product_type=='configurable') {
+                                    if($("table tr").hasClass(value.sku)){
+                                        //-------------------FOR QTY UPDATE-----------------------//
+                                        var valueOne = $("."+value.sku).find(".ced-txtQty").val(); 
+                                        var secondValue = value.qty; 
+                                        var total = parseInt(valueOne) + parseInt(secondValue);
+                                        $("."+value.sku).find(".ced-txtQty").val(+total);
+                                         //-------------------FOR QTY UPDATE END-----------------------//
+
+                                          //-------------------FOR PRICE UPDATE-----------------------//
+                                        var valueOnePrice = $("."+value.sku).find(".txt-price").text();
+                                        var secondValuePrice = newPrice;
+                                        var totalPrice = parseInt(valueOnePrice) + parseInt(secondValuePrice);
+                                        $("."+value.sku).find(".txt-price").text(+totalPrice);
+                                         //-------------------FOR PRICE UPDATE END-----------------------//
+                                    }
+                                    else{
+                                        var parse_attribute_label = JSON.parse(value.json_attributesArray);
+                                    var attribute_label = '';
+                                    var html = '';
+                                    var span_attributes_label = '';
+                                    $.each(parse_attribute_label, function(key1,value1){
+                                        attribute_label = value1.label;
+                                        var attribute_options ='';
+                                        html += '<div class="main-box">'+
+                                            '<div class="input-box main-box'+count+'">'+
+                                            '<input type ="hidden" value="'+value1.attribute_id+'" '
+                                            +'class="hidden-attribute-id" name="hidden-attribute-id"/> '+
+                                            '<select name="'+attribute_label+'['+
+                                            value1.attribute_id
+                                            +']" class="super-attribute-select'
+                                            +' select-attribute-box required">'
+                                            +'<option class="attribute-label" value="">'+attribute_label+'</option>';
+                                        span_attributes_label += '<span '
+                                        +'class="span-attribute span-attribute-class'+count+'-'+attribute_label+'">'
+                                        +attribute_label+' : '
+                                        +'<span class="span-attribute-val-class'+count+'-'+attribute_label+'">'
+                                        +'</span></span>';
+                                        $.each(value1.values, function(key2,value2){
+                                            html +='<option value = "'+value2.value_index+'">'+value2.label+'</option>';
+                                        });
+                                        html += '</select><div class="config_hidden_val_by_attributes">'
+                                        +'<input name="product['+count+'][config_hidden_val_by_attributes]" '
+                                        +'class="config_hidden_val_by_attributes-Size" value="" type="hidden">'
+                                        +'</div></div></div>'
+                                    });
+                                    $('#ced-quick-order').append(
+                                        '<tr class="item-area" id="tr-quick-order'+count+'">'
+                                        +'<td class="td-productname">'+
+                                        '<div class="input-wrapper-result">'+
+                                        '<input class="productname  required" name="product['+count+'][productname]" '
+                                        +'value="'+value.name+'" autocomplete="off" type="text">'+
+                                        '<div class="item_loader"></div>'+
+                                        '<input value="'+value.product_id+'" '+
+                                        'name="product['+count+'][productid]" class="product_id" type="hidden">'+
+                                        '<input value="'+count+'" name="hiddentrId[]" '
+                                        +'class="hidden_tr_id" type="hidden">'+
+                                        '<input value="configurable" name="product['+count+'][product_type]" '
+                                        +'class="product_type" type="hidden">'+
+                                        '<input value="" name="product['+count+'][price]" '+
+                                        'class="hidden_price" type="hidden">'+
+                                        '<input name="spanCurrencySymbol[]" value="'+value.symbol+'" '+
+                                        'class="spanCurrencySymbol" type="hidden">'+
+                                        '<input name="totalProductQtyHidden[]" '
+                                        +'class="total-product-qty-hidden" type="hidden">'+
+                                        '<div class="image-loader" style="display: none;">'+
+                                        '<img src="<?= /* @noEscape */ $loaderurl ?>" width="25" height="25">'+
+                                        '</div>'+
+                                        '<div class="bids" style="display:block;">'+
+                                        '<div class="configurable-options-select">'+
+                                        html+
+                                        '<input name="product['+count+'][config_hidden_array_price]" '
+                                        +'class="config_hidden_array_price" '
+                                        +'value='+value.configurable_priceArray+' type="hidden">'+
+                                        '<input name="product['+count+'][config_hidden_key]"'
+                                        +' class="config_hidden_key" value="'+value.str_key+'" type="hidden">'+
+                                        '<input name="product['+count+'][config_hidden_val]" '
+                                        +'class="config_hidden_val" value="" type="hidden">'+
+                                        '<input name="product['+count+'][config_hidden_encoded_val]" '
+                                        +'class="config_hidden_encoded_val" '
+                                        +'value='+value.config_hidden_encoded_val+' type="hidden">'+
+                                        '<input name="product['+count+'][config_hidden_encoded_qty]" '
+                                        +'class="config_hidden_encoded_qty" value='+value.qtyArray+' type="hidden">'+
+                                        '<div class="configurableAttributeProducts">'
+                                        +'<div class="attribute-div">'+span_attributes_label+'</div></div>'+
+                                        '</div>'+
+                                        '</div>'+
+                                        '</td>'+
+                                        '<td id="sku" class="ced-text-sku">'+
+                                        '<span class="item-sku">'+value.sku+'</span></td>'+
+                                        '<td class="ced-txt-ced-txt-td-qty">'+
+                                        '<input class="ced-txtQty required" name="product['+count+'][qty]" '
+                                        +'type="text" value="'+value.qty+'" min="0"></td>'+
+                                        '<td class="pprice">'+
+                                        '<span class="txt-show-symbol-price">'+value.symbol+
+                                        '</span><span class="txt-price">'+newPrice+'</span></td>'+
+                                        ' <td class="td-addtocart-remove-action">'
+                                            +'<div class="add-to-cart">'+
+                                            '<button type="button" class="quick-add-to-cart-btn">'+
+                                                '</button>'+
+                                            '<span class="add-tool">add to cart</span>'+
+                                            '</div>'+
+                                            '<div class="remove-from-cart">'+
+                                                '<button type="button" class="quick-remove-row">'+
+                                                '</button>'+
+                                                '<span class="del-tool">delete</span>'+
+                                            '</div>'+
+                                        '</td>'+
+                                        '</tr>');
+                                    }
+                                }
+                                else{
+                                    if($("table tr").hasClass(value.sku)){
+                                         //-------------------FOR QTY UPDATE-----------------------//
+                                        var valueOne = $("."+value.sku).find(".ced-txtQty").val(); 
+                                        var secondValue = value.qty; 
+                                        var total = parseInt(valueOne) + parseInt(secondValue);
+                                        $("."+value.sku).find(".ced-txtQty").val(+total);
+                                         //-------------------FOR QTY UPDATE END-----------------------//
+
+                                          //-------------------FOR PRICE UPDATE-----------------------//
+                                        var valueOnePrice = $("."+value.sku).find(".txt-price").text();
+                                        var secondValuePrice = newPrice;
+                                        var totalPrice = parseInt(valueOnePrice) + parseInt(secondValuePrice);
+                                        $("."+value.sku).find(".txt-price").text(+totalPrice);
+                                         //-------------------FOR PRICE UPDATE END-----------------------//
+                                    }
+                                    else{
+                                    $('#ced-quick-order').append('<tr class="item-area" id="tr-quick-order'+count+'">'+
+                                        '<td class="td-productname">'+
+                                        '<div class="input-wrapper-result">'+
+                                        '<input class="productname  required"'
+                                        +'name="product['+count+'][productname]"'
+                                        +'value="'+value.name+'" autocomplete="off" type="text">'+
+                                        '<div class="item_loader"></div>'+
+                                        '<input type ="hidden" value ="'+value.product_id+'"'
+                                        +'name ="product['+count+'][productid]" class ="product_id">'
+                                        +'<input type ="hidden" value ='+count+' name ="hiddentrId[]" '+
+                                        'class ="hidden_tr_id">'+
+                                        '<input type="hidden" name="spanCurrencySymbol[]"'
+                                        +'value="'+value.symbol+'" class="spanCurrencySymbol">'+
+                                        '<input type = "hidden" value="'+singlePrice+'" '+
+                                        'name="product['+count+'][price]" class="hidden_price">'+
+                                        '<input type = "hidden" value="'+value.product_type+'" '
+                                        +'name="product['+count+'][product_type]" class="product_type">'+
+                                        '<input type="hidden" name="totalProductQtyHidden[]"'
+                                        +'class="total-product-qty-hidden" value="'+value.total_qty+'">'+
+                                        '<div class="image-loader" style="display: none;">'+
+                                        '<img src="<?= /* @noEscape */ $loaderurl ?>" width="25" height="25">'+
+                                        '</div>'+
+                                        '<div class="bids" style="display: none;"></div>'+
+                                        '</div>'+
+                                        '</td>'+
+                                        '<td id="sku" class="ced-text-sku">'+
+                                        '<span class="item-sku">'+value.sku+'</span></td>'+
+                                        '<td class="ced-txt-ced-txt-td-qty">'+
+                                        '<input class="ced-txtQty required" name="product['+count+'][qty]" '+
+                                        'type="text" value="'+value.qty+'" min="0"></td>'+
+                                        '<td class="pprice">'
+                                        +'<span class="txt-show-symbol-price">'
+                                        +value.symbol+'</span><span class="txt-price">'+newPrice+'</span></td>'+
+                                        ' <td class="td-addtocart-remove-action">'
+                                            +'<div class="add-to-cart">'+
+                                            '<button type="button" class="quick-add-to-cart-btn">'+
+                                                '</button>'+
+                                            '<span class="add-tool">add to cart</span>'+
+                                            '</div>'+
+                                            '<div class="remove-from-cart">'+
+                                                '<button type="button" class="quick-remove-row">'+
+                                                '</button>'+
+                                                '<span class="del-tool">delete</span>'+
+                                            '</div>'+
+                                        '</td>'
+                                       +'</tr>');
+                                    }
+                                }
+                                count++;
+                            });
+                            var importedSku = result.importedSku;
+                            var unimportedSku = result.unimportedSku;
+
+                            $('.quick-form-error-content-product').css('display','none');
+                            $('.quick-form-success-content-product').css('display','none');
+                            $('.success-content-message').text(importedSku+'<?= /* @noEscape */ __(' products imported successfully. ')?>');
+                            if (unimportedSku) {
+                                $(".error-content-message").text(unimportedSku+'<?= /* @noEscape */ __(' products cannot be imported due to invalid sku or invalid quantity .Please check the csv')?>');
+                                $(".quick-form-error-content-product").css('display','block');
+                            }
+                            $('.quick-form-success-content-product').css('display','block');
+                        }
+                        else{
+                            $('.quick-form-error-content-product').css('display','none');
+                            $('.quick-form-success-content-product').css('display','none');
+                            $(".quick-form-error-content-product").removeAttr("style");
+                            $(".error-content-message").text('<?= /* @noEscape */ __('Invalid file format!!')?>');
+                            $(".quick-form-error-content-product").css("display:block");
+                            return;
+                        }
+                        $(".uploadCsvFile").val('');
+                    }
+                });
+            }
+            else {
+                alert('<?= /* @noEscape */ __('Invalid File Format')?>');
+                $(".uploadCsvFile").val('');
+            }
+        });
+    }
+
+    require([
+        "jquery",
+        'Magento_Catalog/js/price-utils',
+        'mage/mage'
+    ], function($, priceUtils){
+        $("#maincontent").on('change','.select-attribute-box',function(){
+            var trId = $(this).parents('tr').find('.hidden_tr_id').val();
+            var trquickorderId = $("#tr-quick-order"+trId);
+            var val = $(this).find('option:selected').text();
+            var attributeLabel = $(this).find(".attribute-label").text();
+            var config_hidden_encoded_val = $(this).parents('tr').find(".config_hidden_encoded_val").val();
+            var configArrayPrice = $(this).parents('tr').find(".config_hidden_array_price").val();
+            var configArrayQty = $(this).parents('tr').find(".config_hidden_encoded_qty").val();
+            var hiddenRequestedQty = $(this).parents('tr').find(".ced-txtQty").val();
+            var parseArrayPrice = JSON.parse(configArrayPrice);
+            var parse  = JSON.parse(config_hidden_encoded_val);
+            var parseQty = JSON.parse(configArrayQty);
+            trquickorderId.find(".span-attribute-val-class"+trId+"-"+attributeLabel).remove();
+            trquickorderId.find(
+                ".span-attribute-class"+trId+"-"+attributeLabel
+            ).append('<span class="span-attribute-val-class'+trId+"-"+attributeLabel+'">'+val+'</span>');
+            var item_id = $(this).parents('tr').find('.product_id').val();
+            var str = [];
+            var value = '';
+            var price=0;
+            trquickorderId.find('select').each(function(){
+                var attributeid = $(this).prev().val();
+                str.push(attributeid+'-'+$(this).val());
+                value += $(this).val();
+                value += ',';
+            });
+            var value = value.slice(0,-1);
+            var final1 = str.join(',');
+            var isSalable = false;
+            $.each(parse, function(key1, value1){
+                if(value1 == final1){
+                    var priceKey = key1;
+                    $.each(parseArrayPrice, function(key, value) {
+                        if(priceKey == key ){
+                            var format = {decimalSymbol:"."};
+                            var newPrice = priceUtils.formatPrice(hiddenRequestedQty*value,format);
+                            var hiddenPrice = priceUtils.formatPrice(value,format);
+                            var spanCurrencySymbol = trquickorderId.find(".spanCurrencySymbol").val();
+                            trquickorderId.find(".txt-show-symbol-price").text(spanCurrencySymbol);
+                            trquickorderId.find('.txt-price').text(newPrice);
+                            trquickorderId.find('.hidden_price').val(hiddenPrice);
+                        }
+                    });
+                    $.each(parseQty, function(key2, value2){
+                        if(priceKey == key2){
+                            trquickorderId.find(".total-product-qty-hidden").val(value2);
+                            isSalable = true;
+                        }
+                    });
+                };
+            });
+            var quickaddtocartbtn = trquickorderId.find('.quick-add-to-cart-btn');
+            var errorId = 'error'+trId;
+            var errorElement = $('#'+errorId);
+            var addAllToCart = $('#add-all');
+            if (!isSalable){
+                if (errorElement)
+                    errorElement.remove();
+                quickaddtocartbtn.attr('disabled', true);
+                quickaddtocartbtn.addClass('disabled');
+                var msgHtml = '<div id='+errorId+' style="color:red"><?= /* @noEscape */ __('Please Choose Another one.') ?></div>';
+                trquickorderId.find('.input-wrapper-result').append(msgHtml);
+            }else{
+                if (errorElement)
+                    errorElement.remove();
+                quickaddtocartbtn.attr('disabled', false);
+                quickaddtocartbtn.removeClass('disabled');
+            }
+            var toDisable = 0;
+            $.each($('.quick-add-to-cart-btn'), function (c, el) {
+                if ($(el).hasClass('disabled')){
+                    toDisable++;
+                }
+            });
+
+            if(toDisable > 0){
+                addAllToCart.attr('disabled', true);
+                addAllToCart.addClass('disabled');
+            }else{
+                addAllToCart.attr('disabled', false);
+                addAllToCart.removeClass('disabled');
+            }
+            $(this).parents('tr').find(".config_hidden_val_by_attributes-"+attributeLabel).val($(this).val());
+            $(this).parents('tr').find(".config_hidden_val").val(value);
+        });
+    });
+
+    require([
+        "jquery",
+        'mage/mage'
+    ], function($){
+        $("#ced-quick-order").on('click', '.li-data-result-configurable', function(){
+            $('.quick-form-error-content-product').css('display','none');
+            $('.quick-form-success-content-product').css('display','none');
+            var trId = $(this).parents('tr').find('.hidden_tr_id').val();
+            var trquickorderId = $("#tr-quick-order"+trId);
+            trquickorderId.find('.requiredFieldCustomCss').removeClass("requiredFieldCustomCss");
+            trquickorderId.find('.configurable-options-select').remove();
+            trquickorderId.find('.configurableAttributeProducts').remove();
+            trquickorderId.find('.search-result').remove();
+            trquickorderId.find('.bids').css('display','none');
+            trquickorderId.find('.bids .configurable-options-select').remove();
+            var configurableProductId = $(this).find(".configurableProductId").val();
+            var configurable_product_sku = $(this).find('.configurable_product_sku').val();
+            var configurableProductName = $(this).find(".configurableProductName").val();
+            var product_type = $(this).find(".product_type_li").val();
+            var spanCurrencySymbol = $(this).find(".span-currency-symbol").text();
+            trquickorderId.find('.productname').val(configurableProductName);
+            trquickorderId.find('.item-sku').text(configurable_product_sku);
+            $("#tr-quick-order"+trId).addClass(configurable_product_sku);
+            $.ajax({
+                type: 'POST',
+                showLoader:true,
+                url: '<?= /* @noEscape */ $getUrl->getUrl('quickorder/index/configurable')?>',
+                data: {configurableProductId:configurableProductId,trId:trId},
+            }).success (function(result){
+                trquickorderId.find('.spanCurrencySymbol').val(spanCurrencySymbol);
+                trquickorderId.find('.product_type').val(product_type);
+                // trquickorderId.find('.item-area').addClass('pp');
+                trquickorderId.find('.bids').css('display','block');
+                trquickorderId.find('.bids').append(result);
+                trquickorderId.find('.ced-txtQty').attr('value','1');
+                trquickorderId.find('.product_id').val(configurableProductId);
+                trquickorderId.find('.txt-price').text('0');
+                trquickorderId.find('.search-result').remove();
+            });
+        });
+    });
+
+    require([
+        "jquery",
+        'mage/mage'
+    ], function($){
+        $(this).find(".no-result").remove();
+    });
+</script>

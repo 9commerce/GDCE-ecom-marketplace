@@ -1,0 +1,58 @@
+<?php
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license      https://cedcommerce.com/license-agreement.txt
+ */
+
+?>
+<?php  $_order = $block->getOrder();?>
+<?php $currentVendor = $block->getVendor();?>
+<table cellspacing="0" cellpadding="0" border="0" width="650"
+	style="border: 1px solid #EAEAEA;"
+	summary="<?= /* @noEscape */ __('Items Ordered') ?>">
+	<col />
+	<col width="1" />
+	<col width="1" />
+	<col width="1" />
+	<col width="1" />
+	<thead>
+		<tr>
+			<th align="left" bgcolor="#EAEAEA"
+				style="font-size: 13px; padding: 3px 9px"><?= /* @noEscape */ __('Product Name') ?></th>
+			<th align="left" bgcolor="#EAEAEA"
+				style="font-size: 13px; padding: 3px 9px"><?= /* @noEscape */ __('SKU') ?></th>
+			<th align="center" bgcolor="#EAEAEA"
+				style="font-size: 13px; padding: 3px 9px"><?= /* @noEscape */ __('Qty') ?></th>
+			<th align="right" bgcolor="#EAEAEA"
+				style="font-size: 13px; padding: 3px 9px"><?= /* @noEscape */ __('Subtotal') ?></th>
+		</tr>
+
+	</thead>
+   
+      <?php $i=0; foreach ($_order->getAllItems() as $_item): ?>
+       <?php if($_item->getVendorId() != $currentVendor->getId()) continue;?>
+    <?php if($_item->getParentItem()) continue; else $i++; ?>
+    <tbody <?= $i%2 ? ' bgcolor="#F6F6F6"' : '' ?>>
+        <?= /* @noEscape */ $block->getItemHtml($_item) ?>
+    </tbody>
+    <?php endforeach; ?>
+
+    <tbody>
+        <?= /* @noEscape */ $block->getChildHtml('vendor_order_totals') ?>
+        <?= /* @noEscape */ $block->getChildHtml('earn') ?>
+    </tbody>
+</table>
+    

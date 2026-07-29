@@ -1,0 +1,121 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsVendorReview
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+?>
+<?php
+/**
+ * @var \Magento\Framework\Escaper $escaper
+ */
+$_items = $block->getReviews();
+$format = $block->getDateFormat() ?: \IntlDateFormatter::SHORT;
+$_votes = $block->getRatings();
+$messages = $block->getMessages();
+if ($msg = $messages->getLastAddedMessage()) { ?>
+    <script>
+        require(['mage/url','jquery'], function() {
+            jQuery('.messages')
+                .first()
+                .after('<div class="message-success success message">' +
+                    '<div><?= $escaper->escapeHtml($msg->getText())?></div></div>');
+        });
+    </script>
+<?php } ?>
+<div>
+    <h3>Reviews (<?= count($_items)?> reviews)</h3>
+</div>
+<div class="block review-list" id="customer-reviews">
+    <div class="block-title">
+    </div>
+    <div class="block-content">
+        <ol class="items review-items">
+            <?php foreach ($_items as $_review) { ?>
+                <li class="item review-item" itemscope itemprop="review" itemtype="http://schema.org/Review">
+                    <div class="review-items-wrapper">
+                    <?php if (count($_votes)) { ?>
+                    <div class="review-details">
+                        <div class="review-ratings-wrap">
+                            <p class="review-author">
+                                <strong class="review-author-name" itemprop="author">
+                                    <?= $escaper->escapeHtml($_review->getCustomerName()); ?>
+                                </strong>
+                            </p>
+                            <div class="review-ratings-star">
+                                <?php $avgRating = $block->getAvgRating($_review); ?>
+                                <div class="block-title" id="avg-rating-container" title=''>
+                                    <strong><span><?= $avgRating ?></span></strong>
+                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="13"
+                                         height="12" viewBox="0 0 13 12" fill="none">
+                                        <rect x="0.445801" width="12" height="12" fill="url(#pattern0)"/>
+                                        <defs>
+                                            <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
+                                                <use xlink:href="#image0_130_227" transform="scale(0.0416667)"/>
+                                            </pattern>
+                                            <image id="image0_130_227" width="24" height="24"
+                                                   xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYEAYAAACw5+G7AAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAGYktHRAAAAAAAAPlDu38AAAAJcEhZcwAAAGAAAABgAPBrQs8AAAAHdElNRQfnAg0GBRFcdaIiAAADm0lEQVRYw82Xb0hddRjHP89Rz1lNnGOZd7VEcQPJtvtGp9e73JyDvViXG5EzGIX4QtzGxojm6kVZo6herIIMlvQikI1mgsRoQdwlN52xyAvOFGnUQDau9969GObK7tx5euHurji3e+rem33fnMM5z/n+ec6P55yfkGGofbEcCgqQuSfNd8+dA7F5SBW1JuNH9uwRo+ZXmJnJtG7mAmjwM/OVY8dUg0HLUl10fMQ83tGRaT3JnPHeXsjJgeJCM3b5MmDJhrKyRSW9+tPUFGp3xTeXl4vRIDA/n66ukbleFF816/3+ZYwnsFeqSkoQ+dF8zufLlGrmAqhc5OihQw4kvRxwUucMaS8h1aGOvNnKSridbzw2NgZs5y9Jzati2u+73WLUe24duXTp3+pn4A3Yn8v5w4cdG0+2zi9lBw+mqy6qqmAYMJRvuioqwL4qZ1wukKfsK+vXA5vFW1QE+qn0uVzAN3rF5QIqpa+oCMjHvXMnMMPwqlX/QLuAurk5VJ7hh4EBRF/Xl6JRkPOyLhIBftfWcBgY0wuxGOjPRlk4DMYGbZ6ehm2z8enJSVE7uM8MBQIIbeJpbEz/jfxHUOnR0UDAAB5l07JT4/8N4bRUlpYaiDyhlU1NQERPh8Mr7csBEj7fth9vbjZE6l++NRUKwfwfOaHqauA19o2OrrTLZfAd7okJdH6X8YnHk/B9z9RQHVAoLERzXjDP9vcjekCe37FjBY3/pq8OD6N2i+nz+8VokNmq69cTN+8ZoyINAjduwLrbcd/u3cCI1pw6tQLGX+RoXx/YLfG3GhuXGr/rNxXLwpgVgcFi86uTJ0G/lL1tbdnzLU3a290NT0fi/vZ2ERFQvV91yg9ZkkBbpDQazZ7xBOxr4o5EUhl3HGBRlA805vVm3b/K13rNuU7KAGoPKOTmgo5JT3V11gMg7fJxTU1SN80ASO5QXp7bDUT5Ij8/+/71DP2rVyM5H+aVbNmSqjxlQrAto6K2FviTXxxZOE6BbQOiZ7u7F11X8bW1AW8wYzhYurrNWOPxLJyHQverckAk7/CeozXZyZsjI2AHjDVer8j2QLx2//7EEXjY3lhVRWKup8YmuurqHLXsgX3QYKe1dXx8mT1uj/lRNKoa9FkTra3JcZuKb+HvN/ncXZ6l/J3W1vHx9APY3++yGk+cUA36rGdv3lQNfmvGurpUBwdh7dr0G7TAk+S9o3NHN+0ASzuXMcIH6jjfGP0NXD2f3hocCJUAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjMtMDItMTNUMDY6MDU6MTcrMDA6MDCg/5h7AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIzLTAyLTEzVDA2OjA1OjE3KzAwOjAw0aIgxwAAACh0RVh0ZGF0ZTp0aW1lc3RhbXAAMjAyMy0wMi0xM1QwNjowNToxNyswMDowMIa3ARgAAAAASUVORK5CYII="/>
+                                        </defs>
+                                    </svg>
+                                    <div id="avg-rating" class="block-content vendor-rating">
+                                        <div id="narrow-by-list2">
+                                            <ul class="rating-listing">
+                                                <?php $detail_rating = $block->getRatingDetails($_review); ?>
+                                                <?php foreach ($detail_rating as $key => $dr) {?>
+                                                    <li>
+                                                        <span><?= $escaper->escapeHtml($key) ?></span>
+                                                        <div class="rating-summary">
+                                                            <div title="<?= $dr["count"] ? $escaper->escapeHtml(ceil($dr["rating"]/$dr["count"])) : 0 ?>%"
+                                                                 class="rating-result">
+                                        <span style="width:
+                                        <?= $dr["count"] ? $escaper->escapeHtml(ceil($dr["rating"]/$dr["count"])) : 0 ?>%">
+                                            <span>
+
+                                            </span>
+                                        </span>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                <?php } ?>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="review-date">
+                            <span class="review-date-label"><?= $escaper->escapeHtml(__('Posted')) ?></span>
+                            <time class="review-date-value" itemprop="datePublished" datetime="
+                        <?php $block->formatDate($_review->getCreatedAt(), $format)  ?>">
+                                <?= $escaper->escapeHtml(
+                                    __(' on ') . $block->formatDate($_review->getCreatedAt(), $format)
+                                )?>
+                            </time>
+                        </p>
+                    </div>
+                    <?php } ?>
+                        <div>
+                            <div itemprop="subject" class="review-content-title">
+                                <strong><?= $escaper->escapeHtml(nl2br($_review->getSubject())); ?></strong>
+                            </div>
+                            <div class="review-content-description" itemprop="description">
+                                <?= $escaper->escapeHtml(nl2br($_review->getReview())); ?>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            <?php } ?>
+        </ol>
+    </div>
+</div>

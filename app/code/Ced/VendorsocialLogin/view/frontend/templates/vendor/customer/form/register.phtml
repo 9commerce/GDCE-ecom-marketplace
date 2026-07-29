@@ -1,0 +1,268 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category  Ced
+ * @package   Ced_VendorsocialLogin
+ * @author    CedCommerce Core Team <connect@cedcommerce.com >
+ * @copyright Copyright CedCommerce (https://cedcommerce.com/)
+ * @license      https://cedcommerce.com/license-agreement.txt
+ */
+
+$viewModel = $block->getViewModel();
+$dirViewModel = $block->getData('viewModel');
+?>
+
+<div class="col-md-12">
+    <div class="register-panel panel panel-default">
+        <div class="panel-heading">
+           <h1> <?= $block->escapeHtml('Create a Vendor Account') ?></h1>
+        </div>
+        <div class="panel-body">
+            <form class="form create account form-create-account" action="<?= $block->escapeUrl($block->getPostActionUrl()) ?>"
+                  method="post" id="form-validate" enctype="multipart/form-data" autocomplete="off" role="form">
+                <fieldset>
+                    <div class="panel panel-default">
+                        <input type="hidden" name="success_url" value="<?= $block->escapeUrl($block->getSuccessUrl()) ?>"/>
+                        <input type="hidden" name="error_url" value="<?= $block->escapeUrl($block->getErrorUrl()) ?>"/>
+                        <div class="panel-heading"><?= $block->escapeHtml('Personal Information') ?></div>
+                        <div class="panel-body">
+                            <?= $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Name')->setObject($block->getFormData())->setForceUseCustomerAttributes(true)->setTemplate('Ced_CsMarketplace::customer/widget/name.phtml')->toHtml() ?>
+                            <div class="input-box email">
+                                <input placeholder="<?= $block->escapeHtml('Email Address') ?>" type="text" name="email"
+                                       id="email_address"
+                                       value="<?= $block->escapeHtml($block->getFormData()->getEmail()) ?>"
+                                       title="<?= $block->escapeHtml('Email Address') ?>"
+                                       class="form-control input-text validate-email required-entry"
+                                       data-validate="{required:true, 'validate-email':true}"/>
+                            </div>
+                            <?php $_dob = $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Dob') ?>
+                            <?php if ($_dob->isEnabled()): ?>
+                                <?= $_dob->setDate($block->getFormData()->getDob())->toHtml() ?>
+                            <?php endif ?>
+
+                            <?php $_taxvat = $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Taxvat') ?>
+                            <?php if ($_taxvat->isEnabled()): ?>
+                                <?= $_taxvat->setTaxvat($block->getFormData()->getTaxvat())->toHtml() ?>
+                            <?php endif ?>
+
+                            <?php $_gender = $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Gender') ?>
+                            <?php if ($_gender->isEnabled()): ?>
+                                <?= $_gender->setGender($block->getFormData()->getGender())->toHtml() ?>
+                            <?php endif ?>
+                        </div>
+                    </div>
+                </fieldset>
+                <?= $block->getChildHtml('vendor_reg_form') ?>
+                <?php if ($block->getShowAddressFields()): ?>
+                    <fieldset>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <input type="hidden" name="create_address" value="1"/>
+                                <?= $block->escapeHtml('Address Information') ?>
+                            </div>
+                            <div class="panel-body">
+                                <ul class="form-list nav">
+                                    <li class="fields">
+                                        <div class="field">
+                                            <div class="input-box">
+                                                <input placeholder="<?= $block->escapeHtml('Company') ?>" type="text" name="company"
+                                                       id="company"
+                                                       value="<?= $block->escapeHtml($block->getFormData()->getCompany()) ?>"
+                                                       title="<?= $block->escapeHtml('Company') ?>"
+                                                       class="form-control input-text <?= $block->escapeHtml($viewModel->addressGetAttributeValidationClass('company')) ?>"/>
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <div class="input-box">
+                                                <input placeholder="<?= $block->escapeHtml('Telephone') ?>" type="text" name="telephone"
+                                                       id="telephone"
+                                                       value="<?= $block->escapeHtml($block->getFormData()->getTelephone()) ?>"
+                                                       title="<?= $block->escapeHtml('Telephone') ?>"
+                                                       class="form-control input-text required-entry <?= $block->escapeHtml($viewModel->addressGetAttributeValidationClass('telephone')) ?>"/>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <?php $_streetValidationClass = $block->escapeHtml($viewModel->addressGetAttributeValidationClass('street')); ?>
+                                    <li class="wide">
+                                        <div class="input-box">
+                                            <input placeholder="<?= $block->escapeHtml('Street Address') ?>" type="text" name="street[]"
+                                                   value="<?= $block->escapeHtml($block->getFormData()->getStreet(1)) ?>"
+                                                   title="<?= $block->escapeHtml('Street Address') ?>" id="street_1"
+                                                   class="form-control input-text required-entry <?= $block->escapeHtml($_streetValidationClass) ?>"/>
+                                        </div>
+                                    </li>
+                                    <?php for ($_i = 2, $_n = $viewModel->addressGetStreetLines(); $_i <= $_n; $_i++): ?>
+                                        <li class="wide">
+                                            <div class="input-box">
+                                                <input placeholder="<?= $block->escapeHtml('Street Address') ?>" type="text"
+                                                       name="street[]"
+                                                       value="<?= $block->escapeHtml($block->getFormData()->getStreet($_i)) ?>"
+                                                       title="<?= $block->escapeHtml('Street Address %s', $_i) ?>"
+                                                       id="street_<?= $block->escapeHtml($_i) ?>"
+                                                       class="form-control input-text <?= $block->escapeHtml($_streetValidationClass) ?>"/>
+                                            </div>
+                                        </li>
+                                    <?php endfor ?>
+                                    <li class="fields">
+                                        <div class="field">
+                                            <div class="input-box">
+                                                <input placeholder="<?= $block->escapeHtml('City') ?>" type="text" name="city"
+                                                       value="<?= $block->escapeHtml($block->getFormData()->getCity()) ?>"
+                                                       title="<?= $block->escapeHtml('City') ?>"
+                                                       class="form-control input-text required-entry <?= $block->escapeHtml($viewModel->addressGetAttributeValidationClass('city')); ?>"
+                                                       id="city"/>
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <div class="input-box">
+                                                <select placeholder="<?= $block->escapeHtml('State/Province') ?>" id="region_id"
+                                                        name="region_id" title="<?= $block->escapeHtml('State/Province') ?>"
+                                                        class="validate-select <?= $block->escapeHtml($viewModel->addressGetAttributeValidationClass('region')) ?>"
+                                                        style="display:none;">
+                                                    <option
+                                                        value=""><?= $block->escapeHtml('Please select region, state or province') ?></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="fields">
+                                        <div class="field">
+                                            <div class="input-box">
+                                                <input placeholder="<?= $block->escapeHtml('Zip/Postal Code') ?>" type="text"
+                                                       name="postcode"
+                                                       value="<?= $block->escapeHtml($block->getFormData()->getPostcode()) ?>"
+                                                       title="<?= $block->escapeHtml('Zip/Postal Code') ?>" id="zip"
+                                                       class="form-control input-text validate-zip-international required-entry <?= $block->escapeHtml($viewModel->addressGetAttributeValidationClass('postcode')) ?>"/>
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <label for="country" class="required"><em>*</em><?= $block->escapeHtml('Country') ?></label>
+                                            <div class="input-box">
+                                                <?= $block->getCountryHtmlSelect() ?>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li>
+                                        <?php $addressAttributes = $block->getChildBlock('customer_form_address_user_attributes'); ?>
+                                        <?php if ($addressAttributes): ?>
+                                            <?php $addressAttributes->setEntityType('customer_address'); ?>
+                                            <?php $addressAttributes->setFieldIdFormat('address:%1$s')->setFieldNameFormat('address[%1$s]'); ?>
+                                            <?php $block->restoreSessionData($addressAttributes->getMetadataForm(), 'address'); ?>
+                                            <?= $addressAttributes->setShowContainer(false)->toHtml() ?>
+                                        <?php endif; ?>
+                                    </li>
+                                </ul>
+                                <input type="hidden" name="default_billing" value="1"/>
+                                <input type="hidden" name="default_shipping" value="1"/>
+                            </div>
+                        </div>
+                    </fieldset>
+                <?php endif; ?>
+                <fieldset>
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><?= $block->escapeHtml('Login Information') ?></div>
+                        <div class="panel-body">
+                            <div class="field col-md-6 col-lg-6 enter-password">
+
+                                <div class="input-box">
+                                    <input placeholder="<?= $block->escapeHtml('Password') ?>" type="password" name="password"
+                                           id="password" title="<?= $block->escapeHtml('Password') ?>"
+                                           class="form-control input-text required-entry validate-password"
+                                           data-validate="{required:true, 'validate-password':true}"/>
+                                </div>
+                            </div>
+                            <div class="field col-md-6 col-lg-6 enter-confirm-password">
+
+                                <div class="input-box">
+                                    <input placeholder="<?= $block->escapeHtml('Confirm Password') ?>" type="password"
+                                           name="password_confirmation" title="<?= $block->escapeHtml('Confirm Password') ?>"
+                                           id="confirmation"
+                                           class="form-control input-text required-entry validate-cpassword"
+                                           data-validate="{required:true, equalTo:'#password'}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <?php if ($block->isNewsletterEnabled()): ?>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="is_subscribed" title="<?= $block->escapeHtml('Sign Up for Newsletter') ?>"
+                                   value="1"
+                                   id="is_subscribed"<?php if ($block->escapeHtml($block->getFormData()->getIsSubscribed())): ?> checked="checked"<?php endif; ?> /> <?= $block->escapeHtml('Sign Up for Newsletter') ?>
+                        </label>
+                    </div>
+                <?php endif ?>
+                <div class="content">
+                    <div class="buttons-set">
+                        <button type="submit" title="<?= $block->escapeHtml('Submit') ?>" class="button">
+                            <span><span><?= $block->escapeHtml('Submit') ?></span></span></button>
+                        <p class="back-link"><a href="<?= $block->escapeUrl($block->getBackUrl()); ?>"
+                                                class="back-link"><small>&laquo; </small><?= $block->escapeHtml('Back') ?></a></p>
+                    </div>
+                </div>
+            </form>
+            <?= $block->getChildHtml('ced_vendorsociallogin_login'); ?>
+            <script>
+                require([
+                    'jquery',
+                    'mage/mage'
+                ], function ($) {
+
+                    var dataForm = $('#form-validate');
+                    var ignore = <?= $_dob->isEnabled() ? '\'input[id$="full"]\'' : 'null'; ?>;
+
+                    dataForm.mage('validation', {
+                        <?php if ($_dob->isEnabled()): ?>
+                        errorPlacement: function (error, element) {
+                            if (element.prop('id').search('full') !== -1) {
+                                var dobElement = $(element).parents('.customer-dob'),
+                                    errorClass = error.prop('class');
+                                error.insertAfter(element.parent());
+                                dobElement.find('.validate-custom').addClass(errorClass)
+                                    .after('<div class="' + errorClass + '"></div>');
+                            } else {
+                                error.insertAfter(element);
+                            }
+                        },
+                        ignore: ':hidden:not(' + ignore + ')'
+                        <?php else: ?>
+                        ignore: ignore ? ':hidden:not(' + ignore + ')' : ':hidden'
+                        <?php endif ?>
+                    }).find('input:text').attr('autocomplete', 'off');
+
+                });
+            </script>
+            <?php if ($block->getShowAddressFields()): ?>
+                <script type="text/x-magento-init">
+                    {
+                        "#country": {
+                            "regionUpdater": {
+                                "optionalRegionAllowed": <?= ($block->getConfig('general/region/display_all') ? 'true' : 'false'); ?>,
+                                "regionListId": "#region_id",
+                                "regionInputId": "#region",
+                                "postcodeId": "#zip",
+                                "form": "#form-validate",
+                                "regionJson": <?= $block->escapeHtml($dirViewModel->getDirRegion()) ?>,
+                                "defaultRegion": "<?= $block->escapeHtml($block->getFormData()->getRegionId()) ?>",
+                                "countriesWithOptionalZip": <?= $block->escapeHtml($dirViewModel->getCountriesWithOptionalZip()) ?>
+                            }
+                        }
+                    }
+
+                </script>
+            <?php endif; ?>
+
+        </div>
+    </div>
+</div>

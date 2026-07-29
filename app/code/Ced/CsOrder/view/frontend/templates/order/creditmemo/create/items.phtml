@@ -1,0 +1,236 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsOrder
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+?>
+<?php
+/** @var $block \Ced\CsOrder\Block\Order\Creditmemo\Create\Items */
+$_items = $block->getCreditmemo()->getAllItems();
+?>
+<?php
+$vendorId = $block->getSession()->getVendorId();
+?>
+<section class="admin__page-section">
+    <div class="admin__page-section-title">
+        <span class="title"><?= /* @noEscape */
+            __('Items to Refund') ?></span>
+    </div>
+
+    <?php if (count($_items)): ?>
+        <div class="admin__table-wrapper">
+            <table class="data-table admin__table-primary order-creditmemo-tables">
+                <thead>
+                <tr class="headings">
+                    <th class="col-product"><span><?= /* @noEscape */ __('Product') ?></span></th>
+                    <th class="col-price"><span><?= /* @noEscape */ __('Price') ?></span></th>
+                    <th class="col-ordered-qty"><span><?= /* @noEscape */ __('Qty') ?></span></th>
+                    <?php if ($block->canReturnToStock()): ?>
+                        <th class="col-return-to-stock"><span><?= /* @noEscape */__('Return to Stock') ?></span></th>
+                    <?php endif; ?>
+                    <th class="col-refund"><span><?= /* @noEscape */ __('Qty to Refund') ?></span></th>
+                    <th class="col-subtotal"><span><?= /* @noEscape */ __('Subtotal') ?></span></th>
+                    <th class="col-tax-amount"><span><?= /* @noEscape */ __('Tax Amount') ?></span></th>
+                    <th class="col-discont"><span><?= /* @noEscape */ __('Discount Amount') ?></span></th>
+                    <th class="col-total last"><span><?= /* @noEscape */ __('Row Total') ?></span></th>
+                </tr>
+                </thead>
+                <?php if ($block->canEditQty()): ?>
+                    <tfoot>
+                    <tr>
+                        <td colspan="3">&nbsp;</td>
+                        <td colspan="3">
+                            <?= /* @noEscape */ $block->getUpdateButtonHtml() ?>
+                        </td>
+                        <td colspan="3" class="last">&nbsp;</td>
+                    </tr>
+                    </tfoot>
+                <?php endif; ?>
+                <?php $i = 0; foreach ($_items as $_item): ?>
+                    <?php if ($_item->getOrderItem()->getParentItem() ||
+                        $_item->getOrderItem()->getVendorId() != $vendorId):
+                        continue;
+                    else:
+                        $i++;
+                    endif; ?>
+                    <tbody class="<?= /* @noEscape */$i % 2 ? 'even' : 'odd' ?>">
+                        <?= /* @noEscape */ $block->getItemHtml($_item) ?>
+                        <?= /* @noEscape */ $block->getItemExtraInfoHtml($_item->getOrderItem()) ?>
+                    </tbody>
+                <?php endforeach; ?>
+            </table>
+        </div>
+    <?php else: ?>
+        <div class="no-items">
+            <?= /* @noEscape */ __('No Items To Refund') ?>
+        </div>
+    <?php endif; ?>
+</section>
+
+<?php $orderTotalBar = $block->getChildHtml('order_totalbar'); ?>
+
+<?php if (!empty($orderTotalBar)): ?>
+    <section class="fieldset-wrapper">
+        <?= /* @noEscape */
+        $orderTotalBar; ?>
+    </section>
+<?php endif; ?>
+
+<section class="admin__page-section">
+    <input type="hidden" name="creditmemo[do_offline]" id="creditmemo_do_offline" value="0"/>
+    <div class="admin__page-section-title">
+        <span class="title"><?= /* @noEscape */ __('Order Total') ?></span>
+    </div>
+    <div class="admin__page-section-content">
+        <div class="admin__page-section-item order-comments-history" style="float:left;width:48%">
+            <div class="admin__page-section-item-title">
+                <span class="title"><?= /* @noEscape */ __('Credit Memo Comments') ?></span>
+            </div>
+            <div id="history_form" class="admin__fieldset-wrapper-content">
+                <div class="admin__field">
+                    <label class="normal admin__field-label"
+                           for="creditmemo_comment_text">
+                        <span><?= /* @noEscape */ __('Comment Text') ?></span></label>
+                    <div class="admin__field-control">
+                        <textarea id="creditmemo_comment_text"
+                                  class="admin__control-textarea"
+                                  name="creditmemo[comment_text]"
+                                  rows="3"
+                                  cols="5"><?= /* @noEscape */ $block->getCreditmemo()->getCommentText(); ?></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="admin__page-section-item order-totals creditmemo-totals" style="float:right;width:48%">
+            <div class="admin__page-section-item-title">
+                <span class="title"><?= /* @noEscape */ __('Refund Totals') ?></span>
+            </div>
+            <?= /* @noEscape */ $block->getChildHtml('creditmemo_totals') ?>
+            <div class="order-totals-actions">
+                <div class="field choice admin__field admin__field-option field-append-comments">
+                    <input id="notify_customer"
+                           class="admin__control-checkbox"
+                           name="creditmemo[comment_customer_notify]"
+                           value="1"
+                           type="checkbox"/>
+                    <label for="notify_customer" class="admin__field-label">
+                        <span><?= /* @noEscape */ __('Append Comments') ?></span>
+                    </label>
+                </div>
+                <?php if ($block->canSendCreditmemoEmail()): ?>
+                    <div class="field choice admin__field admin__field-option field-email-copy">
+                        <input id="send_email"
+                               class="admin__control-checkbox"
+                               name="creditmemo[send_email]"
+                               value="1"
+                               type="checkbox"/>
+                        <label for="send_email" class="admin__field-label">
+                            <span><?= /* @noEscape */ __('Email Copy of Credit Memo') ?></span>
+                        </label>
+                    </div>
+                <?php endif; ?>
+                <?= /* @noEscape */ $block->getChildHtml('submit_before') ?>
+                <div class="actions">
+                    <?= /* @noEscape */ $block->getChildHtml('submit_offline') ?>
+                    <?= /* @noEscape */ $block->getChildHtml('submit_button') ?>
+                    <?= /* @noEscape */ $block->getChildHtml('submit_after') ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    require(['jquery', 'prototype'], function (jQuery) {
+
+//<![CDATA[
+        var submitButtons = $$('.submit-button');
+        var updateButtons = $$('.update-button');
+        var fields = $$('.qty-input');
+
+        updateButtons.each(function (elem) {
+            elem.disabled = true;
+            elem.addClassName('disabled');
+        });
+
+        for (var i = 0; i < fields.length; i++) {
+            fields[i].observe('change', checkButtonsRelation)
+            fields[i].baseValue = fields[i].value;
+        }
+
+        function checkButtonsRelation() {
+            var hasChanges = false;
+            fields.each(function (elem) {
+                if (elem.baseValue != elem.value) {
+                    hasChanges = true;
+                }
+            }.bind(this));
+            if (hasChanges) {
+                submitButtons.each(function (elem) {
+                    elem.disabled = true;
+                    elem.addClassName('disabled');
+                });
+                updateButtons.each(function (elem) {
+                    elem.disabled = false;
+                    elem.removeClassName('disabled');
+                });
+            } else {
+                submitButtons.each(function (elem) {
+                    elem.disabled = false;
+                    elem.removeClassName('disabled');
+                });
+                updateButtons.each(function (elem) {
+                    elem.disabled = true;
+                    elem.addClassName('disabled');
+                });
+            }
+        }
+
+        submitCreditMemo = function () {
+            if ($('creditmemo_do_offline')) $('creditmemo_do_offline').value = 0;
+            // Temporary solution will be replaced after refactoring order functionality
+            jQuery('#edit_form').triggerHandler('save');
+        }
+
+        submitCreditMemoOffline = function () {
+            if ($('creditmemo_do_offline')) $('creditmemo_do_offline').value = 1;
+            // Temporary solution will be replaced after refactoring order functionality
+            jQuery('#edit_form').triggerHandler('save');
+        }
+
+        var sendEmailCheckbox = $('send_email');
+
+        if (sendEmailCheckbox) {
+            var notifyCustomerCheckbox = $('notify_customer');
+            var creditmemoCommentText = $('creditmemo_comment_text');
+            Event.observe(sendEmailCheckbox, 'change', bindSendEmail);
+            bindSendEmail();
+        }
+
+        function bindSendEmail() {
+            notifyCustomerCheckbox.disabled = sendEmailCheckbox.checked != true;
+        }
+
+        window.bindSendEmail = bindSendEmail;
+        window.checkButtonsRelation = checkButtonsRelation;
+//]]>
+
+    });
+</script>
+<style type="text/css">
+    .label {
+        color: black;
+    }
+</style>

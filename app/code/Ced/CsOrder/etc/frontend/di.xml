@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsOrder
+ * @author 		CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="vinvoice_listing_data_source"
+                      xsi:type="string">Ced\CsOrder\Model\ResourceModel\VInvoiceCollection</item>
+                <item name="vshipment_listing_data_source"
+                      xsi:type="string">Ced\CsOrder\Model\ResourceModel\VShipmentCollection</item>
+                <item name="vcreditmemo_listing_data_source"
+                      xsi:type="string">Ced\CsOrder\Model\ResourceModel\VCreditmemoCollection</item>
+                <item name="vorder_view_invoice_grid_data_source"
+                      xsi:type="string">Ced\CsOrder\Model\ResourceModel\VInvoiceCollection</item>
+                <item name="vorder_view_creditmemo_grid_data_source"
+                      xsi:type="string">Ced\CsOrder\Model\ResourceModel\VCreditmemoCollection</item>
+                <item name="vorder_view_shipment_grid_data_source"
+                      xsi:type="string">Ced\CsOrder\Model\ResourceModel\VShipmentCollection</item>
+            </argument>
+        </arguments>
+    </type>
+    <preference for="Magento\Sales\Block\Adminhtml\Order\View\Tab\History" type="Ced\CsOrder\Block\Order\View\Tab\History"/>
+    <preference for="Ced\CsMarketplace\Ui\DataProvider\Order\VOrderListing"
+                type="Ced\CsOrder\Ui\DataProvider\Order\VOrderListing"/>
+
+</config>

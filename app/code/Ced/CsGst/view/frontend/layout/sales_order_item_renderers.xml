@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+    <referenceBlock name="sales.order.items.renderers">
+            <block class="Magento\Sales\Block\Order\Item\Renderer\DefaultRenderer" name="gst-items" template="Ced_CsGst::order/items/renderer/default.phtml"/>
+        	<action method="setChild">
+		        <argument name="alias" xsi:type="string">default</argument>
+		        <argument name="block" xsi:type="string">gst-items</argument>
+    		</action>
+    		<block class="Magento\Downloadable\Block\Sales\Order\Item\Renderer\Downloadable" name="gst-items-downloadble" template="Ced_CsGst::order/items/renderer/downloadable.phtml"/>
+        	<action method="setChild">
+		        <argument name="alias" xsi:type="string">downloadable</argument>
+		        <argument name="block" xsi:type="string">gst-items-downloadble</argument>
+    		</action>
+    		 <block class="Magento\Bundle\Block\Sales\Order\Items\Renderer" name="gst-items-bundle" template="Ced_CsGst::order/items/renderer/bundle.phtml"/>
+        	<action method="setChild">
+		        <argument name="alias" xsi:type="string">bundle</argument>
+		        <argument name="block" xsi:type="string">gst-items-bundle</argument>
+    		</action>
+    		 <block class="Magento\GroupedProduct\Block\Order\Item\Renderer\Grouped" name="gst-items-grouped" template="Ced_CsGst::order/items/renderer/default.phtml"/>
+        	<action method="setChild">
+		        <argument name="alias" xsi:type="string">grouped</argument>
+		        <argument name="block" xsi:type="string">gst-items-grouped</argument>
+    		</action>
+        </referenceBlock>
+    </body>
+</page>

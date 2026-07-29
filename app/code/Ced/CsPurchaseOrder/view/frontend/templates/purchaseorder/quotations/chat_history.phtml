@@ -1,0 +1,151 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsPurchaseOrder
+ * @author        CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license      https://cedcommerce.com/license-agreement.txt
+ */
+
+/** @var \Ced\CsPurchaseOrder\Block\Vendor\EditQuotations\Tab\History $block */
+
+use Ced\CsPurchaseOrder\Model\Quote\Source\Users;
+
+$commentshistory = $block->getCommentHistory();
+if ($commentshistory && count($commentshistory) > 0 && !empty($commentshistory->getData())) {
+    ?>
+    <div class="order-history-block" id="history_form">
+        <div class="admin__field">
+            <label for="history_comment" class="admin__field-label">
+                <?= /* @noEscape */ __('Chat History') ?>
+            </label>
+        </div>
+        <div class="ui-wrapper order-items">
+            <ul class="note-list">
+                <?php foreach ($commentshistory as $_commenthistory) { ?>
+                    <?php if ($_commenthistory->getWhoIs() == Users::VENDOR) { ?>
+                        <?php if ($_commenthistory->getComments()) { ?>
+                            <li class="purchaseorder-left-chat-column">
+                            <span class="purchaseorder-left-chat-column-date"><?= /* @noEscape */ __('Me') ?></span>
+                            <span class="separator">|</span>
+                            <span class="purchaseorder-left-chat-column-date"><?= /* @noEscape */ $this->formatDate($_commenthistory
+                                    ->getCreatedAt(), \IntlDateFormatter::MEDIUM) ?></span>
+                            <span class="purchaseorder-left-chat-column-date"><?= /* @noEscape */ $this->formatTime($_commenthistory
+                                    ->getCreatedAt(), \IntlDateFormatter::MEDIUM) ?></span>
+                            <span class="separator">|</span>
+                            <span class="purchaseorder-left-chat-column-sender">
+	                        </span>
+                            <?php if ($_commenthistory->getComments()) { ?>
+                                <div class="purchaseorder-left-chat-column-chat">
+                                    <span><b>Number of Licences:</b></span>
+                                    <?= /* @noEscape */ $this->escapeHtml($_commenthistory
+                                        ->getNegotiationQty(), ['b', 'br', 'strong', 'i', 'u', 'a']) ?>
+
+                                </div>
+                                <div class="purchaseorder-left-chat-column-chat">
+                                    <span><b>Estimated Budget Per Licence: </b></span>
+                                    <?= /* @noEscape */ $this->escapeHtml($this
+                                        ->helper('Magento\Framework\Pricing\Helper\Data')
+                                        ->currency(round($_commenthistory->getNegotiationPrice(),
+                                            2), true, false), ['b', 'br', 'strong', 'i', 'u', 'a']) ?>
+
+                                </div>
+                                <div class="purchaseorder-left-chat-column-chat">
+                                <span><b>Comments: </b></span>
+                                <?= /* @noEscape */ $this->escapeHtml($_commenthistory
+                                    ->getComments(), ['b', 'br', 'strong', 'i', 'u', 'a']) ?>
+                            <?php } ?>
+                        <?php } ?>
+                        </li>
+                    <?php } elseif ($_commenthistory->getWhoIs() == Users::CUSTOMER) { ?>
+                        <?php if ($_commenthistory->getComments()) { ?>
+                            <li class="purchaseorder-right-chat-column" >
+                            <span class="purchaseorder-right-chat-column-date"><?= /* @noEscape */ __('Customer') ?></span>
+                            <span class="separator">|</span>
+                            <span class="purchaseorder-right-chat-column-date"><?= /* @noEscape */ $this->formatDate($_commenthistory
+                                    ->getCreatedAt(), \IntlDateFormatter::MEDIUM) ?></span>
+                            <span class="purchaseorder-right-chat-column-time"><?= /* @noEscape */ $this->formatTime($_commenthistory
+                                    ->getCreatedAt(), \IntlDateFormatter::MEDIUM) ?></span>
+                            <span class="separator">|</span>
+
+                            <?php if ($_commenthistory->getComments()) { ?>
+                                <div class="note-list-comment">
+                                    <span><b>Number of Licences:</b></span>
+                                    <?= /* @noEscape */ $this->escapeHtml($_commenthistory
+                                        ->getNegotiationQty(), ['b', 'br', 'strong', 'i', 'u', 'a']) ?>
+                                </div>
+
+                                <div class="note-list-comment">
+                                    <span><b>Estimated Budget Per Licence: </b></span>
+                                    <?= /* @noEscape */ $this->escapeHtml($this
+                                        ->helper('Magento\Framework\Pricing\Helper\Data')
+                                        ->currency(round($_commenthistory->getNegotiationPrice(), 2),
+                                            true, false), ['b', 'br', 'strong', 'i', 'u', 'a']) ?>
+                                </div>
+
+                                <div class="note-list-comment">
+                                    <span><b>Comments: </b></span>
+                                    <?= /* @noEscape */ $this->escapeHtml($_commenthistory->getComments(),
+                                        ['b', 'br', 'strong', 'i', 'u', 'a']) ?>
+                                </div>
+                            <?php } ?>
+                        <?php } ?>
+                        </li>
+
+                        </li>
+                    <?php } ?>
+                <?php } ?>
+            </ul>
+        </div>
+    </div>
+<?php } else { ?><?= /* @noEscape */ __('No conversations has been done yet.'); } ?>
+<style type="text/css">
+    .purchaseorder-left-column {
+        width: 50%;
+        float: left;
+    }
+
+    .purchaseorder-right-column {
+        width: 50%;
+        float: right;
+    }
+
+    .vendor-rma-right-column {
+        width: 50%;
+        float: right;
+    }
+
+    .purchaseorder-left-chat-column {
+        width: 55%;
+        float: left;
+        background: none repeat scroll 0 0 #D3D3D3;
+        margin-bottom: 7px;
+        padding: 6px 13px;
+    }
+
+    .purchaseorder-right-chat-column {
+        width: 55%;
+        float: right;
+        background: none repeat scroll 0 0 #F3F3DF;
+        margin-bottom: 7px;
+        padding: 6px 13px;
+    }
+
+    .vendor-rma-right-chat-column {
+        width: 55%;
+        float: right;
+        background: none repeat scroll 0 0 #E9967A;
+        margin-bottom: 7px;
+        padding: 6px 13px;
+    }
+
+</style>

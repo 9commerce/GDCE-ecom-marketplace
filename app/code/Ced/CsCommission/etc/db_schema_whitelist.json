@@ -1,0 +1,19 @@
+{
+    "cscommission_commission": {
+        "column": {
+            "id": true,
+            "category": true,
+            "vendor": true,
+            "method": true,
+            "type": true,
+            "type_id": true,
+            "fee": true,
+            "priority": true,
+            "created_at": true,
+            "updated_at": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    }
+}

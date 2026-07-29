@@ -1,0 +1,265 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsOrder
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+?>
+<?php
+/** @var $block \Ced\CsOrder\Block\Order\View\Info */
+$_order = $block->getOrder();
+?>
+<?php
+$orderAdminDate = $block->formatDate(
+    $block->getOrderAdminDate($_order->getCreatedAt()),
+    \IntlDateFormatter::MEDIUM,
+    true
+);
+$orderStoreDate = $block->formatDate(
+    $_order->getCreatedAt(),
+    \IntlDateFormatter::MEDIUM,
+    true,
+    $block->getTimezoneForStore($_order->getStore())
+);
+?>
+
+<section class="admin__page-section order-view-account-information">
+    <div class="admin__page-section-title">
+        <span class="title"><?= /* @noEscape */
+            __('Order & Account Information') ?></span>
+    </div>
+    <div class="admin__page-section-content">
+        <div class="admin__page-section-item order-information">
+            <?php /* Order Information */ ?>
+            <?php if ($_order->getEmailSent()):
+                $_email = __('The order confirmation email was sent');
+            else:
+                $_email = __('The order confirmation email is not sent');
+            endif; ?>
+            <div class="admin__page-section-item-title">
+                <span class="title">
+                    <?php if ($block->getNoUseOrderLink()): ?>
+                        <?= /* @noEscape */
+                        __('Order # %1', $_order->getRealOrderId()) ?>
+                        (<span><?= /* @noEscape */
+                            $_email ?></span>)
+                    <?php else: ?>
+                        <a href="<?= /* @noEscape */
+                        $block->getViewUrl($_order->getId()) ?>">
+                            <?= /* @noEscape */
+                            __('Order # %1', $_order->getRealOrderId()) ?>
+                        </a>
+                        <span>(<?= /* @noEscape */
+                            $_email ?>)</span>
+                    <?php endif; ?>
+                </span>
+            </div>
+            <div class="admin__page-section-item-content">
+                <table class="admin__table-secondary order-information-table">
+                    <tr>
+                        <th><?= /* @noEscape */
+                            __('Order Date') ?></th>
+                        <td><?= /* @noEscape */
+                            $orderAdminDate ?></td>
+                    </tr>
+                    <?php if ($orderAdminDate != $orderStoreDate): ?>
+                        <tr>
+                            <th><?= /* @noEscape */
+                                __(
+                                    'Order Date (%1)',
+                                    $block->getTimezoneForStore($_order->getStore())
+                                ) ?></th>
+                            <td><?= /* @noEscape */
+                                $orderStoreDate ?></td>
+                        </tr>
+                    <?php endif; ?>
+                    <tr>
+                        <th><?= /* @noEscape */
+                            __('Order Status') ?></th>
+                        <td>
+                            <span id="order_status"><?= /* @noEscape */
+                                $_order->getStatusLabel() ?></span>
+                        </td>
+                    </tr>
+                    <?php if ($block->isSingleStoreMode() == false): ?>
+                        <tr>
+                            <th><?= /* @noEscape */
+                                __('Purchased From') ?></th>
+                            <td><?= /* @noEscape */
+                                $block->getOrderStoreName() ?></td>
+                        </tr>
+                    <?php endif; ?>
+                    <?php if ($_order->getRelationChildId()): ?>
+                        <tr>
+                            <th><?= /* @noEscape */
+                                __('Link to the New Order') ?></th>
+                            <td>
+                                <a href="<?= /* @noEscape */
+                                $block->getViewUrl($_order->getRelationChildId()) ?>">
+                                    <?= /* @noEscape */
+                                    $_order->getRelationChildRealId() ?>
+                                </a>
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+                    <?php if ($_order->getRelationParentId()): ?>
+                        <tr>
+                            <th><?= /* @noEscape */
+                                __('Link to the Previous Order') ?></th>
+                            <td>
+                                <a href="<?= /* @noEscape */
+                                $block->getViewUrl($_order->getRelationParentId()) ?>">
+                                    <?= /* @noEscape */
+                                    $_order->getRelationParentRealId() ?>
+                                </a>
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+                    <?php if ($_order->getRemoteIp() && $block->shouldDisplayCustomerIp()): ?>
+                        <tr>
+                            <th><?= /* @noEscape */
+                                __('Placed from IP') ?></th>
+                            <td>
+                                <?= /* @noEscape */
+                                $_order->getRemoteIp(); ?>
+                                <?= /* @noEscape */
+                                ($_order->getXForwardedFor()) ? ' (' .
+                                    $block->escapeHtml($_order->getXForwardedFor()) .
+                                    ')' : '';
+                                ?>
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+                    <?php if ($_order->getGlobalCurrencyCode() != $_order->getBaseCurrencyCode()): ?>
+                        <tr>
+                            <th>
+                                <?= /* @noEscape */
+                                __('%1 / %2 rate:', $_order->getGlobalCurrencyCode(), $_order->getBaseCurrencyCode()) ?>
+                            </th>
+                            <td><?= /* @noEscape */
+                                $_order->getBaseToGlobalRate() ?></td>
+                        </tr>
+                    <?php endif; ?>
+                    <?php if ($_order->getBaseCurrencyCode() != $_order->getOrderCurrencyCode()): ?>
+                        <tr>
+                            <th><?= /* @noEscape */
+                                __('%1 / %2 rate:', $_order->getOrderCurrencyCode(), $_order->getBaseCurrencyCode()) ?>
+                            </th>
+                            <th><?= /* @noEscape */
+                                $_order->getBaseToOrderRate() ?></th>
+                        </tr>
+                    <?php endif; ?>
+                </table>
+            </div>
+        </div>
+
+        <div class="admin__page-section-item order-account-information">
+            <?php /* Account Information */ ?>
+            <div class="admin__page-section-item-title">
+                <span class="title"><?= /* @noEscape */
+                    __('Account Information') ?></span>
+                <div class="actions"><?= /* @noEscape */
+                    $block->getAccountEditLink() ?></div>
+            </div>
+            <div class="admin__page-section-item-content">
+                <table class="admin__table-secondary order-account-information-table">
+                    <tr>
+                        <th><?= /* @noEscape */
+                            __('Customer Name') ?></th>
+                        <td>
+                            <?php if ($_customerUrl = $block->getCustomerViewUrl()): ?>
+                                <a href="<?= /* @noEscape */
+                                $_customerUrl ?>" target="_blank">
+                                    <span><?= /* @noEscape */
+                                        $block->escapeHtml($_order->getCustomerName()) ?></span>
+                                </a>
+                            <?php else: ?>
+                                <?= /* @noEscape */
+                                $block->escapeHtml($_order->getCustomerName()) ?>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><?= /* @noEscape */
+                            __('Email') ?></th>
+                        <td>
+                            <a href="mailto:<?= /* @noEscape */
+                            $block->escapeHtml($_order->getCustomerEmail()) ?>">
+                                <?= /* @noEscape */
+                                $block->escapeHtml($_order->getCustomerEmail()) ?>
+                            </a>
+                        </td>
+                    </tr>
+                    <?php if ($_groupName = $block->getCustomerGroupName()): ?>
+                        <tr>
+                            <th><?= /* @noEscape */
+                                __('Customer Group') ?></th>
+                            <td><?= /* @noEscape */
+                                $_groupName ?></td>
+                        </tr>
+                    <?php endif; ?>
+                    <?php foreach ($block->getCustomerAccountData() as $data): ?>
+                        <tr>
+                            <th><?= /* @noEscape */
+                                $data['label'] ?></th>
+                            <td><?= /* @noEscape */
+                                $data['value'] ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="admin__page-section order-addresses">
+    <div class="admin__page-section-title">
+        <span class="title"><?= /* @noEscape */
+            __('Address Information') ?></span>
+    </div>
+    <div class="admin__page-section-content">
+        <div class="admin__page-section-item order-billing-address">
+            <?php /* Billing Address */ ?>
+            <div class="admin__page-section-item-title">
+                <span class="title"><?= /* @noEscape */
+                    __('Billing Address') ?></span>
+                <div class="actions">
+                    <?= /* @noEscape */
+                    $block->getAddressEditLink($_order->getBillingAddress()); ?>
+                </div>
+            </div>
+            <address class="admin__page-section-item-content">
+                <?= /* @noEscape */
+                $block->getFormattedAddress($_order->getBillingAddress()); ?>
+            </address>
+        </div>
+        <?php if (!$block->getOrder()->getIsVirtual()): ?>
+            <div class="admin__page-section-item order-shipping-address">
+                <?php /* Shipping Address */ ?>
+                <div class="admin__page-section-item-title">
+                    <span class="title"><?= /* @noEscape */
+                        __('Shipping Address') ?></span>
+                    <div class="actions">
+                        <?= /* @noEscape */
+                        $block->getAddressEditLink($_order->getShippingAddress()); ?>
+                    </div>
+                </div>
+                <address class="admin__page-section-item-content">
+                    <?= /* @noEscape */
+                    $block->getFormattedAddress($_order->getShippingAddress()); ?>
+                </address>
+            </div>
+        <?php endif; ?>
+    </div>
+</section>

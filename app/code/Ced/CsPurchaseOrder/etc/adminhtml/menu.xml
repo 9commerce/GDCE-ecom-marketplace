@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsPurchaseOrder
+ * @author 		CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license      https://cedcommerce.com/license-agreement.txt
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../Backend/etc/menu.xsd">
+    <menu>
+        <add id="Ced_CsPurchaseOrder::cspurchaseorder" title="Categorywise Request For Quote"
+             module="Ced_CsPurchaseOrder"
+             sortOrder="15" resource="Ced_CsPurchaseOrder::cspurchaseorder"
+             dependsOnConfig="ced_purchaseorder/general/activation"/>
+        <add id="Ced_CsPurchaseOrder::purchaseorder_details" title="Quotes" module="Ced_CsPurchaseOrder"
+             sortOrder="10"
+             parent="Ced_CsPurchaseOrder::cspurchaseorder" action="purchaseorder/purchaseorder"
+             resource="Ced_CsPurchaseOrder::purchaseorder_details"/>
+        <add id="Ced_CsPurchaseOrder::vendor_categories" title="Vendor Assigned Categories" module="Ced_CsPurchaseOrder"
+             sortOrder="10"
+             parent="Ced_CsPurchaseOrder::cspurchaseorder" action="purchaseorder/vendor/categories"
+             resource="Ced_CsPurchaseOrder::vendor_categories"/>
+        <add id="Ced_CsPurchaseOrder::configuration" title="Configuration" module="Ced_CsPurchaseOrder" sortOrder="30"
+             parent="Ced_CsPurchaseOrder::cspurchaseorder" resource="Ced_CsPurchaseOrder::configuration"/>
+        <add id="Ced_CsPurchaseOrder::purchaseorder_configuration" title="Configuration" module="Ced_CsPurchaseOrder"
+             sortOrder="30"
+             parent="Ced_CsPurchaseOrder::configuration" action="adminhtml/system_config/edit/section/b2bextension"
+             resource="Ced_CsPurchaseOrder::purchaseorder_configuration"/>
+    </menu>
+</config>

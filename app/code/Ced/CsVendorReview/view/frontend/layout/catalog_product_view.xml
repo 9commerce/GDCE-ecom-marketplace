@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsVendorReview
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+ -->
+<body>
+    <referenceBlock name="product.info.main">
+        <block class="Ced\CsVendorReview\Block\Catalog\Product\View"
+            name="product.view.extra.rating"
+            template="Ced_CsVendorReview::vendorrating/vendorrating.phtml" after="product.view.extra.vendordetail">
+        </block>
+    </referenceBlock>
+</body>

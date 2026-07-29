@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsOrder
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+  <table name="ced_csorder_invoice" resource="default" engine="innodb" comment="CsOrder Invoice">
+    <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="Id"/>
+    <column xsi:type="int" name="invoice_id" padding="10" unsigned="true" nullable="false" identity="false" comment="Invoice Id"/>
+    <column xsi:type="int" name="vendor_id" padding="10" unsigned="true" nullable="false" identity="false" comment="Vendor Id"/>
+    <column xsi:type="int" name="invoice_order_id" padding="10" unsigned="true" nullable="false" identity="false" comment="Invoice Order Id"/>
+    <column xsi:type="decimal" name="base_shipping_amount" scale="4" precision="12" unsigned="true" nullable="false" comment="Base Shipping Amount"/>
+    <column xsi:type="decimal" name="shipping_amount" scale="4" precision="12" unsigned="true" nullable="false" comment="Shipping Amount"/>
+    <column xsi:type="varchar" name="shipping_code" nullable="true" length="255" comment="Shipping Code"/>
+    <column xsi:type="varchar" name="shipping_description" nullable="true" length="255" comment="Shipping Description"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="id"/>
+    </constraint>
+    <constraint xsi:type="unique" referenceId="CED_CSORDER_INVOICE_VENDOR_ID_INVOICE_ID">
+      <column name="vendor_id"/>
+      <column name="invoice_id"/>
+    </constraint>
+    <index referenceId="CED_CSORDER_INVOICE_VENDOR_ID" indexType="btree">
+        <column name="vendor_id"/>
+    </index>
+    <index referenceId="CED_CSORDER_INVOICE_INVOICE_ID" indexType="btree">
+      <column name="invoice_id"/>
+    </index>
+  </table>
+  <table name="ced_csorder_shipment" resource="default" engine="innodb" comment="CsOrder Shipment">
+    <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="Id"/>
+    <column xsi:type="int" name="shipment_id" padding="10" unsigned="true" nullable="false" identity="false" comment="Shipment Id"/>
+    <column xsi:type="int" name="vendor_id" padding="10" unsigned="true" nullable="false" identity="false" comment="Vendor Id"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="id"/>
+    </constraint>
+    <constraint xsi:type="unique" referenceId="CED_CSORDER_SHIPMENT_VENDOR_ID_SHIPMENT_ID">
+      <column name="vendor_id"/>
+      <column name="shipment_id"/>
+    </constraint>
+    <index referenceId="CED_CSORDER_SHIPMENT_VENDOR_ID" indexType="btree">
+      <column name="vendor_id"/>
+    </index>
+    <index referenceId="CED_CSORDER_SHIPMENT_SHIPMENT_ID" indexType="btree">
+      <column name="shipment_id"/>
+    </index>
+  </table>
+  <table name="ced_csorder_creditmemo" resource="default" engine="innodb" comment="CsOrder Credit Memo">
+    <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="Id"/>
+    <column xsi:type="int" name="creditmemo_id" padding="10" unsigned="true" nullable="false" identity="false" comment="CreditMemo Id"/>
+    <column xsi:type="int" name="vendor_id" padding="10" unsigned="true" nullable="false" identity="false" comment="Vendor Id"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="id"/>
+    </constraint>
+    <constraint xsi:type="unique" referenceId="CED_CSORDER_SHIPMENT_VENDOR_ID_CREDITMEMO_ID">
+      <column name="vendor_id"/>
+      <column name="creditmemo_id"/>
+    </constraint>
+    <index referenceId="CED_CSORDER_CREDITMEMO_VENDOR_ID" indexType="btree">
+      <column name="vendor_id"/>
+    </index>
+    <index referenceId="CED_CSORDER_CREDITMEMO_CREDITMEMO_ID" indexType="btree">
+      <column name="creditmemo_id"/>
+    </index>
+  </table>
+  <table name="sales_order_status_history" resource="default">
+    <column xsi:type="int" name="vendor_id" padding="11" unsigned="false" nullable="false" identity="false" default="0" comment="Vendor ID"/>
+  </table>
+  <table name="sales_invoice_comment" resource="default">
+    <column xsi:type="int" name="vendor_id" padding="11" unsigned="false" nullable="false" identity="false" default="0" comment="Vendor ID"/>
+  </table>
+  <table name="sales_shipment_comment" resource="default">
+    <column xsi:type="int" name="vendor_id" padding="11" unsigned="false" nullable="false" identity="false" default="0" comment="Vendor ID"/>
+  </table>
+  <table name="sales_creditmemo_comment" resource="default">
+    <column xsi:type="int" name="vendor_id" padding="11" unsigned="false" nullable="false" identity="false" default="0" comment="Vendor ID"/>
+  </table>
+    <table name="ced_csmarketplace_vendor_sales_order" resource="default">
+        <column xsi:type="smallint" name="vendor_order_approval" padding="5" unsigned="true" nullable="true"
+                identity="false" default="0" comment="Order Approval Status pending = 0, approved = 1, diapproved = 2"/>
+    </table>
+</schema>

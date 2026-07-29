@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+  <table name="ced_category_request_quote_vendor_category" resource="default" engine="innodb" comment="ced_category_request_quote_vendor_category">
+    <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="Id"/>
+    <column xsi:type="int" name="vendor_id" padding="10" unsigned="true" nullable="false" identity="false" comment="Vendor Id"/>
+    <column xsi:type="int" name="category_id" padding="10" unsigned="true" nullable="false" identity="false" comment="Category Id"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="id"/>
+    </constraint>
+  </table>
+  <table name="ced_category_request_quote" resource="default" engine="innodb" comment="ced_category_request_quote">
+    <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="Id"/>
+    <column xsi:type="varchar" name="title" nullable="true" length="255" comment="Title"/>
+    <column xsi:type="varchar" name="status" nullable="true" length="50" comment="Status"/>
+    <column xsi:type="int" name="category_id" padding="11" unsigned="false" nullable="true" identity="false" comment="Category Id"/>
+    <column xsi:type="int" name="proposed_qty" padding="11" unsigned="false" nullable="true" identity="false" comment="Proposed Quantity"/>
+    <column xsi:type="decimal" name="preferred_price_per_qty" scale="4" precision="20" unsigned="false" nullable="true" comment="Preferred Price Per Quantity"/>
+    <column xsi:type="timestamp" name="created_at" on_update="false" nullable="true" default="CURRENT_TIMESTAMP" comment="Created At"/>
+    <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="true" default="CURRENT_TIMESTAMP" comment="Updated At"/>
+    <column xsi:type="smallint" name="store_id" padding="5" unsigned="true" nullable="true" identity="false" default="0" comment="Store Id"/>
+    <column xsi:type="smallint" name="is_active" padding="5" unsigned="true" nullable="true" identity="false" default="1" comment="Is Active"/>
+    <column xsi:type="int" name="customer_id" padding="11" unsigned="false" nullable="true" identity="false" comment="Customer Id"/>
+    <column xsi:type="varchar" name="remote_ip" nullable="true" length="45" comment="Remote Ip"/>
+    <column xsi:type="decimal" name="base_preferred_price" scale="4" precision="20" unsigned="false" nullable="true" comment="Base Preferred Price"/>
+    <column xsi:type="int" name="order_id" padding="10" unsigned="true" nullable="true" identity="false" comment="Order Id"/>
+    <column xsi:type="text" name="description" nullable="true" comment="Description"/>
+    <column xsi:type="boolean" name="terms_and_conditions" nullable="true" comment="Terms And Conditions"/>
+    <column xsi:type="decimal" name="negotiated_final_price" scale="4" precision="20" unsigned="false" nullable="true" comment="Negotiated Final Price"/>
+    <column xsi:type="int" name="product_id" padding="10" unsigned="false" nullable="false" identity="false" comment="Product Id"/>
+    <column xsi:type="varchar" name="vendor_status" nullable="true" length="50" comment="Vendor Status(New, Processing, Approved, Orderplaced )"/>
+    <column xsi:type="int" name="negotiated_final_qty" padding="10" unsigned="false" nullable="false" identity="false" comment="Negotiated Final Quantity"/>
+    <column xsi:type="int" name="quote_item_id" padding="10" unsigned="false" nullable="true" identity="false" comment="Quote Item Id"/>
+    <column xsi:type="varchar" name="customer_email" nullable="true" length="255" comment="Customer Email"/>
+    <column xsi:type="varchar" name="product_name" nullable="true" length="255" comment="Product Name"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="id"/>
+    </constraint>
+  </table>
+  <table name="ced_category_request_quote_attachments" resource="default" engine="innodb" comment="ced_category_request_quote_attachments">
+    <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="Id"/>
+    <column xsi:type="int" name="c_quote_id" padding="10" unsigned="true" nullable="true" identity="false" comment="Quote Id"/>
+    <column xsi:type="varchar" name="file_name" nullable="true" length="255" comment="Attachment File Name"/>
+    <column xsi:type="text" name="file_path" nullable="true" comment="Path To File"/>
+    <column xsi:type="varchar" name="file_type" nullable="true" length="32" comment="File Type"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="id"/>
+    </constraint>
+  </table>
+  <table name="ced_category_request_quote_comments" resource="default" engine="innodb" comment="ced_category_request_quote_comments">
+    <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="Id"/>
+    <column xsi:type="int" name="c_quote_id" padding="10" unsigned="true" nullable="true" identity="false" comment="Quote Id"/>
+    <column xsi:type="int" name="author_id" padding="10" unsigned="true" nullable="true" identity="false" comment="Author Id"/>
+    <column xsi:type="int" name="negotiation_qty" padding="11" unsigned="false" nullable="true" identity="false" comment="Negotiation Quantity"/>
+    <column xsi:type="decimal" name="negotiation_price" scale="4" precision="20" unsigned="false" nullable="true" comment="Negotiation Price"/>
+    <column xsi:type="text" name="comments" nullable="true" comment="Comments"/>
+    <column xsi:type="smallint" name="who_is" padding="6" unsigned="false" nullable="true" identity="false" comment="Who is (0. Customer, 1. Vendor, 2. Admin)"/>
+    <column xsi:type="int" name="product_id" padding="10" unsigned="false" nullable="false" identity="false" comment="Product Id"/>
+    <column xsi:type="int" name="vendor_id" padding="10" unsigned="false" nullable="false" identity="false" comment="Vendor Id"/>
+    <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Created At"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="id"/>
+    </constraint>
+  </table>
+  <table name="ced_category_request_quote_history" resource="default" engine="innodb" comment="ced_category_request_quote_history">
+    <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="Id"/>
+    <column xsi:type="int" name="c_quote_id" padding="10" unsigned="true" nullable="true" identity="false" comment="Quote Id"/>
+    <column xsi:type="int" name="vendor_id" padding="10" unsigned="true" nullable="true" identity="false" comment="Vendor Id"/>
+    <column xsi:type="int" name="author_id" padding="11" unsigned="false" nullable="true" identity="false" comment="Author Id"/>
+    <column xsi:type="smallint" name="who_is" padding="6" unsigned="false" nullable="true" identity="false" comment="Who is (0. Customer, 1. Vendor, 2. Admin)"/>
+    <column xsi:type="varchar" name="status" nullable="true" length="50" comment="Status"/>
+    <column xsi:type="text" name="log_data" nullable="true" comment="Log Data"/>
+    <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Created At"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="id"/>
+    </constraint>
+  </table>
+  <table name="ced_category_request_quote_vendors" resource="default" engine="innodb" comment="ced_category_request_quote_vendors">
+    <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="Id"/>
+    <column xsi:type="int" name="c_quote_id" padding="10" unsigned="true" nullable="true" identity="false" comment="Quote Id"/>
+    <column xsi:type="int" name="vendor_id" padding="10" unsigned="true" nullable="true" identity="false" comment="Vendor Id"/>
+    <column xsi:type="varchar" name="vendor_status" nullable="true" length="50" comment="Vendor Status(Active, Pending, Processing, Reject, Approve, Disapprove)"/>
+    <column xsi:type="smallint" name="who_is" padding="6" unsigned="false" nullable="true" identity="false" comment="Who is (0. Customer, 1. Vendor, 2. Admin)"/>
+    <column xsi:type="int" name="author_id" padding="11" unsigned="false" nullable="true" identity="false" comment="Author Id"/>
+    <column xsi:type="boolean" name="is_approved" nullable="false" comment="Is Approved"/>
+    <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Created At"/>
+    <column xsi:type="int" name="negotiation_qty" padding="11" unsigned="false" nullable="true" identity="false" comment="Negotiation Quantity"/>
+    <column xsi:type="decimal" name="negotiation_price" scale="4" precision="20" unsigned="false" nullable="true" comment="Negotiation Price"/>
+    <column xsi:type="varchar" name="product_name" nullable="true" length="255" comment="Product Name"/>
+    <column xsi:type="boolean" name="vendor_replied" nullable="true" comment="Vendor Replied"/>
+    <column xsi:type="int" name="product_id" padding="10" unsigned="false" nullable="true" identity="false" comment="Product Id"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="id"/>
+    </constraint>
+  </table>
+</schema>

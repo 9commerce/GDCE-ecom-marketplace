@@ -1,0 +1,44 @@
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category  Ced
+ * @package   Ced_VendorsocialLogin
+ * @author    CedCommerce Core Team <connect@cedcommerce.com >
+ * @copyright Copyright CedCommerce (https://cedcommerce.com/)
+ * @license      https://cedcommerce.com/license-agreement.txt
+ */
+
+
+.ced-sociallogin-login-lower-google{
+    margin-right: 15px;
+}
+:not(.overlay-popup) .ced-sociallogin-login-lower .clearer div{
+    width: 35px;
+    height: 35px;
+}
+.ced-sociallogin-login-lower .clearer a {
+    display: inline-block;
+}
+div.ced_google_connect{
+    background-image: url('images/social_connect_go.png') !important;
+    background-size: contain;
+}
+div.ced_google_disconnect{
+    background: url('images/social_disconnect_go.png') !important;
+    background-size: contain;
+}
+
+div.ced-sociallogin-google-inner a{
+    color: #FFFFFF !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    text-decoration: none !important;
+    line-height: 30px !important;
+}

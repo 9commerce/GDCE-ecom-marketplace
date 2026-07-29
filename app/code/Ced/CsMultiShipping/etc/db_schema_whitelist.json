@@ -1,0 +1,7 @@
+{
+    "sales_order": {
+        "column": {
+            "charge_transfer_to": true
+        }
+    }
+}

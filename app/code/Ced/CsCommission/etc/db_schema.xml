@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @codingStandardsIgnoreFile
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category  Ced
+ * @package   Ced_CsCommission
+ * @author    CedCommerce Core Team <connect@cedcommerce.com >
+ * @copyright Copyright CedCommerce (https://cedcommerce.com/)
+ * @license      https://cedcommerce.com/license-agreement.txt
+ */
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+  <table name="cscommission_commission" resource="default" engine="innodb" comment="Ced CsCommission">
+    <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="cscommission_commission"/>
+    <column xsi:type="int" name="category" padding="10" unsigned="true" nullable="false" identity="false" default="0" comment="Category ID"/>
+    <column xsi:type="int" name="vendor" padding="10" unsigned="true" nullable="false" identity="false" default="0" comment="Vendor ID"/>
+    <column xsi:type="varchar" name="method" nullable="false" length="255" comment="method"/>
+    <column xsi:type="varchar" name="type" nullable="true" length="20" comment="fee"/>
+    <column xsi:type="int" name="type_id" padding="10" unsigned="true" nullable="false" identity="false" default="0" comment="Store Or Website ID"/>
+    <column xsi:type="varchar" name="fee" nullable="true" length="255" comment="fee"/>
+    <column xsi:type="int" name="priority" padding="10" unsigned="true" nullable="false" identity="false" default="0" comment="priority"/>
+    <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Created At"/>
+    <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP" comment="Updated At"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="id"/>
+    </constraint>
+  </table>
+</schema>

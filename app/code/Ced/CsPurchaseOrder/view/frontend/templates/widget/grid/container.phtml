@@ -1,0 +1,13 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php if ($block->getButtonsHtml()): ?>
+<div data-mage-init='{"floatingHeader": {}}' class="page-actions"><?= /* @noEscape */ $block->getButtonsHtml() ?></div>
+<?php endif; ?>
+<?= /* @noEscape */ $block->getGridHtml() ?>

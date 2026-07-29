@@ -1,0 +1,53 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMultiShipping
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+?>
+<?php /** @var $block \Magento\Checkout\Block\Cart\Shipping */ ?>
+
+<div id="block-shipping" class="block shipping"
+     data-mage-init='{"collapsible":{"openedState": "active", "saveState": true}}'>
+    <div class="title" data-role="title">
+        <strong id="block-shipping-heading" role="heading" aria-level="2">
+            <?= /* @noEscape */ $block->getQuote()->isVirtual() ? __('Estimate Tax') :
+                __('Estimate Shipping and Tax') ?>
+        </strong>
+    </div>
+
+    <div id="block-summary" data-bind="scope:'block-summary'" class="content"
+         data-role="content" aria-labelledby="block-shipping-heading">
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <script type="text/x-magento-init">
+            {
+                "#block-summary": {
+                    "Magento_Ui/js/core/app": <?= /* @noEscape */ $block->getJsLayout();?>
+                }
+            }
+        </script>
+        <script>
+            window.checkoutConfig = <?= /* @noEscape */ \Zend_Json::encode($block->getCheckoutConfig()); ?>;
+            window.customerData = window.checkoutConfig.customerData;
+            window.isCustomerLoggedIn = window.checkoutConfig.isCustomerLoggedIn;
+            require([
+                'mage/url',
+                'Magento_Ui/js/block-loader'
+            ], function(url, blockLoader) {
+                blockLoader("<?= /* @noEscape */ $block->getViewFileUrl('images/loader-1.gif'); ?>");
+                return url.setBaseUrl('<?= /* @noEscape */ $block->getBaseUrl();?>');
+            })
+        </script>
+    </div>
+</div>

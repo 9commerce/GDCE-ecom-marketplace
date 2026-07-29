@@ -1,0 +1,219 @@
+<?php
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+
+// @codingStandardsIgnoreFile
+?>
+<?php 
+$helper = $this->helper('Ced\CsMarketplace\Helper\Data');
+$category_ids = $block->getCategoryIds();
+?>
+
+<div class="form-group col-md-6  rtl-active">
+	<label><?= __('Product Categories') ?>:</label>
+	<div class="field category">
+		<input class="category_ids" name="category_ids" id="product_categories" type="hidden" value=""/>
+		<div class="tree-holder">
+			<div id="tree-div" class="tree-wrapper">
+			<?php 
+		        $groups = [];
+	         	$allowed_categories = [];
+	         	$category_mode = $helper->getStoreConfig('ced_vproducts/general/category_mode', 0);
+
+	         	if ($category_mode) {
+					$allowed_categories = explode(',', $helper->getStoreConfig('ced_vproducts/general/category', 0));
+	         	}
+
+				$category_helper = $this->helper('Ced\CsMarketplace\Helper\Vproducts\Category');
+				$category_model = $block->getCategoryModel()
+									->setStoreId($block->getRequest()->getParam('store', 0));
+
+				if ($this->helper('Ced\CsMarketplace\Helper\Data')->isSharingEnabled()) {
+					$groups = $block->getGroups()
+								->addFieldToFilter('group_id', array('neq'=>0))->setOrder('website_id', 'ASC');
+				} else {
+					$websiteId = $block->getStoreManager()->getWebsite()->getId();
+					$groups = $block->getGroups()
+								->addFieldToFilter('website_id', $websiteId)->setOrder('group_id', 'ASC');
+				}
+
+				$rootCategories = [];
+				$groupNames = [];
+
+				if ($block->getRequest()->getParam('store')) {
+					$groups->addFieldToFilter('default_store_id', $block->getRequest()->getParam('store'));
+				}
+				$groups->getData();
+
+				foreach ($groups as $group) {
+					if (isset($groupNames[$group->getRootCategoryId()])) {
+						$groupNames[$group->getRootCategoryId()][] = $group->getName();
+					} else {
+						$groupNames = [];
+						$groupNames[$group->getRootCategoryId()][] = $group->getName();
+					}
+					$rootCategories[$group->getRootCategoryId()] = $groupNames;
+				}
+
+				$categories_loop = 0;
+				echo '<ul class="root-category root-category-wrapper"><div class="root-node">';
+
+				foreach ($rootCategories as $rootCategory => $cat_group) {
+					if (is_array($cat_group[$rootCategory])) {
+						$groupname = implode(',', $cat_group[$rootCategory]);
+					}
+
+                    /** @var \Magento\Catalog\Model\Category $category_model */
+                    $activeCategories = $category_model->getResource()
+										->getChildrenCategories($category_model->load($rootCategory));
+					if ($category_mode) {
+						$storeflag = false;
+						foreach ($activeCategories as $row) {
+							if (in_array($row->getEntityId(), $allowed_categories)) {
+								$storeflag = true;
+								break;
+							}
+						}
+					} else {
+						$storeflag = true;
+					}
+
+					if (count($activeCategories)> 0 && $storeflag) {
+			?>
+						<div><label style="font-weight:bold;font-size: 14px;"><?= $block->escapeHtml($groupname) ?></label></div>
+						<div style="clear:both"></div>
+			<?php 	}
+					$_categories = $category_helper->getStoreCategories($rootCategory);
+					foreach($_categories as $_category)	{
+						if ($category_mode && !in_array($_category['entity_id'], $allowed_categories)) {
+							continue;
+						}
+						$_category = $category_model->load($_category['entity_id']);
+						if ($category_mode) {
+							$childrens = count(array_intersect($category_model->getResource()->getAllChildren($_category), $allowed_categories))-1;
+						} else {
+							$childrens = count($category_model->getResource()->getAllChildren($_category))-1;
+						}
+						
+						if ($childrens > 0) { ?>
+							<li class="tree-node">
+								<div class="tree-node-el ced-folder tree-node-collapsed">
+									<span class="tree-node-indent"></span>
+									<img class="tree-ec-icon tree-elbow-plus" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+									<img unselectable="on" class="tree-node-icon" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+									<input class="elements" type="checkbox" name="category[]" <?= in_array($_category['entity_id'],$category_ids)?'checked':'' ?> value='<?= $_category['entity_id'] ?>'/>
+									<span class="elements cat_name"><?= $_category->getName()." (".($block->getVproduct() ? $block->getVproduct()->getProductCount($_category['entity_id']) : '').")" ?></span>
+								</div>
+								<ul class="root-category root-category-wrapper" style="display:none"></ul>
+							</li>
+						<?php } else { ?>
+							<li class="tree-node">
+								<div class="tree-node-el ced-folder tree-node-leaf">
+									<span class="tree-node-indent"></span>
+									<img class="tree-ec-icon tree-elbow-end" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+									<img unselectable="on" class="tree-node-icon" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+									<input class="elements" type="checkbox" name="category[]" <?= in_array($_category['entity_id'],$category_ids)?'checked':'' ?> value='<?= $_category['entity_id'] ?>'/>
+									<span class="elements cat_name"><?= $_category->getName()." (". ($block->getVproduct() ? $block->getVproduct()->getProductCount($_category['entity_id']) : '').")" ?></span>
+								</div>
+							</li>
+				<?php } } } ?>
+				<?= '</div></ul>'; ?>
+			</div>						 
+		</div>
+	</div>
+	<label class="addafter">
+		<div>
+			<small>
+				<p>Note: Select all parent or upper catgories to enable its filter on your shop page</p>
+			</small>
+		</div>
+	</label>
+</div>
+
+<script>
+
+require(['jquery', 'mage/mage'], function($) {
+	var categoryids = <?= json_encode($category_ids) ?>;
+	jQuery(document).ready(function(){
+		jQuery(".category_ids").val(categoryids);
+	});
+
+	jQuery("#tree-div").on('click', "li img.tree-ec-icon ", function() {
+		var current = jQuery(this);
+		if (jQuery(this).hasClass('tree-elbow-plus')) {
+			jQuery(this).parent().removeClass('tree-node-collapsed');
+			jQuery(this).parent().addClass('tree-node-loading');
+			jQuery.ajax({
+				url : "<?= $block->getUrl('csmarketplace/vproducts/categorytree/',array('store'=>$block->getRequest()->getParam('store',0)));?>",
+				type : "POST",
+				data : {categoryId:jQuery(this).parent().children("input").val(), category_ids:categoryids},
+				dataType : "html",
+				success : function(content){
+                    content = JSON.parse(content);
+					current.parent().siblings("ul.root-category-wrapper").html(content);
+					jQuery( ".elements" ).click(function() {
+						if (jQuery(this).is(':checked') == true) {
+								var ids = document.getElementById('product_categories').value.split(',');
+								ids.push(jQuery(this).val());
+								document.getElementById('product_categories').value = ids.join(',');
+						} else {
+							var ids = document.getElementById('product_categories').value.split(',');
+							while (-1 != ids.indexOf(jQuery(this).val())) {
+								ids.splice(ids.indexOf(jQuery(this).val()), 1);
+							}
+							document.getElementById('product_categories').value = ids.join(',');
+						} 
+					});
+					current.parent().siblings("ul.root-category-wrapper").slideDown(300);
+					current.parent().removeClass('tree-node-loading');
+					current.parent().addClass('tree-node-expanded');
+					current.removeClass('tree-elbow-plus');
+					current.addClass('tree-elbow-minus');
+				}
+			});
+		} else if(jQuery(this).hasClass('tree-elbow-minus')) {
+			current.parent().removeClass('tree-node-expanded');
+			current.parent().addClass('tree-node-collapsed');
+			current.removeClass('tree-elbow-minus');
+			current.addClass('tree-elbow-plus');
+			current.parent().siblings("ul.root-category-wrapper").slideUp(300);
+		}	
+	});
+
+	jQuery( ".elements" ).click(function() {
+		if (jQuery(this).is(':checked') == true) {
+			var ids = document.getElementById('product_categories').value.split(',');
+			ids.push(jQuery(this).val());
+			document.getElementById('product_categories').value = ids.join(',');
+		} else {
+			var ids = document.getElementById('product_categories').value.split(',');
+			while (-1 != ids.indexOf(jQuery(this).val())) {
+				ids.splice(ids.indexOf(jQuery(this).val()), 1);
+			}
+			document.getElementById('product_categories').value = ids.join(',');
+		} 
+	});
+});
+
+</script>
+
+<style>
+input.elements{
+	float:left;
+}
+</style>

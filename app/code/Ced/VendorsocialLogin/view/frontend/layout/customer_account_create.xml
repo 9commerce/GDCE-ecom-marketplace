@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category  Ced
+ * @package   Ced_VendorsocialLogin
+ * @author    CedCommerce Core Team <connect@cedcommerce.com >
+ * @copyright Copyright CedCommerce (https://cedcommerce.com/)
+ * @license      https://cedcommerce.com/license-agreement.txt
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <update handle="ced_sociallogin_facebook_button"/>
+    <head>
+        <css src="Ced_VendorsocialLogin::css/styles.css"/>
+
+        <css src="Ced_VendorsocialLogin::css/google/button.css"/>
+
+        <css src="Ced_VendorsocialLogin::css/facebook/button.css"/>
+
+        <css src="Ced_VendorsocialLogin::css/twitter/button.css"/>
+
+        <css src="Ced_VendorsocialLogin::css/linkedin/button.css"/>
+
+    </head>
+
+    <referenceContainer name="content">
+
+        <block after="customer_form_register" class="Ced\VendorsocialLogin\Block\Container\Login"
+               name="ced_vendorsociallogin_register" template="login.phtml" cacheable="false">
+
+            <block class="Ced\VendorsocialLogin\Block\Google\Button" name="ced_google_login_button"
+                   template="google/button.phtml" cacheable="false">
+
+                <arguments>
+
+                    <argument name="button_text" translate="true" xsi:type="string">Login</argument>
+
+                </arguments>
+
+            </block>
+
+            <block class="Ced\VendorsocialLogin\Block\Facebook\Button" name="ced_facebook_login_button"
+                   template="facebook/button.phtml" cacheable="false">
+
+                <arguments>
+
+                    <argument name="button_text" translate="true" xsi:type="string">Login</argument>
+
+                </arguments>
+
+            </block>
+
+            <block class="Ced\VendorsocialLogin\Block\Twitter\Button" name="ced_twitter_login_button"
+                   template="twitter/button.phtml" cacheable="false">
+
+                <arguments>
+
+                    <argument name="button_text" translate="true" xsi:type="string">Login</argument>
+
+                </arguments>
+
+            </block>
+
+            <block class="Ced\VendorsocialLogin\Block\Linkedin\Button" name="ced_linkedin_login_button"
+                   template="linkedin/button.phtml" cacheable="false">
+
+                <arguments>
+
+                    <argument name="button_text" translate="true" xsi:type="string">Login</argument>
+
+                </arguments>
+
+            </block>
+
+
+        </block>
+
+    </referenceContainer>
+
+</page>

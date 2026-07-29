@@ -1,0 +1,112 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMultiShipping
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+$viewModel = $block->getViewModel();
+$directoryModel = $block->getDirectoryViewModel()->getDirectoryHelper();
+?>
+<div class="row">
+    <div class="col-md-12" style="margin-top:10px;">
+        <div class="panel panel-default">
+            <div class="panel-heading uptransform" style="font-weight:bold;padding:4px 15px;">
+                <div class="col-md-6 panel_product_heading" style="line-height:31px;font-size:17px;padding-left:0;">
+                    <?= /* @noEscape */ __('Shipping') . " " . __('Settings') ?>
+                </div>
+                <div class="buttons-set col-md-6 buttons_scb" style="text-align:right;padding-right:0;">
+                    <button class="button btn btn-success uptransform product-button" title="Save" type="submit"
+                            onClick="addressSubmit()"
+                            id="save_butn" style="float: none;">
+                        <span><span><?= /* @noEscape */ __('Save') ?></span></span>
+                    </button>
+                </div>
+            </div>
+            <div class="panel-body">
+                <?= /* @noEscape */
+                $block->getFormHtml(); ?>
+                <div class="buttons-set">
+                    <p class="required"><?= /* @noEscape */ __('* Required Fields') ?></p>
+                    <p class="back-link">
+                        <a href="<?= /* @noEscape */ $block->getBackUrl() ?>">
+                            <small>&laquo; </small>
+                            <?= /* @noEscape */ __('Back') ?>
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/x-magento-init">
+    {
+        "#form-validate": {
+            "validation": {}
+        },
+        "#address-country_id": {
+            "regionUpdater": {
+                "optionalRegionAllowed": <?= 'true' ?>,
+                "regionListId": "#address-region_id",
+                "regionInputId": "#address-region",
+                "postcodeId": "#address-postcode",
+                "form": "#form-validate",
+                "regionJson": <?= /* @noEscape */ $directoryModel->getRegionJson() ?>,
+                "defaultRegion": "<?= (int)$block->getRegionId() ?>",
+                "countriesWithOptionalZip": <?= /* @noEscape */ $directoryModel->getCountriesWithOptionalZip(true) ?>
+            }
+        }
+    }
+
+</script>
+<script>
+    function addressSubmit(){
+        require(["jquery"],function($){
+            var ret = $('#form-validate').valid();
+            if(ret==true){
+                $('#form-validate').submit();
+            }
+        });
+    }
+</script>
+<script type="text/javascript">
+    require([
+        "jquery",
+        "jquery/ui"
+    ], function ($) {
+
+        $('#address-country_id').change(function () {
+            setTimeout(function() {
+                if ($('#address-region_id').css('display') == 'none') {
+                    $('#address-region_id').parent().parent().hide();
+                    $('#address-region').parent().parent().show();
+                }else{
+                    $('#address-region').parent().parent().hide();
+                    $('#address-region_id').parent().parent().show();
+
+                }
+            }, 100);
+        });
+        if ($('#address-region_id').css('display') == 'none') {
+            $('#address-region_id').parent().parent().hide();
+            $('#address-region').parent().parent().show();
+        }else{
+            $('#address-region').parent().parent().hide();
+            $('#address-region_id').parent().parent().show();
+        }
+
+        jQuery("h2").addClass("ced_shipping");
+    });
+</script>
+

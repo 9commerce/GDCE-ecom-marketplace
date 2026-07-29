@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Magento\Config\Model\Config" type="Ced\CsMarketplace\Model\Adminhtml\Config\Data" />
+    <preference for="Magento\Store\Model\Store" type="Ced\CsMarketplace\Model\Core\Store" />
+	<preference for="Magento\Config\Model\Config\SchemaLocator" type="Ced\CsMarketplace\Model\Config\SchemaLocator" />
+    <type name="Magento\Theme\Model\View\Design">
+		<arguments>
+			<argument name="themes" xsi:type="array">
+				<item name="frontend" xsi:type="string">Ced/ced_2k18</item>
+			</argument>
+		</arguments>
+	</type>
+	<type name="Magento\Eav\Model\Entity\AttributeCache">
+        <arguments>
+            <argument name="unsupportedTypes" xsi:type="array">
+                <item name="0" xsi:type="string">csmarketplace_vendor</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Customer\Model\Customer">
+        <plugin name="ced_customer_delete_plugin" type="Ced\CsMarketplace\Plugin\CustomerDelete" sortOrder="10" disabled="false" />
+    </type>
+    <type name="Magento\Quote\Model\Quote\Item\ToOrderItem">
+        <plugin name="set_vendor_id_to_order_item" type="Ced\CsMarketplace\Plugin\SetVendorIdInOrderItem" sortOrder="10" disabled="false" />
+    </type>
+    <!--logger-->
+    <type name="Ced\CsMarketplace\Logger\Handler">
+        <arguments>
+            <argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
+        </arguments>
+    </type>
+    <type name="Ced\CsMarketplace\Logger\Logger">
+        <arguments>
+            <argument name="name" xsi:type="string">ced_csmarketplace_logger</argument>
+            <argument name="handlers"  xsi:type="array">
+                <item name="system" xsi:type="object">Ced\CsMarketplace\Logger\Handler</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Config\Model\Config\Structure">
+        <plugin name="ced-extend-system-xml" type="Ced\CsMarketplace\Plugin\Model\Config\Structure"/>
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="vendor_order_grid_data_source" xsi:type="string">Ced\CsMarketplace\Model\ResourceModel\VendorOrderCollection</item>
+                <item name="pending_products_grid_data_source" xsi:type="string">Ced\CsMarketplace\Model\ResourceModel\VendorProductCollection</item>
+                <!--<item name="vendor_products_grid_data_source" xsi:type="string">Ced\CsMarketplace\Model\ResourceModel\VendorProductCollection</item>-->
+                <item name="vpayments_listing_data_source" xsi:type="string">Ced\CsMarketplace\Model\ResourceModel\TransactionCollection</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Ced\CsMarketplace\Model\ResourceModel\VendorProductCollection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">ced_csmarketplace_vendor_products</argument>
+            <argument name="resourceModel" xsi:type="string">Ced\CsMarketplace\Model\ResourceModel\Vproducts</argument>
+        </arguments>
+    </type>
+    <preference for="Ced\CsMarketplace\Api\BookmarkRepositoryInterface" type="Ced\CsMarketplace\Model\ResourceModel\BookmarkRepository"/>
+    <preference for="Ced\CsMarketplace\Api\Data\BookmarkInterface" type="Ced\CsMarketplace\Model\Bookmark"/>
+    <preference for="Ced\CsMarketplace\Api\BookmarkManagementInterface" type="Ced\CsMarketplace\Model\BookmarkManagement"/>
+    <preference for="Magento\Sales\Model\Order\Payment" type="Ced\CsMarketplace\Model\Order\Payment"/>
+</config>

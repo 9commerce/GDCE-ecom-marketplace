@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © magebig.com - All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Ced_CsPurchaseOrder::css/purchase_order.css"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Ced\CsPurchaseOrder\Block\Requestform" name="cspurchaseorder_requestform_home"
+                   template="Ced_CsPurchaseOrder::purchaseorder/home_form.phtml" cacheable="false" ifconfig="ced_purchaseorder/general/submit_buying_request">
+            </block>
+        </referenceContainer>
+    </body>
+</page>

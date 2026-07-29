@@ -1,0 +1,51 @@
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category  Ced
+ * @package   Ced_CsCommission
+ * @author    CedCommerce Core Team <connect@cedcommerce.com >
+ * @copyright Copyright CedCommerce (https://cedcommerce.com/)
+ * @license      https://cedcommerce.com/license-agreement.txt
+ */
+.cscommission-commission-index .page-main-actions .page-actions._fixed {
+	position: static;
+}
+.cscommission-commission-index .page-wrapper {
+	width: 100%;
+}
+#ced_csmarketplace_vpayments tr td.label {
+/*     width: 100% !important; */
+}
+#ced_csmarketplace_vpayments tr > td{
+    padding-right: 15px !important;
+   padding-bottom: 10px !important;
+}
+.page-main-actions {
+    margin: 0px 0px 15px 0px !important;
+}
+#create_new_category_commision iframe {
+    position: absolute;
+    height: 100%;
+}
+.csmarketplace-vendor-index #vendorGrid .data-grid td.col-created_at,
+#productGrid .data-grid td.col-created_at {
+    width: 130px;
+}
+.csmarketplace-vendor-index #vendorGrid .data-grid td.col-created_at .ui-datepicker-trigger,
+#productGrid .data-grid td.col-created_at .ui-datepicker-trigger {
+    visibility: hidden;
+}
+.csmarketplace-vendor-index #vendorGrid .data-grid td.col-created_at .ui-datepicker-trigger:after,
+#productGrid .data-grid td.col-created_at .ui-datepicker-trigger:after {
+    visibility: visible;
+    top: 0;
+    position: absolute;
+    left: 4px;
+}

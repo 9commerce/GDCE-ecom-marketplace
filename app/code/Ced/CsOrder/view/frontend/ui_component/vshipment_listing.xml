@@ -1,0 +1,153 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsOrder
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+-->
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">vshipment_listing.vshipment_listing_data_source</item>
+        </item>
+    </argument>
+    <settings>
+        <spinner>vshipment_columns</spinner>
+        <deps>
+            <dep>vshipment_listing.vshipment_listing_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="vshipment_listing_data_source" component="Magento_Ui/js/grid/provider">
+        <settings>
+            <storageConfig>
+                <param name="indexField" xsi:type="string">id</param>
+            </storageConfig>
+            <updateUrl path="mui/index/render"/>
+        </settings>
+        <dataProvider class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider"
+                      name="vshipment_listing_data_source">
+            <settings>
+                <requestFieldName>shipment_id</requestFieldName>
+                <primaryFieldName>shipment_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <listingToolbar name="listing_top">
+        <settings>
+            <sticky>true</sticky>
+        </settings>
+        <columnsControls name="columns_controls"/>
+        <bookmark name="bookmarks" class="Ced\CsMarketplace\Component\Bookmark">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/controls/bookmarks/bookmarks</item>
+                    <item name="displayArea" xsi:type="string">dataGridActions</item>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="saveUrl" xsi:type="url" path="csmarketplace/bookmark/save"/>
+                        <item name="deleteUrl" xsi:type="url" path="csmarketplace/bookmark/delete"/>
+                        <item name="namespace" xsi:type="string">vshipment_listing</item>
+                    </item>
+                </item>
+            </argument>
+        </bookmark>
+        <filters name="listing_filters"/>
+        <paging name="listing_paging"/>
+
+        <massaction name="listing_massaction">
+            <action name="pdfshipment_order">
+                <settings>
+                    <url path="csorder/shipment/pdfshipments"/>
+                    <type>pdfshipment_order</type>
+                    <label translate="true">PDF Shipments</label>
+                </settings>
+            </action>
+        </massaction>
+
+    </listingToolbar>
+
+    <columns name="vshipment_columns">
+        <settings>
+            <childDefaults>
+                <param name="fieldAction" xsi:type="array">
+                    <item name="provider" xsi:type="string">
+                        vshipment_listing.vshipment_listing.vshipment_columns.actions
+                    </item>
+                    <item name="target" xsi:type="string">applyAction</item>
+                    <item name="params" xsi:type="array">
+                        <item name="0" xsi:type="string">edit</item>
+                        <item name="1" xsi:type="string">${ $.$data.rowIndex }</item>
+                    </item>
+                </param>
+            </childDefaults>
+        </settings>
+
+        <selectionsColumn name="ids" sortOrder="0">
+            <settings>
+                <indexField>shipment_id</indexField>
+            </settings>
+        </selectionsColumn>
+
+        <column name="shipment_increment_id" sortOrder="1">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Shipment #</label>
+            </settings>
+        </column>
+        <column name="shipment_created_at" class="Magento\Ui\Component\Listing\Columns\Date"
+                component="Magento_Ui/js/grid/columns/date" sortOrder="10">
+            <settings>
+                <filter>dateRange</filter>
+                <dataType>date</dataType>
+                <label translate="true">Date Shipped</label>
+                <sorting>desc</sorting>
+            </settings>
+        </column>
+        <column name="order_increment_id" sortOrder="20">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Order #</label>
+            </settings>
+        </column>
+        <column name="order_created_at" class="Magento\Ui\Component\Listing\Columns\Date"
+                component="Magento_Ui/js/grid/columns/date" sortOrder="30">
+            <settings>
+                <filter>dateRange</filter>
+                <dataType>date</dataType>
+                <label translate="true">Order Date</label>
+            </settings>
+        </column>
+        <column name="shipping_name" class="Ced\CsMarketplace\Ui\Component\Listing\Columns\BillingName" sortOrder="40">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Ship to Name</label>
+            </settings>
+        </column>
+        <column name="total_qty" class="Ced\CsOrder\Ui\Component\Listing\Columns\Vshipment\Totalqty" sortOrder="50">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Shipping Qty.</label>
+            </settings>
+        </column>
+        <actionsColumn name="actions" class="Ced\CsOrder\Ui\Component\Listing\Columns\Vshipment\View" sortOrder="70">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="indexField" xsi:type="string">shipment_id</item>
+                    <item name="label" xsi:type="string" translate="true">Action</item>
+                </item>
+            </argument>
+        </actionsColumn>
+    </columns>
+</listing>

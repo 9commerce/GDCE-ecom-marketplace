@@ -1,0 +1,73 @@
+<?php
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php $_totals = $this->getTotals('') ?>
+<?php if ($_totals): ?>
+    <?php foreach ($_totals as $_code => $_total): ?>
+        <?php if ($_total->getBlockName()): ?>
+            <?= /* @noEscape */ $this->getChildHtml($_total->getBlockName(), false); ?>
+        <?php else: ?>
+            <tr class="<?= /* @noEscape */ $_code ?>">
+                <td <?= /* @noEscape */ $this->getLabelProperties() ?> class="a-right"
+                                                              colspan="9">
+                    <?php if ($_total->getStrong()): ?>
+                        <?= /* @noEscape */ $_total->getLabel() ?>
+                    <?php else: ?>
+                        <?= /* @noEscape */ $_total->getLabel() ?>
+                    <?php endif ?>
+                </td>
+                <?php if ($_total->getStrong()): ?>
+                <td <?= /* @noEscape */ $this->getValueProperties() ?> class=" a-right emph"
+                                                                       colspan="3">
+                    <?= /* @noEscape */ $this->formatValue($_total) ?>
+                    </td>
+                    <?php else: ?>
+                    <td class="a-right" <?= /* @noEscape */ $this->getValueProperties() ?>
+                        colspan="3">
+                    <?= /* @noEscape */ $this->formatValue($_total) ?>
+                    </td>
+                    <?php endif ?>
+            </tr>
+        <?php endif ?>
+    <?php endforeach ?>
+
+<?php endif ?>
+
+<?php $_totals = $this->getTotals('footer') ?>
+<?php if ($_totals): ?>
+    <?php foreach ($this->getTotals('footer') as $_code => $_total): ?>
+        <?php if ($_total->getBlockName()): ?>
+            <?= /* @noEscape */ $this->getChildHtml($_total->getBlockName(), false); ?>
+        <?php else: ?>
+            <tr class="<?= /* @noEscape */ $_code ?>">
+                <td <?= /* @noEscape */ $this->getLabelProperties() ?> class="a-right"
+                                                              colspan="9">
+                    <?= /* @noEscape */ $_total->getLabel() ?>
+                </td>
+                <td <?= /* @noEscape */ $this->getValueProperties() ?> class="a-right"
+                                                                       colspan="3">
+                    <?= /* @noEscape */ $this->formatValue($_total) ?>
+                </td>
+            </tr>
+        <?php endif ?>
+    <?php endforeach ?>
+<?php endif ?>

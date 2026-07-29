@@ -1,0 +1,110 @@
+<?php
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsImportExport
+ * @author     CedCommerce Core Team <connect@cedcommerce.com >
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license      http://cedcommerce.com/license-agreement.txt
+ */
+?>
+
+<?php
+$vandor_id = $block->VendorId();
+$path = $block->read();
+$loaderurl = $block->getViewFileUrl('Ced_CsImportExport/image/loader-2.gif');
+?>
+<div id="update-section-content">
+    <div class="row">
+        <div class="col-md-12" style="margin-top: 10px;">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="font-size: 22px;">
+                    <span><?= /* @noEscape */ __('Image Management'); ?></span>
+                </div>
+                <div class="panel-body">
+                    <div id="accordion" class="panel-group">
+                        <div class="panel panel-default">
+                            <div class="panel-heading"
+                                 style="font-size: 17px; line-height: 31px;">
+                                <h4 class="panel-title customcss">
+                                    <a class="collapsed1" href="#collapseOne"
+                                       data-parent="#accordion" data-toggle="collapse"
+                                       aria-expanded="false">
+                                        <?= /* @noEscape */ __('Upload Images/Files'); ?>
+                                    </a>
+                                    <button class="btn btn-success uptransform" type="submit" id="mass-upload">
+                                        <?= /* @noEscape */ __('Upload'); ?>
+                                    </button>
+                                </h4>
+                            </div>
+                            <div id="collapseOne" class="panel-collapse collapse in"
+                                 aria-expanded="true" style="">
+                                <div class="panel-body">
+                                    <div class="uptransform">
+                                        <form method="post"
+                                              action="<?= $block->escapeUrl($block->getUrl('csimportexport/import/uploadimage', ['vendor_id' => $vandor_id])) ?>"
+                                              enctype="multipart/form-data" id="multiple_upload_form">
+                                            <div id="queue"></div>
+                                            <input id="file_upload" name="file_upload[]" type="file"
+                                                   multiple="true">
+                                            <div data-role="loader" class="loading-mask" style="display: none;"
+                                                 id="loader">
+                                                <div class="loader"><img src="<?= $block->escapeUrl($loaderurl); ?>"
+                                                                         alt="Loading...">
+                                                    <p><<?= /* @noEscape */ __('Please wait...') ?></p></div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    require([
+        'jquery',
+        'jqueryform'
+    ], function ($) {
+        'use_strict';
+
+        $('#mass-upload').on('click', function (e) {
+
+            var length = document.getElementById('file_upload').files.length;
+
+            if (!length) {
+                e.preventDefault();
+                return false;
+            }
+            $('#multiple_upload_form').ajaxForm({
+                beforeSubmit: function (e) {
+                    $('.loading-mask').show();
+                },
+                success: function (e) {
+                    $("#multiple_upload_form").load(
+                        location.href + " #multiple_upload_form>*", "");
+                    require('uiRegistry').get('index = uploaded_images').source.reload();
+                    document.getElementById("loader").style.display = 'none';
+                },
+                error: function (e) {
+                }
+            }).submit();
+            e.stopImmediatePropagation();
+            return false;
+        });
+    });
+</script>
+

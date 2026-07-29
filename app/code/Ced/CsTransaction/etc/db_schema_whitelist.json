@@ -1,0 +1,63 @@
+{
+    "ced_cstransaction_vorder_items": {
+        "column": {
+            "id": true,
+            "parent_id": true,
+            "order_item_id": true,
+            "order_id": true,
+            "order_increment_id": true,
+            "vendor_id": true,
+            "qty_ready_to_pay": true,
+            "qty_paid": true,
+            "total_invoiced_amount": true,
+            "total_creditmemo_amount": true,
+            "amount_paid": true,
+            "qty_ready_to_refund": true,
+            "qty_pending_to_refund": true,
+            "qty_refunded": true,
+            "amount_refunded": true,
+            "currency": true,
+            "sku": true,
+            "base_row_total": true,
+            "row_total": true,
+            "item_fee": true,
+            "item_commission": true,
+            "shop_commission_type_id": true,
+            "shop_commission_rate": true,
+            "shop_commission_base_fee": true,
+            "shop_commission_fee": true,
+            "product_qty": true,
+            "item_payment_state": true,
+            "billing_country_code": true,
+            "shipping_country_code": true,
+            "is_requested": true,
+            "amount_ready_to_refund": true,
+            "qty_ordered": true,
+            "qty_for_pay_now": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "ced_csmarketplace_vendor_payments": {
+        "column": {
+            "item_wise_amount_desc": true,
+            "total_shipping_amount": true
+        }
+    },
+    "ced_csmarketplace_vendor_payments_requested": {
+        "column": {
+            "entity_id": true,
+            "vendor_id": true,
+            "order_id": true,
+            "amount": true,
+            "status": true,
+            "created_at": true,
+            "updated_at": true,
+            "vorder_item_id": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    }
+}

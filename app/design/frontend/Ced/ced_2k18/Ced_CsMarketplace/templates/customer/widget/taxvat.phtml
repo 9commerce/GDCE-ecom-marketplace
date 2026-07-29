@@ -1,0 +1,23 @@
+<?php
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license      https://cedcommerce.com/license-agreement.txt
+ */
+
+?>
+<div class="input-box">
+    <input placeholder="<?= /* @noEscape */ __('Tax/VAT number') ?>" type="text" id="<?= /* @noEscape */ $block->getFieldId('taxvat')?>" name="<?= /* @noEscape */ $block->getFieldName('taxvat')?>" value="<?= /* @noEscape */ $block->htmlEscape($block->getTaxvat()) ?>" title="<?= /* @noEscape */ __('Tax/VAT number') ?>" class="form-control input-text<?php if ($block->isRequired()):?> required-entry<?php endif; ?>" <?= /* @noEscape */ $block->getFieldParams() ?> />
+</div>

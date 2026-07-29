@@ -1,0 +1,126 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license      https://cedcommerce.com/license-agreement.txt
+ */
+/** @var \Magento\Framework\Escaper $escaper */
+?>
+<?php if($block->getCollection()->getSize()): ?>
+    <?php if($block->getUseContainer()): ?>
+        <div class="row">
+            <div style="text-align:center;">
+            <?php endif ?>
+            <?php if($block->getShowAmounts()): ?>
+                <div class="col-md-4 left-pager">
+                    <p class="amount">
+                        <?php if($block->getLastPageNum()>1): ?>
+                            <?= $block->escapeHtml(__('Items %s to %s of %s total', $block->getFirstNum(), $block->getLastNum(), $block->getTotalNum())) ?>
+                        <?php else: ?>
+                            <strong><?= $block->escapeHtml(__('%s Item(s)', $block->getTotalNum())) ?></strong>
+                        <?php endif; ?>
+                    </p>
+                </div>
+            <?php endif ?>
+            <?php if($block->getLastPageNum()>1): ?>
+                <div class="col-md-4 center-pager pages">
+                    <div class="paging_simple_numbers" >
+                        <ul  class="pagination" style="margin:0;">
+                            <?php if (!$block->isFirstPage()): ?>
+                                <li class="paginate_button previous" >
+                                    <a class="previous<?php if(!$block->getAnchorTextForPrevious()): ?> i-previous<?php endif;?>" href="<?= $block->escapeUrl($block->getPreviousPageUrl()) ?>" title="<?= $block->escapeHtml(__('Previous')) ?>">
+                                        <?php if(!$block->getAnchorTextForPrevious()): ?>
+                                            <img src="<?= $block->escapeUrl($this->getViewFileUrl('images/ced/csmarketplace/pager_arrow_left.gif')) ?>" alt="<?= $block->escapeHtml(__('Previous')) ?>" class="v-middle" />
+                                        <?php else: ?>
+                                            <?php echo $this->getAnchorTextForPrevious() ?>
+                                        <?php endif;?>
+                                    </a>
+                                </li>
+                            <?php else:?>
+                               <li class="paginate_button previous disabled" style="background-color:grey;">
+                                <a class="previous<?php if(!$this->getAnchorTextForNext()): ?> i-next<?php endif; ?>" href="#" title="<?= $block->escapeHtml(__('Next')) ?>">
+                                    <?php if(!$this->getAnchorTextForNext()): ?>
+                                        <img src="<?= $block->escapeUrl($this->getViewFileUrl('images/ced/csmarketplace/pager_arrow_left.gif')) ?>" alt="<?= $block->escapeHtml(__('Next')) ?>" class="v-middle" />
+                                    <?php else: ?>
+                                        <?php echo $this->getAnchorTextForNext() ?>
+                                    <?php endif;?>
+                                </a>
+                            </li>
+                        <?php endif;?>
+                        <?php if ($this->canShowFirst()): ?>
+                            <li class="paginate_button " aria-controls="dataTables-example"><a class="first" href="<?= $block->escapeUrl($this->getFirstPageUrl()) ?>">1</a></li>
+                        <?php endif;?>
+                        <?php if ($this->canShowPreviousJump()): ?>
+                            <li class="paginate_button" ><a class="previous_jump" title="" href="<?= $block->escapeUrl($this->getPreviousJumpUrl()) ?>">...</a></li>
+                        <?php endif;?>
+                        <?php foreach ($this->getFramePages() as $_page): ?>
+                            <?php if ($this->isPageCurrent($_page)): ?>
+                                <li class="paginate_button active"><a href="#"><?php echo $_page ?></a></li>
+                            <?php else: ?>
+                                <li class="paginate_button " ><a href="<?= $block->escapeUrl($this->getPageUrl($_page)) ?>"><?php echo $_page ?></a></li>
+                            <?php endif;?>
+                        <?php endforeach;?>
+                        <?php if ($this->canShowNextJump()): ?>
+                            <li class="paginate_button " ><a class="next_jump" title="" href="<?= $block->escapeUrl($this->getNextJumpUrl()) ?>">...</a></li>
+                        <?php endif;?>
+                        <?php if ($this->canShowLast()): ?>
+                          <li class="paginate_button " ><a class="last" href="<?= $block->escapeUrl($this->getLastPageUrl()) ?>"><?php echo $this->getLastPageNum() ?></a></li>
+                      <?php endif;?>
+                      <?php if (!$this->isLastPage()): ?>
+                        <li class="paginate_button next" >
+                            <a class="next<?php if(!$this->getAnchorTextForNext()): ?> i-next<?php endif; ?>" href="<?= $block->escapeUrl($this->getNextPageUrl()) ?>" title="<?= $block->escapeHtml(__('Next')) ?>">
+                                <?php if(!$this->getAnchorTextForNext()): ?>
+                                    <img src="<?= $block->escapeUrl($this->getViewFileUrl('images/ced/csmarketplace/pager_arrow_right.gif')) ?>" alt="<?= $block->escapeHtml(__('Next')) ?>" class="v-middle" />
+                                <?php else: ?>
+                                    <?php echo $this->getAnchorTextForNext() ?>
+                                <?php endif;?>
+                            </a>
+                        </li>
+                    <?php else:?>
+                       <li class="paginate_button next disabled" style="background-color:grey;" >
+                        <a class="next<?php if(!$this->getAnchorTextForNext()): ?> i-next<?php endif; ?>" href="#" title="<?= $block->escapeHtml(__('Next')) ?>">
+                            <?php if(!$this->getAnchorTextForNext()): ?>
+                                <img src="<?= $block->escapeUrl($this->getViewFileUrl('images/ced/csmarketplace/pager_arrow_right.gif')) ?>" alt="<?= $block->escapeHtml(__('Next')) ?>" class="v-middle" />
+                            <?php else: ?>
+                                <?php echo $this->getAnchorTextForNext() ?>
+                            <?php endif;?>
+                        </a>
+                    </li>
+                <?php endif;?>
+            </ul>
+        </div>
+    </div>
+<?php else: ?>
+   <div class="col-md-4 center-pager"></div>
+<?php endif; ?>
+<?php if($this->getShowPerPage()): ?>
+    <div class="col-md-4 right-pager">
+        <div class="limiter">
+            <label><?= $block->escapeHtml(__('Show')) ?></label>
+            <select onchange="setLocation(this.value)">
+                <?php foreach ($this->getAvailableLimit() as  $_key=>$_limit): ?>
+                    <option value="<?= $block->escapeUrl($this->getLimitUrl($_key)) ?>"<?php if($this->isLimitCurrent($_key)): ?> selected="selected"<?php endif ?>>
+                        <?php echo $_limit ?>
+                    </option>
+                <?php endforeach; ?>
+            </select><?= $block->escapeHtml(__('per page')) ?>
+        </div>
+    </div>
+    <div style="clear:both"></div>
+<?php endif ?>
+<?php if($this->getUseContainer()): ?>
+</div>
+</div>
+<?php endif ?>
+<?php endif ?>

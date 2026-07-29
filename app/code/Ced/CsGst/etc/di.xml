@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!--
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://cedcommerce.com/license-agreement.txt
+ *
+ * @category  Ced
+ * @package   Ced_CsGst
+ * @author    CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license      http://cedcommerce.com/license-agreement.txt
+ */ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <preference for="Ced\CsMarketplace\Helper\Mail" type="Ced\CsGst\Helper\Mail" />
+    <preference for="Magento\Sales\Block\Adminhtml\Order\View\Items\Renderer\DefaultRenderer" type="Ced\CsGst\Block\Adminhtml\Order\View\Items\Renderer\DefaultRenderer" />
+    <preference for="Magento\Tax\Model\TaxClass\Source\Product" type="Ced\CsGst\Model\TaxClass\Source\Product" />
+    
+    <preference for="Magento\Sales\Block\Order\Email\Items\Order\DefaultOrder" type="Ced\CsGst\Block\Order\Email\Items\Order\DefaultOrder" />
+	 <preference for="Magento\Bundle\Block\Sales\Order\Items\Renderer" type="Ced\CsGst\Block\Order\Email\Items\Order\Bundle" />
+	<preference for="Magento\Downloadable\Block\Sales\Order\Email\Items\Order\Downloadable" type="Ced\CsGst\Block\Order\Email\Items\Order\Downloadable"/>
+	<preference for="Magento\GroupedProduct\Block\Order\Email\Items\Order\Grouped" type="Ced\CsGst\Block\Order\Email\Items\Order\Grouped" />
+	<preference for="Magento\Sales\Model\Order\Pdf\Invoice" type="Ced\CsGst\Model\Order\Pdf\Invoice"/>
+	<preference for="Magento\Sales\Model\Order\Pdf\Items\Invoice\DefaultInvoice" type="Ced\CsGst\Model\Order\Pdf\Items\Invoice\DefaultInvoice"/>
+	<preference for="Magento\Sales\Model\Order\Pdf\Creditmemo" type="Ced\CsGst\Model\Order\Pdf\Creditmemo"/>
+	<preference for="Magento\Sales\Model\Order\Pdf\Items\Creditmemo\DefaultCreditmemo" type="Ced\CsGst\Model\Order\Pdf\Items\Creditmemo\DefaultCreditmemo"/>
+    
+    <preference for="Ced\CsOrder\Model\Order\Pdf\Invoice" type="Ced\CsGst\Model\Order\Pdf\Vinvoice"/>
+    <preference for="Magento\Bundle\Model\Sales\Order\Pdf\Items\Invoice" type="Ced\CsGst\Model\Order\Pdf\Admininvoice"/>
+    <preference for="Magento\Bundle\Model\Sales\Order\Pdf\Items\Creditmemo" type="Ced\CsGst\Model\Order\Pdf\Admincreditmemo"/>
+    <preference for="Ced\CsOrder\Model\Order\Pdf\Creditmemo" type="Ced\CsGst\Model\Order\Pdf\Vcreditmemo"/>
+    
+    <type name="Magento\Quote\Model\BillingAddressManagement">
+        <plugin disabled="false" name="ced_csgst_billing_address_management" sortOrder="10"
+                type="Ced\CsGst\Plugin\Magento\Quotemodel\BillingAddressManagement"/>
+    </type>
+
+    <type name="Magento\Quote\Model\ShippingAddressManagement">
+        <plugin disabled="false" name="ced_csgst_shipping_information" sortOrder="10"
+                type="Ced\CsGst\Plugin\Magento\Quotemodel\ShippingInformationManagement"/>
+    </type>
+</config>

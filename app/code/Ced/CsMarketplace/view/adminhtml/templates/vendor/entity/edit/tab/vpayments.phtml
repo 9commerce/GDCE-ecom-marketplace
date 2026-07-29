@@ -1,0 +1,62 @@
+<?php
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+
+// @codingStandardsIgnoreFile
+
+ ?>
+<?php
+/** @var $block \Ced\CsMarketplace\Block\Adminhtml\Vendor\Entity\Edit\Tab\Vpayments */
+ $currentStoreCurrency = $block->getStoreManager()->getStore(null)->getBaseCurrencyCode();
+?>
+<div>
+	<div class="entry-edit-head">
+		<h4 class="icon-head head-edit-form fieldset-legend"><?= /* @noEscape */ __('Transactions Statistics') ?></h4>
+		<div class="form-buttons"></div>
+	</div>
+	<div id="transaction_state" class="fieldset ">
+		<div class="hor-scroll">
+			<table class="form-list trans-design" id="my-orders-table">
+				<tbody>
+					<tr>
+						<td ><label for="earning_amount"><strong><?= /* @noEscape */ __('Total Earned Amount') ?></strong></label></td>
+						<td class="value"><div class="input-text" id="earning_amount"><strong><?=
+                                    /* @noEscape */ $block->getPriceCurrency()->format($block->getEarningAmount(),false,2,null,$currentStoreCurrency);
+						?></strong></div></td>
+					</tr>
+					<tr>
+						<td ><label for="pending_amount"><?= /* @noEscape */ __('Total Pending Amount') ?></label></td>
+						<td class="value"><div class="input-text" id="pending_amount"><?=
+                                /* @noEscape */ $block->getPriceCurrency()->format($block->getPendingAmount(),false,2,null,$currentStoreCurrency);
+						 ?></div></td>
+					</tr>
+					<tr>
+						<td ><label for="pending_transfer"><?= /* @noEscape */ __('Pending Transfers') ?></label></td>
+						<td class="value"><div class="input-text" id="pending_transfer"><?= /* @noEscape */ $block->getPendingTransfers()?$block->getPendingTransfers():0; ?></div></td>
+					</tr>
+				</tbody>
+			</table>
+	</div>
+</div>
+<br/>
+<?= $block->getChildHtml('vpayments.grid'); ?>
+<style type="text/css">
+	.trans-design tr td {
+  padding: 5px 10px;
+}
+</style>

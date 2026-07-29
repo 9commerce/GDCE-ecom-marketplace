@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <update handle="sales_order_item_price"/>
+    <body>
+        
+        <referenceBlock name ="order_tab_info">
+        	<action method="setTemplate">
+	            <argument name="template" xsi:type="string">Ced_CsGst::order/csorder/tabs.phtml</argument>
+	        </action>
+        </referenceBlock>
+        <referenceBlock name="order_items">
+         <action method="setTemplate">
+	            <argument name="template" xsi:type="string">Ced_CsGst::order/csorder/items.phtml</argument>
+	        </action>
+            <arguments>
+                  <argument name="columns" xsi:type="array">
+                        <item name="product" xsi:type="string" translate="true">Product</item>
+                        <item name="status" xsi:type="string" translate="true">Item Status</item>
+                        <item name="price-original" xsi:type="string" translate="true">Original Price</item>
+                        <item name="price" xsi:type="string" translate="true">Price</item>
+                        <item name="ordered-qty" xsi:type="string" translate="true">Qty</item>
+                        <item name="subtotal" xsi:type="string" translate="true">Subtotal</item>
+                        <item name="tax-amount" xsi:type="string" translate="true">Tax Amount</item>
+                        <item name="tax-percent" xsi:type="string" translate="true">Tax Percent</item>
+                        <item name="discont" xsi:type="string" translate="true">Discount Amount</item>
+                        <item name="total" xsi:type="string" translate="true">Row Total</item>
+                        <item name="tax-amount-igst" xsi:type="string" translate="true">IGST</item>
+                        <item name="tax-amount-cgst" xsi:type="string" translate="true">CGST</item>
+                        <item name="tax-amount-sgst" xsi:type="string" translate="true">SGST</item>
+                  </argument>
+             </arguments>
+             <block class="Magento\Sales\Block\Adminhtml\Order\View\Items\Renderer\DefaultRenderer" name="custom_renderer" template="order/view/items/renderer/default.phtml">
+                  <arguments>
+                      <argument name="columns" xsi:type="array">
+                          <item name="product" xsi:type="string" translate="false">col-product</item>
+                          <item name="status" xsi:type="string" translate="false">col-status</item>
+                          <item name="price-original" xsi:type="string" translate="false">col-price-original</item>
+                          <item name="price" xsi:type="string" translate="false">col-price</item>
+                          <item name="qty" xsi:type="string" translate="false">col-ordered-qty</item>
+                          <item name="subtotal" xsi:type="string" translate="false">col-subtotal</item>
+                          <item name="tax-amount" xsi:type="string" translate="false">col-tax-amount</item>
+                          <item name="tax-percent" xsi:type="string" translate="false">col-tax-percent</item>
+                          <item name="discont" xsi:type="string" translate="false">col-discont</item>
+                          <item name="total" xsi:type="string" translate="false">col-total</item>
+                          <item name="tax-amount-igst" xsi:type="string" translate="false">col-tax-amount-igst</item>
+                          <item name="tax-amount-cgst" xsi:type="string" translate="false">col-tax-amount-cgst</item>
+                          <item name="tax-amount-sgst" xsi:type="string" translate="false">col-tax-amount-sgst</item>
+                      </argument>
+                 </arguments>
+            </block>
+        <action method="setChild">
+            <argument name="alias" xsi:type="string">default</argument>
+            <argument name="block" xsi:type="string">custom_renderer</argument>
+        </action>
+    
+    </referenceBlock>    
+    </body>
+</page>
+

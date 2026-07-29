@@ -1,0 +1,78 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php  $_order = $block->getOrder();
+$currentVendor = $this->getData('vendor_id');
+$orderItems = $this->getData('order_items');
+?>
+<table cellspacing="0" cellpadding="0" border="0" width="650"
+       style="border: 1px solid #EAEAEA;"
+       summary="<?= /* @noEscape */ __('Items Ordered') ?>">
+    <col />
+    <col width="1" />
+    <col width="1" />
+    <col width="1" />
+    <col width="1" />
+    <thead>
+    <tr>
+        <th align="left" bgcolor="#EAEAEA"
+            style="font-size: 13px; padding: 3px 9px"><?= /* @noEscape */ __('Product Name') ?></th>
+        <th align="left" bgcolor="#EAEAEA"
+            style="font-size: 13px; padding: 3px 9px"><?= /* @noEscape */ __('SKU') ?></th>
+        <th align="center" bgcolor="#EAEAEA"
+            style="font-size: 13px; padding: 3px 9px"><?= /* @noEscape */ __('Qty') ?></th>
+        <th align="right" bgcolor="#EAEAEA"
+            style="font-size: 13px; padding: 3px 9px"><?= /* @noEscape */ __('Price') ?></th>
+    </tr>
+    </thead>
+    <?php $sum=0; ?>
+    <?php if($_order){?>
+        <?php foreach ($orderItems as $_item): ?>
+            <?php 
+            if($_item->getVendorId() != $currentVendor) continue;?>
+            <?php
+            if ($_item->getParentItem()) {
+                continue;
+            }
+            ?>
+            <tbody>
+            <td align="left"
+                style="font-size: 13px; padding: 3px 9px"><?= /* @noEscape */ $_item->getName()?></td>
+            <td align="left"
+                style="font-size: 13px; padding: 3px 9px"><?= /* @noEscape */ $_item->getSku()?></td>
+            <td align="center"
+                style="font-size: 13px; padding: 3px 9px"><?= /* @noEscape */ $_item->getQtyOrdered()?></td>
+            <td align="right"
+                style="font-size: 13px; padding: 3px 9px"><?= /* @noEscape */ $_order->formatPrice($_item->getRowTotal())?></td>
+            <?php
+            $sum+=$_item->getRowTotal();
+            ?>
+            </tbody>
+        <?php endforeach;?>
+        <tbody>
+        <td colspan="3" align="left" bgcolor="#EAEAEA"><?= /* @noEscape */ __('SubTotal')?></td>
+        <td align="right" bgcolor="#EAEAEA">
+            <?= /* @noEscape */ ($_order)?$_order->formatPrice($sum):'' ?>
+        </td>
+        </tbody>
+    <?php } ?>
+</table>
+

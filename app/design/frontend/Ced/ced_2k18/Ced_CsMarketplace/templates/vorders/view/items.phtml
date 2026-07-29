@@ -1,0 +1,67 @@
+<?php
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license      https://cedcommerce.com/license-agreement.txt
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php /** @var \Ced\CsMarketplace\Block\Vorders\View\Items $block */?>
+<?php $_order = $this->getOrder();?>
+<div class="order-items order-details table-responsive">
+    <table id="my-products-table" class="data-table table table-bordered table-hover table-striped">
+        <col width="1"/>
+        <col width="1" />
+        <col width="1" />
+        <col width="1" />
+        <col width="1" />
+        <col width="1" />
+        <col width="1" />
+        <col width="1" />
+        <col width="1" />
+        <col width="1" />
+        <col width="1" />
+        <thead>
+        <tr class="headings">
+            <th class="head"><?= __('Product') ?></th>
+            <th class="head"><?= __('Item Status') ?></th>
+            <th class="head"><span class="nobr"><?= __('Original Price') ?></span></th>
+            <th class="head"><?= __('Price') ?></th>
+            <th class="a-center head"><?= __('Qty') ?></th>
+            <th class="head"><?= __('Subtotal') ?></th>
+            <th class="head"><span class="nobr"><?= __('Tax Amount') ?></span></th>
+            <th class="head"><span class="nobr"><?= __('Tax Percent') ?></span></th>
+            <th class="head"><span class="nobr"><?= __('Discount Amount') ?></span></th>
+            <th class="last head"><span class="nobr"><?= __('Row Total') ?></span></th>
+        </tr>
+        </thead>
+        <tfoot>
+        <?= $block->getChildHtml('order_totals') ?>
+        <?php //echo $block->getChildHtml('earn') ?>
+        </tfoot>
+        <?php
+        $vorder = $block->getVorder();
+        $_items = $vorder->getItemsCollection(); ?>
+        <?php $i=0;foreach ($_items as $_item):?>
+            <?php if ($_item->getParentItem()) continue; else $i++;?>
+            <tbody class="<?= $i%2?'even':'odd' ?>">
+            <?= $block->getItemHtml($_item) ?>
+            <?= $block->getItemExtraInfoHtml($_item) ?>
+            </tbody>
+        <?php endforeach; ?>
+    </table>
+</div>

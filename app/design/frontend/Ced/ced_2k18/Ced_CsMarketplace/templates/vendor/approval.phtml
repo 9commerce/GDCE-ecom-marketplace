@@ -1,0 +1,169 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license      https://cedcommerce.com/license-agreement.txt
+ */
+// @codingStandardsIgnoreFile
+?>
+<?php
+$helper = $this->helper('Ced\CsMarketplace\Helper\Tool\Image');
+$dataHelper = $this->helper(\Ced\CsMarketplace\Helper\Data::class);
+$logo = $helper->getStoreConfig("ced_loginsignup/header/logo",$this->getCurrentStoreId()) ? "ced/csmarketplace/".$helper->getStoreConfig("ced_loginsignup/header/logo",$this->getCurrentStoreId()) : '';
+$logoImage = $helper->getResizeImage($logo, 'logo', 335, 106);
+$footerContent = $helper->getStoreConfig("ced_csmarketplace/general/footer_content",$this->getCurrentStoreId());
+$isfooterEnable = $helper->getStoreConfig("ced_csmarketplace/general/enable_footer",$this->getCurrentStoreId());
+$isadvance = $helper->getStoreConfig("ced_csmarketplace/login_page/design", $this->getCurrentStoreId());
+?>
+
+<div class="ced_vendor_before_login_wrapper">
+	<div class="ced_vendor_before_wrap clearfix">
+		<div class="ced_vendor_login">
+			<div class="right">
+				<div class="login-panel panel panel-default" >
+					<?php if($block->getVendorId()): ?>
+
+					<div class="panel-body">
+						<p class="hello">
+							<strong> <?= __('Hello').', '.__($block->escapeHtml($block->getVendor()->getName())) ?></strong>
+						</p>
+
+						<?php if( $this->getVendor()->getStatus() == 'pending'):?>
+						<p>
+							<span class="review_vendor" title="Under Review!"><i class="fa fa-eye fa-3"></i> <?= __('Your account is under review');?>
+							</span>
+						</p>
+    					<?php else:?>
+						    <p class="approval-status"><?= $block->getApprovalMessage(); ?> <?= __('Please check email on your registered email for more information.');?></p>
+						<?php endif;?>
+						<div>
+							<button type="button" title="<?= __('Log Out');?>" class="btn btn-primary" onclick="location.href ='<?php  echo $block->getLogoutUrl(); ?>'"><?= __('Log Out');?></button>
+							<button type="button" title="<?= __('Go to Main Website');?>" class="btn btn-primary" onclick="location.href ='<?= $block->getBaseUrl(); ?>'"><?= __('Go to Main Website');?></button>
+							<div class="clear:both"></div>
+						</div>
+					</div>
+					<?php else: ?>
+					<div class="panel-heading" class="panel-title vendor-login-tab"><?= __('Send Approval Request') ?></h3>
+					</div>
+					<div class="panel-body">
+						<p class="hello"><strong><?= __('Hello, '.$block->escapeHtml($block->getCustomer()->getFirstname())) ?></strong></p>
+						<p><?= $block->getApprovalMessage(); ?></p>
+						<form id="form-validate" class="scaffold-form form-login" enctype="multipart/form-data" method="post" action="<?= $block->_vendorUrl->getApprovalPostUrl(); ?>" onsubmit ="return validateshopurl()">
+							<div class="fieldset">
+								<ul class="form-list" style="padding:10px;">
+									<?= $block->getChildHtml('vendor_after_reg_form'); ?>
+								</ul>
+							</div>
+							<div class="buttons-set">
+								<p class="required"><?= __('* Required Fields') ?></p>
+								<p class="back-link"><a href="<?= $block->escapeUrl($block->getBackUrl()) ?>" class="back-link"><small>&laquo; </small><?= __('Back') ?></a></p>
+								<div class="btn-main">
+									<button type="submit" title="<?= __('Submit') ?>" class="button btn btn-primary"><span><span><?= __('Submit') ?></span></span></button>
+									<div class="clear:both"></div>
+								</div>
+								<div class="btn-main-bottom" >
+										<button type="button" title="<?= __('Log Out') ?>"  class="btn btn-primary" onclick="location.href ='<?= $block->_vendorUrl->getLogoutUrl(); ?>'"><?= __('Log Out') ?></button>
+										<button type="button" title="<?= __('Go to Main Website') ?>" class="btn btn-primary" onclick="location.href = '<?= $block->_vendorUrl->getBaseUrl(); ?>'"><?= __('Go to Main Website') ?></button>
+								</div>
+							</div>
+						</form>
+					</div>
+					<script>
+						require([
+							'jquery',
+							'mage/mage'
+							], function($){
+								var dataForm = $('#form-validate');
+								var ignore = <?= 'null'; ?>;
+								dataForm.mage('validation', {
+									ignore: ignore ? ':hidden:not(' + ignore + ')' : ':hidden'
+								}).find('input:text').attr('autocomplete', 'off');
+							});
+						</script>
+						<?php endif; ?>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<?php if ($isfooterEnable): ?>
+    <?php if ($isadvance == 'new_design') { ?>
+        <footer>
+            <div class="section_footer">
+                <div class="container">
+                    <p class="footer_para"><?= $footerContent; ?></p>
+                    <ul class="footer_list_right">
+                        <?php if ($dataHelper->isFacebookLinkEnabled()) : ?>
+                            <li>
+                                <a href="<?= $block->getFacebookId() != '' ? 'https://www.facebook.com/' . $block->getFacebookId() : 'JavaScript:void(0);'; ?>"
+                                   title="<?= __('Facebook'); ?>">
+                                    <i class="fa fa-facebook footer-icon-facebook" aria-hidden="true"></i>
+                                </a>
+                            </li>
+                        <?php endif; ?>
+                        <?php if ($dataHelper->isTwitterLinkEnabled()) : ?>
+                            <li>
+                                <a href="<?= $block->getTwitterId() != '' ? 'https://twitter.com/' . $block->getTwitterId() : 'JavaScript:void(0);'; ?>"
+                                   title="<?= __('Twitter'); ?>">
+                                    <i class="fa fa-twitter footer-icon" aria-hidden="true"></i>
+                                </a>
+                            </li>
+                        <?php endif; ?>
+                        <?php if ($dataHelper->isLinkedinLinkEnabled()) : ?>
+                            <li>
+                                <a href="<?= $block->getLinkedinId() != '' ? 'https://in.linkedin.com/' . $block->getLinkedinId() : 'JavaScript:void(0);'; ?>"
+                                   title="<?= __('Linkedin'); ?>">
+                                    <i class="fa fa-linkedin footer-icon" aria-hidden="true"></i>
+                                </a>
+                            </li>
+                        <?php endif; ?>
+                        <?php if ($dataHelper->isInstagramLinkEnabled()) : ?>
+                            <li>
+                                <a href="<?= $block->getInstagramId() != '' ? '//www.instagram.com/' . $block->getInstagramId() : 'JavaScript:void(0);'; ?>"
+                                   title="<?= __('Instagram'); ?>">
+                                    <i class="fa fa-instagram footer-icon" aria-hidden="true"></i>
+                                </a>
+                            </li>
+                        <?php endif; ?>
+                    </ul>
+                </div>
+            </div>
+        </footer>
+    <?php } else { ?>
+        <div class="ced_vendor_footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <p><?= $footerContent; ?></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php } ?>
+<?php endif; ?>
+<script>
+    function validateshopurl()
+    {
+        var patt = /^([a-zA-Z0-9\-])+$/;
+        var shopurl = document.getElementById('ced-shop-url-field').value;
+        if (patt.test(shopurl)) {
+            document.getElementById("advice-validate-shopurl-ced-shop-url-field").style.display = 'none';        
+            return true; 
+        } else {
+            document.getElementById('advice-validate-shopurl-ced-shop-url-field').innerHTML="Invalid Shop Url";
+            document.getElementById("advice-validate-shopurl-ced-shop-url-field").style.display = 'block';
+            return false; 
+        }     
+    }
+</script>

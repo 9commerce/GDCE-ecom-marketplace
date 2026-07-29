@@ -1,0 +1,131 @@
+<?php
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license      https://cedcommerce.com/license-agreement.txt
+ */
+
+?>
+<?php $_order = $block->getOrder() ?>
+<?php
+$orderAdminDate = $block->formatDate($_order->getCreatedAtDate());
+$orderStoreDate = $block->formatDate($_order->getCreatedAtStoreDate());
+?>
+<div class="panel panel-default for_print_order_button">
+    <div class="panel-heading panel-head col-md-12 clearfix">
+        <div class="order_title">
+            <div class="col-md-6 col-xs-12  panel_product_heading">
+                <span class="order-title-heading"> <?= /* @noEscape */ __('Order #%1 - %2', $_order->getRealOrderId(), $_order->getStatusLabel()) ?></span>
+            </div>
+            <?= /* @noEscape */ $block->getChildHtml('buttons') ?>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="col-md-12">
+            <?= /* @noEscape */ $block->getStatusHistoryRssUrl($_order) ?>
+            <div class="order-info-wrap">
+                <div class="order-info col-md-12">
+                    <h3><?= /* @noEscape */ __('Order Information') ?></h3>
+                </div>
+                <div class="col2-set order-info-box col-md-6 rtl-active">
+                    <table width="100%" cellspacing="0" class="form-list">
+                        <tr>
+                            <td><label><?= /* @noEscape */ __('Order Date') ?></label></td>
+                            <td class="value"><strong><?php $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+                                                        $timezoneInterface = $objectManager->create('Magento\Framework\Stdlib\DateTime\TimezoneInterface');
+                                                        $dateTimeZone = $timezoneInterface->date($_order->getCreatedAt())->format('F j, Y, g:i:s a');
+                                                        ?><?=/* @noEscape */ $dateTimeZone; ?></strong></td>
+                        </tr>
+                        <?php if ($orderAdminDate != $orderStoreDate) : ?>
+                            <tr>
+                                <td><label><?= /* @noEscape */ __('Order Date (%1)', $_order->getCreatedAtStoreDate()->getTimezone()) ?></label></td>
+                                <td class="value"><strong><?= /* @noEscape */ $orderStoreDate ?></strong></td>
+                            </tr>
+                        <?php endif; ?>
+                        <tr>
+                            <td><label><?= /* @noEscape */ __('Order Status') ?></label></td>
+                            <td class="value"><strong><span id="order_status"><?= /* @noEscape */ $_order->getStatusLabel() ?></span></strong></td>
+                        </tr>
+                        <tr>
+                            <td><label><?= /* @noEscape */ __('Purchased From') ?></label></td>
+                            <td class="value"><strong><?= /* @noEscape */ $block->getOrderStoreName() ?></strong></td>
+                        </tr>
+                        <?php if ($_order->getGlobalCurrencyCode() != $_order->getBaseCurrencyCode()) : ?>
+                            <tr>
+                                <td><label><?= /* @noEscape */ __('%1 / %2 rate:', $_order->getGlobalCurrencyCode(), $_order->getBaseCurrencyCode()) ?></label></td>
+                                <td class="value"><strong><?= /* @noEscape */ $_order->getBaseToGlobalRate() ?></strong></td>
+                            </tr>
+                        <?php endif; ?>
+                        <?php if ($_order->getBaseCurrencyCode() != $_order->getOrderCurrencyCode()) : ?>
+                            <tr>
+                                <td><label><?= /* @noEscape */ __('%1 / %2 rate:', $_order->getOrderCurrencyCode(), $_order->getBaseCurrencyCode()) ?></label></td>
+                                <td class="value"><strong><?= /* @noEscape */ $_order->getBaseToOrderRate() ?></strong></td>
+                            </tr>
+                        <?php endif; ?>
+                    </table>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <?php if (!$_order->getIsVirtual() && $block->canShowCustomerDetails()) : ?>
+                <div class="order-info-box row">
+                    <div class="col-md-6 order-info-box_custom">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4><?= /* @noEscape */ __('Billing Address') ?></h4>
+                            </div>
+                            <div class="panel-body">
+                                <address><?= /* @noEscape */ $block->getFormattedAddress($_order->getBillingAddress()) ?></address>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 order-info-box_custom">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4><?= /* @noEscape */ __('Shipping Address') ?></h4>
+                            </div>
+                            <div class="panel-body">
+                                <address><?= /* @noEscape */ $block->getFormattedAddress($_order->getShippingAddress()) ?></address>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
+            <div class="order-info-box row">
+                <div class="col-md-6 order-info-box_custom">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4><?= /* @noEscape */ __('Payment Method') ?></h4>
+                        </div>
+                        <div class="panel-body">
+                            <?= /* @noEscape */ $block->getPaymentInfoHtml() ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 order-info-box_custom">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4><?= /* @noEscape */ __('Shipping Method') ?></h4>
+                        </div>
+                        <div class="panel-body">
+                            <?php if ($_order->getShippingDescription()) : ?>
+                                <?= /* @noEscape */ $block->escapeHtml($_order->getShippingDescription()) ?>
+                            <?php else : ?>
+                                <p><?= /* @noEscape */ __('No shipping information available'); ?></p>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>

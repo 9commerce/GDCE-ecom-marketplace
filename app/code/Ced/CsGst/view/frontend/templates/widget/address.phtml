@@ -1,0 +1,14 @@
+<?php
+
+$addressTypes = $block->getAddressType(); 
+
+?>
+
+<div class="field addresstype<?php if($block->getIsRequired()){ echo 'required'; } ?>">
+    <label class="label" for="address_type">
+        <span><?= $block->escapeHtml($block->getFieldLabel()) ?></span>
+    </label>
+    <div class="control">
+        <input type="text" name="<?php echo $block->getFieldId() ?>" value="<?php echo $block->getValue() ?>" />
+    </div>
+</div>

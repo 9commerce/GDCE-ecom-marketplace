@@ -1,0 +1,76 @@
+<?php
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license      https://cedcommerce.com/license-agreement.txt
+ */
+// @codingStandardsIgnoreFile
+?>
+<div id="<?= $this->getHtmlId() ?>">
+<table cellspacing="0" cellpadding="0" class="massaction">
+<tr>
+    <td><?php if ($this->getUseSelectAll()):?>
+        <a href="#" onclick="return <?= $this->getJsObjectName() ?>.selectAll()"><?= __('Select All') ?></a>
+        <span class="separator">|</span>
+        <a href="#" onclick="return <?= $this->getJsObjectName() ?>.unselectAll()"><?= __('Unselect All') ?></a>
+        <span class="separator">|</span>
+        <?php endif; ?>
+        <a href="#" onclick="return <?= $this->getJsObjectName() ?>.selectVisible()"><?= __('Select Visible') ?></a>
+        <span class="separator">|</span>
+        <a href="#" onclick="return <?= $this->getJsObjectName() ?>.unselectVisible()"><?= __('Unselect Visible') ?></a>
+        </br>
+        <strong id="<?= $this->getHtmlId() ?>-count">0</strong> <?= __('items selected') ?>
+    </td>
+    <td>
+        <div class="right">
+            <div class="entry-edit">
+                <form action="" id="<?= $this->getHtmlId() ?>-form" method="post">
+                    <?= $this->getBlockHtml('formkey')?>
+                    <fieldset>
+                        <span class="field-row">
+                            <label><?= __('Actions') ?></label>
+                            <select id="<?= $this->getHtmlId() ?>-select" class="required-entry select absolute-advice local-validation">
+                                <option value=""></option>
+                                <?php foreach($this->getItems() as $_item): ?>
+                                    <option value="<?= $_item->getId() ?>"<?= ($_item->getSelected() ? ' selected="selected"' : '')?>><?= $_item->getLabel() ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </span>
+                        <span class="outer-span" id="<?= $this->getHtmlId() ?>-form-hiddens"></span>
+                        <span class="outer-span" id="<?= $this->getHtmlId() ?>-form-additional"></span>
+                        <span class="field-row">
+                            <?= $this->getApplyButtonHtml() ?>
+                        </span>
+                    </fieldset>
+                </form>
+            </div>
+
+            <div class="no-display">
+            <?php foreach($this->getItems() as $_item): ?>
+                <div id="<?= $this->getHtmlId() ?>-item-<?= $_item->getId() ?>-block">
+                    <?= $_item->getAdditionalActionBlockHtml() ?>
+                </div>
+            <?php endforeach; ?>
+            </div>
+        </div>
+    </td>
+</tr>
+</table>
+<?php if(!$this->getParentBlock()->canDisplayContainer()): ?>
+<script type="text/javascript">
+    <?= $this->getJsObjectName() ?>.setGridIds('<?= $this->getGridIdsJson() ?>');
+</script>
+<?php endif; ?>
+</div>

@@ -1,0 +1,77 @@
+<!--
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+-->
+<?php
+/**
+ * @var $block \Ced\CsMarketplace\Block\Adminhtml\Order\SelectVendor
+ * @var \Magento\Framework\Escaper $escaper
+ */
+$vendors = $block->getVendors();
+?>
+<div class="admin__data-grid-wrap admin__data-grid-wrap-static ced-select-vendor-for-invoice-shipment">
+    <table class="data-grid ced-select-vendor-table">
+        <thead>
+            <tr>
+                <th class="data-grid-th">
+                    <span><?= $escaper->escapeHtml(__('Name')); ?></span>
+                </th>
+                <th class="data-grid-th">
+                    <span><?= $escaper->escapeHtml(__('Public Name')); ?></span>
+                </th>
+                <th class="data-grid-th">
+                    <span><?= $escaper->escapeHtml(__('Email')); ?></span>
+                </th>
+                <th class="data-grid-th">
+                    <span><?= $escaper->escapeHtml(__('Status')); ?></span>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($vendors as $data) { ?>
+                <?php if ($data['is_admin'] === false) { ?>
+                    <tr class="_clickable" title="<?= $escaper->escapeHtml($data['row_url']); ?>">
+                        <td>
+                            <a href="<?= $escaper->escapeHtml($data['vendor_edit_url']); ?>" target="_blank">
+                                <?= $escaper->escapeHtml($data['name']); ?>
+                            </a>
+                        </td>
+                        <td><?= $escaper->escapeHtml($data['public_name']); ?></td>
+                        <td><?= $escaper->escapeHtml($data['email']); ?></td>
+                        <td><?= $escaper->escapeHtml($data['status']); ?></td>
+                    </tr>
+                <?php } else {?>
+                    <tr class="_clickable" style="text-align: center" title="<?= $escaper->escapeHtml($data['row_url']); ?>">
+                        <td colspan="4" class="col-admin">
+                            <?= $escaper->escapeHtml(__('Admin'));?>
+                        </td>
+                    </tr>
+                <?php } ?>
+            <?php } ?>
+        </tbody>
+    </table>
+</div>
+<script>
+    require(['jquery'], function ($) {
+        $('.ced-select-vendor-table tbody').on('click', 'tr', function () {
+            var title = $(this).attr('title');
+            if (title) {
+                window.location.href = title;
+            }
+        });
+    });
+</script>

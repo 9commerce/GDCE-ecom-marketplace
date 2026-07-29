@@ -1,0 +1,83 @@
+<?php
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the End User License Agreement (EULA)
+  * that is bundled with this package in the file LICENSE.txt.
+  * It is also available through the world-wide-web at this URL:
+  * http://cedcommerce.com/license-agreement.txt
+  *
+  * @category    Ced
+  * @package     Ced_CsImportExport
+  * @author  	 CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license      http://cedcommerce.com/license-agreement.txt
+  */
+
+// @codingStandardsIgnoreFile
+
+/** @var $block \Magento\Backend\Block\Widget\Form\Container */
+ ?>
+<div class="row">
+	<div style="margin-top:10px;" class="col-md-12">
+		<?php /* @escapeNotVerified */ echo $block->getFormInitScripts() ?>
+		<div class="page-main-actions">
+		    <div class="page-actions">
+		        <div class="page-actions-inner">
+		            <div class="page-actions-buttons">
+		            	<div class="buttons-set buttons_scb">
+							<button data-ui-id="import-form-container-upload-button-button" onclick="varienImport.postToFrame();" class="btn btn-success uptransform" type="button" title="Check Data" id="upload_button">
+								<span><?= __('Check Data'); ?></span>
+							</button>
+						</div>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<?= $block->getFormHtml() ?>
+
+				<script>
+				require([
+					'jquery',
+					'mage/backend/form',
+					'mage/backend/validation'
+				], function($){
+
+					$('#edit_form').form()
+						.validation({
+							validationUrl: '<?php /* @escapeNotVerified */ echo $block->getValidationUrl() ?>',
+							highlight: function(element) {
+								var detailsElement = $(element).closest('details');
+								if (detailsElement.length && detailsElement.is('.details')) {
+									var summaryElement = detailsElement.find('summary');
+									if (summaryElement.length && summaryElement.attr('aria-expanded') === "false") {
+										summaryElement.trigger('click');
+									}
+								}
+								$(element).trigger('highlight.validate');
+							}
+						});
+				});
+				</script>
+			<?php /* @escapeNotVerified */ echo $block->getFormScripts() ?>
+			<?php /* @escapeNotVerified */ echo $block->getChildHtml('form_after'); ?>
+			</div>
+		</div>
+	</div>
+</div>
+<style>
+.fieldset > .field:not(.choice) > .label{
+  text-align: left !important;
+}
+.admin__fieldset > .admin__field {
+  margin-bottom: 1rem !important
+}
+ .admin__fieldset {
+    float: left;
+    width: 100%;
+ }
+</style>

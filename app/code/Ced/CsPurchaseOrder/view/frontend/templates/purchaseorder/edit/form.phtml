@@ -1,0 +1,192 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsPurchaseOrder
+ * @author        CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license      https://cedcommerce.com/license-agreement.txt
+ */
+
+/** @var Ced\CsPurchaseOrder\Block\Requestform $block */
+
+use Ced\CsPurchaseOrder\Model\Quote\Source\VendorStatus;
+use Ced\CsPurchaseOrder\Model\Quote\Source\Status;
+
+?>
+<?php
+
+$loaderurl = $block->getViewFileUrl('images/loader-2.gif');
+$value = 0;
+$tc_content = $this->helper('Ced\CsPurchaseOrder\Helper\Data')->getConfigData('b2bextension/purchaseorder/tc_content');
+$request = $block->getCollection();
+$vendors = $block->getVendors();
+?>
+<?php if ($block->getCollection()) { ?>
+    <form class="form-addres" action="<?= /* @noEscape */
+    $block->getSaveUrl() ?>" method="post" onsubmit="return validateimage()" id="form-validate"
+          enctype="multipart/form-data" data-hasrequired="<?= /* @noEscape */
+    __('* Required Fields') ?>" data-mage-init='{"validation":{}}'>
+        <fieldset class="fieldset" id="fieldset">
+            <legend class="legend"><span><?= /* @noEscape */
+                    __('Requested Product Information') ?></span></legend>
+            <br>
+            <div class="field productname ">
+                <label class="label" for="title"><span><?= /* @noEscape */
+                        __('Requested Product Name : ') ?></span></label>
+                <?= /* @noEscape */ $request->getTitle(); ?>
+            </div>
+            <div class="field category">
+                <label class="label" for="category"><span><?= /* @noEscape */
+                        __('Selected Category : ') ?></span></label>
+                <?= /* @noEscape */ __($this->helper('Ced\CsPurchaseOrder\Helper\Data')->getCategoryName($request->getCategoryId())); ?>
+            </div>
+
+            <div class=" field document" ?>
+                <label class="label" for="uploaded_document"><span><?= /* @noEscape */
+                        __('Uploaded Document for RFQ : ') ?></span></label>
+                <?php if ($block->getFileName() && $block->getFileSrc()) ?>
+                <a href="<?= /* @noEscape */ $block->getFileSrc() . $block->getFileName() ?>"
+                   target="_blank"><?= /* @noEscape */ $block->getFileName() ?></a>
+            </div>
+
+            <div class="field proposed_qty ">
+                <label class="label" for="proposed_qty"><span><?= /* @noEscape */
+                        __('Requested Quantity : ') ?></span></label>
+                <?= /* @noEscape */ $request->getProposedQty() ?>
+            </div>
+
+            <div class="field price ">
+                <label class="label" for="preferred_price_per_qty"><span><?= /* @noEscape */
+                        __('Estimated Budget Per Quantity : ') ?></span></label>
+                <?= /* @noEscape */ $this->helper('Magento\Framework\Pricing\Helper\Data')
+                    ->currency(round($request->getPreferredPricePerQty(), 2), true, false) ?>
+            </div>
+
+            <?php if(!empty($comment = $request->getDescription())){?>
+            <div class="field description">
+                <label class="label" for="description"><span><?= /* @noEscape */
+                        __('Comment : ') ?></span></label>
+                <?= /* @noEscape */ $comment ?>
+            </div>
+            <?php }?>
+
+            <?php if ($request->getStatus() == Status::APPROVED || $request->getStatus() == Status::ORDER_PLACED): ?>
+                <div class="field final_qty ">
+                    <label class="label" for="proposed_qty"><span><?= /* @noEscape */
+                            __('Approved Quantity : ') ?></span></label>
+                    <?= /* @noEscape */ $request->getNegotiatedFinalQty() ?>
+                </div>
+
+                <div class="field price ">
+                    <label class="label" for="preferred_price_per_qty"><span><?= /* @noEscape */
+                            __('Approved Estimated Budget Per Quantity : ') ?></span></label>
+                    <?= /* @noEscape */ $this->helper('Magento\Framework\Pricing\Helper\Data')
+                        ->currency(round($request->getNegotiatedFinalPrice(), 2), true, false) ?>
+                </div>
+            <?php endif; ?>
+        </fieldset>
+    </form>
+<?php } ?>
+<?php if (sizeof($vendors->getData())) { ?>
+    <div class="table-wrapper vendors-list">
+        <table class="data table table-order-items history" id="assigned-vendor-quotations">
+            <caption class="table-caption"><?= /* @noEscape */
+                __('Vendors List') ?></caption>
+            <thead>
+            <tr>
+                <th scope="col" class="col name"><?= /* @noEscape */
+                    __('Vendor Name') ?></th>
+                <th scope="col" class="col qty"><?= /* @noEscape */
+                    __('Negotiated Qty') ?></th>
+                <th scope="col" class="col price"><?= /* @noEscape */
+                    __('Negotiated Price') ?></th>
+                <th scope="col" class="col delete"><?= /* @noEscape */
+                    __('Status') ?></th>
+                <th scope="col" class="col view"><?= /* @noEscape */
+                    __('View') ?></th>
+                <?php if ($request->getStatus() != Status::APPROVED || $request->getStatus() != Status::ORDER_PLACED):?>
+                    <th scope="col" class="col actions"><?= /* @noEscape */
+                        __('Actions') ?></th>
+                <?php endif; ?>
+            </tr>
+            </thead>
+            <tbody>
+
+            <?php foreach ($vendors as $vendor): ?>
+                <tr>
+                    <td class="col name"><?= /* @noEscape */$block->getVendorName($vendor->getVendorId()) ?></td>
+                    <td class="col qty"><?= /* @noEscape */ $vendor->getNegotiationQty() ?></td>
+                    <td class="col price"><?= /* @noEscape */ $this->helper('Magento\Framework\Pricing\Helper\Data')
+                            ->currency(round($vendor->getNegotiationPrice(), 2), true, false) ?></td>
+
+                    <td class="col view">
+                        <?php if ($vendor->getVendorStatus() == VendorStatus::UPDATED_BY_VENDOR ||
+                            $vendor->getVendorStatus() == VendorStatus::UPDATED_BY_CUSTOMER)
+                            $canView = 'Edit/View'; else  $canView = 'View'; ?>
+                        <a href="<?= /* @noEscape */
+                        $block->getUrl('cspurchaseorder/request/negotiation',
+                            ['requestid' => $this->getRequest()->getParam('requestid'),
+                                'vendor_id' => $vendor->getVendorId()]) ?>"
+                           class="action view">
+                            <span><?= /* @noEscape */
+                                __($canView) ?></span>
+                    </td>
+
+                    <td class="col status">
+                        <span><?= /* @noEscape */
+                            __($vendor->getVendorStatus()) ?></span>
+                    </td>
+                    <?php if ($request->getStatus() != Status::APPROVED
+                        || $request->getStatus() != Status::ORDER_PLACED): ?>
+                        <td class="col actions">
+                            <?php if ($vendor->getVendorStatus() == VendorStatus::UPDATED_BY_VENDOR){ ?>
+                            <a href="<?= /* @noEscape */
+                            $block->getUrl('cspurchaseorder/request/Decline',
+                                ['requestid' => $this->getRequest()->getParam('requestid'),
+                                    'vendor_id' => $vendor->getVendorId()]) ?>" class="action view approve">
+                            <span><?= /* @noEscape */
+                                __('Disapprove') ?></span>
+                                <a href="<?= /* @noEscape */
+                                $block->getUrl('cspurchaseorder/request/Accept',
+                                    ['requestid' => $this->getRequest()->getParam('requestid'),
+                                        'vendor_id' => $vendor->getVendorId(),
+                                        'status_id' => $vendor->getId(),
+                                        'product_id' => $vendor->getProductId()]) ?>"
+                                   class="action view approve">
+                            <span><?= /* @noEscape */
+                                __('Approve') ?></span><?php } else /* @noEscape */ echo 'n/a'; ?>
+
+                        </td>
+                    <?php endif; ?>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+        <?= /* @noEscape */ $block->getPagerHtml(); ?>
+    </div>
+<?php } else { ?>
+    <div><p>Sorry, None of the vendors replied..</p></div>
+<?php } ?>
+<script>
+    require([
+        'jquery',
+        'mage/mage'
+    ], function ($) {
+
+        $('.approve').click(function () {
+                $('body').trigger('processStart');
+
+            }
+        );
+    });
+</script>
+

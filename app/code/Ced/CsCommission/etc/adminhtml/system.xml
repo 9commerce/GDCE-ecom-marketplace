@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category  Ced
+ * @package   Ced_CsCommission
+ * @author    CedCommerce Core Team <connect@cedcommerce.com >
+ * @copyright Copyright CedCommerce (https://cedcommerce.com/)
+ * @license      https://cedcommerce.com/license-agreement.txt
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="ced_csmarketplace" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" showInVendor="1">
+            <group id="vpayments" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1" showInVendor="1">
+                <field id="commission_mode" translate="label" type="select" sortOrder="1"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Calculate Commission Fee</label>
+                    <config_path>ced_vpayments/general/commission_mode</config_path>
+                    <source_model>Ced\CsMarketplace\Model\System\Config\Source\Rate</source_model>
+                    <backend_model>Ced\CsMarketplace\Model\System\Config\Backend\Vpayments\Commission\Mode</backend_model>
+                </field>
+                <field id="commission_fee1" translate="label" type="text" sortOrder="2"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Commission Fee</label>
+                    <config_path>ced_vpayments/general/commission_fee</config_path>
+                    <validate>validate-number validate-zero-or-greater</validate>
+                    <backend_model>Ced\CsMarketplace\Model\System\Config\Backend\Vpayments\Commission\Fee</backend_model>
+                    <depends>
+                        <field id="commission_mode">fixed</field>
+                    </depends>
+                </field>
+                <field id="commission_fee2" translate="label" type="text" sortOrder="3"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Commission Fee</label>
+                    <config_path>ced_vpayments/general/commission_fee</config_path>
+                    <validate>validate-number validate-zero-or-greater</validate>
+                    <backend_model>Ced\CsMarketplace\Model\System\Config\Backend\Vpayments\Commission\Fee</backend_model>
+                    <depends>
+                        <field id="commission_mode">percentage</field>
+                    </depends>
+                </field>
+                <field id="commission_mode_default" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1" showInVendor="1">
+                        <label>Default Calculation Method</label>
+                        <config_path>ced_vpayments/general/commission_mode_default</config_path>
+                        <backend_model>Ced\CsMarketplace\Model\System\Config\Backend\Vpayments\Commission\Mode</backend_model>
+                        <source_model>Ced\CsCommission\Model\Source\Vendor\Rate\Calcmethod</source_model>
+                        <depends>
+                            <field id="commission_mode">miscellaneous</field>
+                        </depends>
+                    </field>
+                <field id="commission_fee1_default" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1" showInVendor="1">
+                         <label>Default Commission Fee</label>
+                         <config_path>ced_vpayments/general/commission_fee_default</config_path>
+                         <validate>validate-number validate-zero-or-greater</validate>
+                         <backend_model>Ced\CsMarketplace\Model\System\Config\Backend\Vpayments\Commission\Fee</backend_model>
+                         <depends>
+                             <field id="commission_mode">miscellaneous</field>
+                             <field id="commission_mode_default">fixed</field>
+                         </depends>
+                     </field>
+                <field id="commission_fee2_default" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1" showInVendor="1">
+                       <label>Default Commission Fee</label>
+                       <config_path>ced_vpayments/general/commission_fee_default</config_path>
+                       <validate>validate-number validate-zero-or-greater</validate>
+                       <backend_model>Ced\CsMarketplace\Model\System\Config\Backend\Vpayments\Commission\Fee</backend_model>
+                       <depends>
+                            <field id="commission_mode">miscellaneous</field>
+                             <field id="commission_mode_default">percentage</field>
+                        </depends>
+                    </field>
+                <field id="commission_pt" translate="label" type="select" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1" showInVendor="1">
+                    <label>Product Type Wise</label>
+                    <config_path>ced_vpayments/general/commission_pt</config_path>
+                    <backend_model>Ced\CsCommission\Model\Backend\Vendor\Rate\Product</backend_model>
+                    <frontend_model>Ced\CsCommission\Block\Adminhtml\Vendor\Rate\Product</frontend_model>
+                    <depends>
+                        <field id="commission_mode">miscellaneous</field>
+                    </depends>
+                </field>
+                <field id="aggregrade" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1" showInVendor="1">
+                    <label>Condition Function</label>
+                    <source_model>Ced\CsCommission\Model\Source\Vendor\Rate\Aggregrade</source_model>
+                    <config_path>ced_vpayments/general/commission_fn</config_path>
+                    <comment>Use condition function for resolving match condition between "Product Type Wise" and "Category Wise"</comment>
+                    <depends>
+                        <field id="commission_mode">miscellaneous</field>
+                    </depends>
+                </field>
+                <field id="commission_cw" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1" showInVendor="1">
+                    <label>Category Wise</label>
+                    <config_path>ced_vpayments/general/commission_cw</config_path>
+                    <comment>Please click "save button" after adding category wise commission from popup</comment>
+                    <frontend_model>Ced\CsCommission\Block\Adminhtml\Vendor\Rate\CategoryLink</frontend_model>
+                    <depends>
+                        <field id="commission_mode">miscellaneous</field>
+                    </depends>
+                </field>
+             </group>
+         </section>
+    </system>
+</config>

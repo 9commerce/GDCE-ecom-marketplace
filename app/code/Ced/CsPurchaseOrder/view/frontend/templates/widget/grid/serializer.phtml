@@ -1,0 +1,46 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+/**
+ * @var $block \Magento\Backend\Block\Widget\Grid\Serializer
+ */
+?>
+<?php $_id = 'id_' . hash('md5',microtime()) ?>
+<?php $formId = $block->getFormId()?>
+<?php if (!empty($formId)) :?>
+<script>
+    require([
+        'prototype',
+        'mage/adminhtml/grid'
+    ], function(){
+        Event.observe(window, "load", function(){
+            var serializeInput  = document.createElement('input');
+            serializeInput.type = 'hidden';
+            serializeInput.name = '<?= $block->escapeHtml($block->getInputElementName()) ?>';
+            serializeInput.id   = '<?= $block->escapeHtml($_id) ?>';
+            try {
+                document.getElementById('<?= $block->escapeHtml($formId) ?>').appendChild(serializeInput);
+                new serializerController('<?= $block->escapeHtml($_id) ?>', <?= /* @noEscape */ $block->getDataAsJSON() ?>, <?= /* @noEscape */ $block->getColumnInputNames(true) ?>, <?= /* @noEscape */ $block->getGridBlock()->getJsObjectName() ?>, '<?= /* @noEscape */ $block->getReloadParamName()?>');
+            } catch(e) {
+                //Error add serializer
+            }
+        });
+    });
+</script>
+<?php else :?>
+<input type="hidden" name="<?= /* @noEscape */$block->getInputElementName()?>"  value="" id="<?= /* @noEscape */ $_id?>" />
+<script>
+    require([
+        'mage/adminhtml/grid'
+    ], function(){
+        new serializerController('<?= $block->escapeHtml($_id) ?>', <?= /* @noEscape */ $block->getDataAsJSON() ?>, <?= /* @noEscape */ $block->getColumnInputNames(true) ?>, <?= /* @noEscape */ $block->getGridBlock()->getJsObjectName() ?>, '<?= /* @noEscape */ $block->getReloadParamName()?>');
+    });
+</script>
+<?php endif;?>

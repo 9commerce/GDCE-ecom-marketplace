@@ -1,0 +1,272 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsOrder
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+?>
+<?php
+/** @var $block \Ced\CsOrder\Block\Order\Invoice\Create\Items */
+$vendorId = $block->getSession()->getVendorId();
+?>
+<section class="admin__page-section">
+    <div class="admin__page-section-title">
+        <?php $_itemsGridLabel = $block->getForcedShipmentCreate() ? 'Items to Invoice and Ship' :
+            'Items to Invoice'; ?>
+        <span class="title"><?= /* @noEscape */
+            __('%1', $_itemsGridLabel) ?></span>
+    </div>
+    <div class="admin__page-section-content grid">
+        <div class="admin__table-wrapper">
+            <table class="data-table admin__table-primary order-invoice-tables">
+                <thead>
+                <tr class="headings">
+                    <th class="col-product"><span><?= /* @noEscape */
+                            __('Product') ?></span></th>
+                    <th class="col-price"><span><?= /* @noEscape */
+                            __('Price') ?></span></th>
+                    <th class="col-ordered-qty"><span><?= /* @noEscape */
+                            __('Qty') ?></span></th>
+                    <th class="col-qty-invoice">
+                        <span><?= /* @noEscape */
+                            __('Qty to Invoice') ?></span>
+                    </th>
+                    <th class="col-subtotal"><span><?= /* @noEscape */
+                            __('Subtotal') ?></span></th>
+                    <th class="col-tax"><span><?= /* @noEscape */
+                            __('Tax Amount') ?></span></th>
+                    <th class="col-discount">
+                        <span><?= /* @noEscape */
+                            __('Discount Amount') ?></span>
+                    </th>
+                    <th class="col-total last"><span><?= /* @noEscape */
+                            __('Row Total') ?></span></th>
+                </tr>
+                </thead>
+                <?php if ($block->canEditQty()): ?>
+                    <tfoot>
+                    <tr>
+                        <td colspan="2">&nbsp;</td>
+                        <td colspan="3"><?= $block->getUpdateButtonHtml() ?></td>
+                        <td colspan="3">&nbsp;</td>
+                    </tr>
+                    </tfoot>
+                <?php endif; ?>
+                <?php $_items = $block->getInvoice()->getAllItems() ?>
+                <?php $_i = 0;
+                foreach ($_items as $_item): ?>
+                    <?php
+                    if ($_item->getOrderItem()->getVendorId() != $vendorId) {
+                        continue;
+                    } ?>
+
+                    <?php if ($_item->getOrderItem()->getParentItem()) {
+                        continue;
+                    } else {
+                        $_i++;
+                    } ?>
+                    <tbody class="<?= /* @noEscape */
+                    $_i % 2 ? 'even' : 'odd' ?>">
+                    <?= /* @noEscape */
+                    $block->getItemHtml($_item) ?>
+                    <?= /* @noEscape */
+                    $block->getItemExtraInfoHtml($_item->getOrderItem()) ?>
+                    </tbody>
+                <?php endforeach; ?>
+            </table>
+        </div>
+    </div>
+</section>
+
+<?php $orderTotalBar = $block->getChildHtml('order_totalbar'); ?>
+
+<?php if (!empty($orderTotalBar)): ?>
+    <section class="admin__page-section">
+        <?= /* @noEscape */
+        $orderTotalBar; ?>
+    </section>
+<?php endif; ?>
+
+<section class="admin__page-section">
+    <div class="admin__page-section-title">
+        <span class="title"><?= /* @noEscape */
+            __('Order Total') ?></span>
+    </div>
+    <div class="admin__page-section-content">
+        <div class="admin__page-section-item order-comments-history" style="float:left;width:48%">
+            <div class="admin__page-section-item-title">
+                <span class="title"><?= /* @noEscape */
+                    __('Invoice History') ?></span>
+            </div>
+            <div id="history_form" class="admin__page-section-item-content order-history-form">
+                <div class="admin__field">
+                    <label for="invoice_comment_text" class="admin__field-label">
+                        <span><?= /* @noEscape */
+                            __('Invoice Comments') ?></span>
+                    </label>
+                    <div class="admin__field-control">
+                        <textarea id="invoice_comment_text" name="invoice[comment_text]"
+                                  class="admin__control-textarea"
+                                  rows="3" cols="5">
+                            <?= /* @noEscape */
+                            $block->getInvoice()->getCommentText(); ?>
+                        </textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="invoice_totals" class="admin__page-section-item order-totals" style="float:right;width:48%">
+            <div class="admin__page-section-item-title">
+                <span class="title"><?= /* @noEscape */
+                    __('Invoice Totals') ?></span>
+            </div>
+            <div class="admin__page-section-item-content order-totals-actions">
+                <?= /* @noEscape */
+                $block->getChildHtml('invoice_totals') ?>
+                <?php if ($block->isCaptureAllowed()): ?>
+                    <?php if ($block->canCapture()): ?>
+                        <div class="admin__field">
+                            <label for="invoice_do_capture" class="admin__field-label">
+                                <?= /* @noEscape */
+                                __('Amount') ?>
+                            </label>
+                            <select class="admin__control-select" name="invoice[capture_case]">
+                                <option value="online">
+                                    <?= /* @noEscape */
+                                    __('Capture Online') ?>
+                                </option>
+                                <option value="offline">
+                                    <?= /* @noEscape */
+                                    __('Capture Offline') ?>
+                                </option>
+                                <option value="not_capture">
+                                    <?= /* @noEscape */
+                                    __('Not Capture') ?>
+                                </option>
+                            </select>
+                        </div>
+                    <?php elseif ($block->isGatewayUsed()): ?>
+                        <input type="hidden" name="invoice[capture_case]" value="offline"/>
+                        <div>
+                            <?= /* @noEscape */
+                            __('The invoice will be created offline without the payment gateway.');
+                            ?>
+                        </div>
+                    <?php endif ?>
+                <?php endif; ?>
+                <div class="admin__field admin__field-option field-append">
+                    <input id="notify_customer" name="invoice[comment_customer_notify]" value="1" type="checkbox"
+                           class="admin__control-checkbox"/>
+                    <label class="admin__field-label" for="notify_customer">
+                        <?= /* @noEscape */
+                        __('Append Comments') ?>
+                    </label>
+                </div>
+                <?php if ($block->canSendInvoiceEmail()): ?>
+                    <div class="admin__field admin__field-option field-email">
+                        <input id="send_email" name="invoice[send_email]" value="1" type="checkbox"
+                               class="admin__control-checkbox"/>
+                        <label class="admin__field-label" for="send_email">
+                            <?= /* @noEscape */
+                            __('Email Copy of Invoice') ?>
+                        </label>
+                    </div>
+                <?php endif; ?>
+                <?= /* @noEscape */
+                $block->getChildHtml('submit_before') ?>
+                <div class="actions">
+                    <?= /* @noEscape */
+                    $block->getChildHtml('submit_button') ?>
+                    <?= /* @noEscape */
+                    $block->getChildHtml('submit_after') ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    require(['jquery', 'prototype'], function (jQuery) {
+
+//<![CDATA[
+        var submitButtons = $$('.submit-button');
+        var updateButtons = $$('.update-button');
+        var enableSubmitButtons = <?= /* @noEscape */  (int)!$block->getDisableSubmitButton() ?>;
+        var fields = $$('.qty-input');
+
+        updateButtons.each(function (elem) {
+            elem.disabled = true;
+            elem.addClassName('disabled');
+        });
+
+        for (var i = 0; i < fields.length; i++) {
+            jQuery(fields[i]).on('keyup', checkButtonsRelation);
+            fields[i].baseValue = fields[i].value;
+        }
+
+        function checkButtonsRelation() {
+            var hasChanges = false;
+            fields.each(function (elem) {
+                if (elem.baseValue != elem.value) {
+                    hasChanges = true;
+                }
+            }.bind(this));
+            if (hasChanges) {
+                submitButtons.each(function (elem) {
+                    elem.disabled = true;
+                    elem.addClassName('disabled');
+                });
+                updateButtons.each(function (elem) {
+                    elem.disabled = false;
+                    elem.removeClassName('disabled');
+                });
+            } else {
+                if (enableSubmitButtons) {
+                    submitButtons.each(function (elem) {
+                        elem.disabled = false;
+                        elem.removeClassName('disabled');
+                    });
+                }
+                updateButtons.each(function (elem) {
+                    elem.disabled = true;
+                    elem.addClassName('disabled');
+                });
+            }
+        }
+
+        var sendEmailCheckbox = $('send_email');
+        if (sendEmailCheckbox) {
+            var notifyCustomerCheckbox = $('notify_customer');
+            var invoiceCommentText = $('invoice_comment_text');
+            Event.observe(sendEmailCheckbox, 'change', bindSendEmail);
+            bindSendEmail();
+        }
+
+        function bindSendEmail() {
+            notifyCustomerCheckbox.disabled = sendEmailCheckbox.checked != true;
+        }
+
+        window.bindSendEmail = bindSendEmail;
+        window.checkButtonsRelation = checkButtonsRelation;
+//]]>
+
+    });
+</script>
+
+<style type="text/css">
+    .label {
+        color: black;
+    }
+</style>

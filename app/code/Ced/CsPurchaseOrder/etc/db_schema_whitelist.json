@@ -1,0 +1,105 @@
+{
+    "ced_category_request_quote_vendor_category": {
+        "column": {
+            "id": true,
+            "vendor_id": true,
+            "category_id": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "ced_category_request_quote": {
+        "column": {
+            "id": true,
+            "title": true,
+            "status": true,
+            "category_id": true,
+            "proposed_qty": true,
+            "preferred_price_per_qty": true,
+            "created_at": true,
+            "updated_at": true,
+            "store_id": true,
+            "is_active": true,
+            "customer_id": true,
+            "remote_ip": true,
+            "base_preferred_price": true,
+            "order_id": true,
+            "description": true,
+            "terms_and_conditions": true,
+            "negotiated_final_price": true,
+            "product_id": true,
+            "negotiated_final_qty": true,
+            "quote_item_id": true,
+            "customer_email": true,
+            "product_name": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "ced_category_request_quote_attachments": {
+        "column": {
+            "id": true,
+            "c_quote_id": true,
+            "file_name": true,
+            "file_path": true,
+            "file_type": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "ced_category_request_quote_comments": {
+        "column": {
+            "id": true,
+            "c_quote_id": true,
+            "author_id": true,
+            "negotiation_qty": true,
+            "negotiation_price": true,
+            "comments": true,
+            "who_is": true,
+            "product_id": true,
+            "vendor_id": true,
+            "created_at": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "ced_category_request_quote_history": {
+        "column": {
+            "id": true,
+            "c_quote_id": true,
+            "vendor_id": true,
+            "author_id": true,
+            "who_is": true,
+            "status": true,
+            "log_data": true,
+            "created_at": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "ced_category_request_quote_vendors": {
+        "column": {
+            "id": true,
+            "c_quote_id": true,
+            "vendor_id": true,
+            "vendor_status": true,
+            "who_is": true,
+            "author_id": true,
+            "is_approved": true,
+            "created_at": true,
+            "negotiation_qty": true,
+            "negotiation_price": true,
+            "product_name": true,
+            "vendor_replied": true,
+            "product_id": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    }
+}

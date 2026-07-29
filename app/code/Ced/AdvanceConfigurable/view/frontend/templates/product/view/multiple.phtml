@@ -1,0 +1,169 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_AdvanceConfigurable
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license      https://cedcommerce.com/license-agreement.txt
+ */
+?>
+<?php
+$store = $this->_storeManager->getStore();
+$json = json_decode($block->getJsonConfig());
+$configurable = json_decode(json_encode($json), True);
+$_product = $block->getProduct();
+if ($block->isEnabled()) {
+    if ($_product->getShowMatrix()) {
+        if ($block->getdoubleconfigurableoption()) {
+            $attributes = $_product->getTypeInstance(true)->getConfigurableAttributesAsArray($_product);
+
+            $productAttributesOptions = $_product->getTypeInstance(true)->getConfigurableOptions($_product);
+            $total_attributes = count($configurable['index']);
+            $n = count($configurable['attributes']);
+            $count = 1;
+            $count_attributes = 1;
+            ?>
+            <form id="matrix-form" method="post">
+                <div class="product-matrix-vertical-layout">
+                    <div id="error_message" class="error_message" style="display:none;color:red;"></div>
+                    <input type="hidden" value="<?php echo $_product->getId() ?>" name="product">
+                    <table id="my_table" data-tablesaw-mode="swipe" class="matrix-table">
+
+                        <?php
+                        echo '<tr class="heading-tr">';
+                        foreach ($configurable['attributes'] as $key => $value) {
+                            echo '<td>' . $value['label'] . '</td>';
+                        }
+                        echo '<td>Stock</td>';
+                        echo '<td>Quantity</td>';
+                        echo '</tr>';
+                        echo '<tr>';
+                        foreach ($configurable['index'] as $key => $value) {
+                            $name = '';
+                            foreach ($value as $key1 => $value1) {
+                                $resource = $this->resourceConnection;
+                                $connection = $resource->getConnection(\Magento\Framework\App\ResourceConnection::DEFAULT_CONNECTION);
+                                $values = $connection->fetchAll('SELECT `value` FROM `eav_attribute_option_value` WHERE `option_id` = ' . $value1 . ' AND `store_id` = 0 ');
+                                $label = $values[0]['value'];
+                                $name .= $key1 . '-' . $value1 . ',';
+                                echo '<td>' . $label . '</td>';
+                                ++$count;
+                            }
+                            $name = rtrim($name, ",");
+                            $StockState = $this->stockState;
+                            echo '<td>' . $StockState->getStockQty($key) . '</td>';
+                            echo '<td>';
+
+                            $price = $this->pricingHelper->currency($configurable['optionPrices'][$key]['finalPrice']['amount'], true, false);
+                            ?>
+                            <div class="div-lable">+<?php echo $price; ?></div><?php
+                            echo '<input type="text" name="child[' . $name . ']" value="" placeholder="' . $StockState->getStockQty($key) . '" class="qty" min="0" max="' . $StockState->getStockQty($key) . '"></td>';
+                            if ((($count - 1) % $n) == 0) {
+                                echo '</tr><tr>';
+                            }
+                        }
+                        ?>
+
+                    </table>
+                    <div class="spinner" style="display:none;">
+                        <img alt="Loading..."
+                             src="<?php echo $store->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_STATIC) ?>frontend/Magento/luma/en_US/images/loader-1.gif">
+                    </div>
+
+                </div>
+                <div class="actions">
+                    <button id="add" class="action primary tocart" title="Add to Cart" type="button">
+                        <span>Add to Cart</span>
+                    </button>
+                    <div class="validation_message"></div>
+                </div>
+            </form>
+            <script>
+                require([
+                    'mage/url',
+                    'jquery'
+                ], function () {
+                    jQuery(document).ready(function (jQuery) {
+                        jQuery(".fieldset>div.configurable").remove();
+                        jQuery('.product-options-bottom').remove();
+                    });
+                });
+            </script>
+        <?php } ?>
+    <?php } ?>
+<?php } ?>
+<script>
+    require([
+        "jquery",
+        'mage/mage'
+    ], function (jQuery) {
+        var validation = false;
+        var dataForm = jQuery('#matrix-form');
+        jQuery(document).ready(function (jQuery) {
+            jQuery("#add").click(function () {
+                jQuery('#my_table .qty').each(function () {
+                    if (((jQuery.isNumeric(this.value)) && (this.value > 0) && (Math.floor(this.value) == this.value))) {
+                        validation = true;
+                    }
+
+                });
+                if (validation == true) {
+                    jQuery('.spinner').css('display', 'block');
+                    jQuery('.validation_message').html('<span style="color:green">Please wait. Adding item(s) to cart..</span>');
+                    jQuery('button').attr('disabled', 'disabled');
+                    var formData = jQuery('#matrix-form').serializeArray();
+                    jQuery.ajax({
+                        type: 'POST',
+                        url: '<?php echo $this->getUrl("advanceconfig/cart/addmultiple")?>',
+                        data: formData,
+                        success: function (data) {
+                            jQuery('.spinner').css('display', 'none');
+                            jQuery('button').prop("disabled", false);
+                            jQuery('.validation_message').hide();
+                        }
+                    })
+                } else {
+                    jQuery('.validation_message').html('<span style="color:red">Please specify valid options.</span>');
+                }
+            });
+            jQuery('.qty').keyup(function (event) {
+                var max_qty = jQuery(this).attr('max');
+                max_qty = parseInt(max_qty);
+                if ((this.value <= max_qty) && (this.value > 0) && (Math.floor(this.value) == this.value)) {
+                    jQuery(this).css('border-color', 'green');
+                    jQuery('#error_message').hide();
+                    jQuery('.qty').not(this).prop('disabled', false);
+                    jQuery('#add').prop('disabled', false);
+                } else if (!this.value) {
+                } else if ((!jQuery.isNumeric(this.value)) || (this.value < 0) || (Math.floor(this.value) != this.value)) {
+                    jQuery('#error_message').html('Please enter positive value for quantity.');
+                    jQuery('#error_message').show();
+                    jQuery('.qty').not(this).attr('disabled', 'true');
+                    jQuery(this).css('border-color', 'red');
+                    jQuery('#add').attr('disabled', 'true');
+                } else if (this.value == 0) {
+                    jQuery(this).css('border-color', '#c2c2c2');
+                    jQuery('#add').prop('disabled', false);
+                    jQuery('.qty').not(this).prop('disabled', false);
+                    jQuery('#error_message').hide();
+                } else {
+                    jQuery(this).css('border-color', 'red');
+                    jQuery('#error_message').html('Requested quantity is not available. Maximum stock available is ' + max_qty + ' !');
+                    jQuery('#error_message').show();
+                    jQuery('.qty').not(this).attr('disabled', 'true');
+                    jQuery('#add').attr('disabled', 'true');
+                }
+            });
+        });
+    });
+</script>
+

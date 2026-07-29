@@ -1,0 +1,64 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsOrder
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+?>
+<?php
+/** @var $block \Ced\CsOrder\Block\Order\Creditmemo\View\Items */
+$vendorId = $block->getSession()->getVendorId();
+?>
+<div class="admin__table-wrapper">
+    <table class="data-table admin__table-primary order-invoice-tables">
+        <thead>
+        <tr class="headings">
+            <th class="col-product"><span><?= /* @noEscape */
+                    __('Product') ?></span></th>
+            <th class="col-price"><span><?= /* @noEscape */
+                    __('Price') ?></span></th>
+            <th class="col-qty"><span><?= /* @noEscape */
+                    __('Qty') ?></span></th>
+            <th class="col-subtotal"><span><?= /* @noEscape */
+                    __('Subtotal') ?></span></th>
+            <th class="col-tax"><span><?= /* @noEscape */
+                    __('Tax Amount') ?></span></th>
+            <th class="col-discount"><span><?= /* @noEscape */
+                    __('Discount Amount') ?></span></th>
+            <th class="col-total last"><span><?= /* @noEscape */
+                    __('Row Total') ?></span></th>
+        </tr>
+        </thead>
+        <?php $_items = $block->getCreditmemo()->getAllItems() ?>
+        <?php $i = 0;
+        foreach ($_items as $_item): ?>
+            <?php
+            if ($_item->getOrderItem()->getVendorId() != $vendorId) {
+                continue;
+            } ?>
+            <?php if ($_item->getOrderItem()->getParentItem()) {
+                continue;
+            } else {
+                $i++;
+            } ?>
+            <tbody class="<?= /* @noEscape */
+            $i % 2 ? 'even' : 'odd' ?>">
+            <?= /* @noEscape */
+            $block->getItemHtml($_item) ?>
+            <?= /* @noEscape */
+            $block->getItemExtraInfoHtml($_item->getOrderItem()) ?>
+            </tbody>
+        <?php endforeach; ?>
+    </table>
+</div>

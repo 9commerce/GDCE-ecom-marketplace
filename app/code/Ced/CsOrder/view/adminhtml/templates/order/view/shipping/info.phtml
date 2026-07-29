@@ -1,0 +1,63 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsOrder
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+?>
+<?php
+// @codingStandardsIgnoreFile
+/** @var $block \Ced\CsOrder\Block\Order\AbstractOrder */
+$order = $block->getOrder();
+$vorder = $block->getvOrder();
+?>
+<?php /* Shipping Method */ ?>
+<div class="admin__page-section-item order-shipping-method">
+    <div class="admin__page-section-item-title">
+        <span class="title"><?= /* @noEscape */ __('Shipping &amp; Handling Information') ?></span>
+    </div>
+    <div class="admin__page-section-item-content">
+        <?php  if ($order->getTracksCollection()->count()) : ?>
+            <p>
+                <a href="#" id="linkId"
+                   onclick="popWin(
+                       '<?= /* @noEscape */ $this->helper('Magento\Shipping\Helper\Data')->getTrackingPopupUrlBySalesModel($order)
+                        ?>',
+                       'trackorder',
+                       'width=800,height=600,resizable=yes,scrollbars=yes'
+                       )"
+                   title="<?= /* @noEscape */ __('Track Order') ?>">
+                    <?= /* @noEscape */ __('Track Order') ?>
+                </a>
+            </p>
+        <?php endif; ?>
+        <?php if ($vorder->getShippingDescription()): ?>
+            <strong><?= /* @noEscape */  $order->getShippingDescription() ?></strong>
+
+            <?php if ($this->helper('Magento\Tax\Helper\Data')->displayShippingPriceIncludingTax()): ?>
+                <?php $_excl = $block->displayShippingPriceInclTax($vorder); ?>
+            <?php else: ?>
+                <?php $_excl = $block->displayPriceAttribute('shipping_amount', false, ' '); ?>
+            <?php endif; ?>
+            <?php $_incl = $block->displayShippingPriceInclTax($vorder); ?>
+
+            <?= /* @noEscape */ $_excl; ?>
+            <?php if ($this->helper('Magento\Tax\Helper\Data')->displayShippingBothPrices() && $_incl != $_excl): ?>
+                (<?= /* @noEscape */ __('Incl. Tax'); ?> <?= /* @noEscape */ $_incl; ?>)
+            <?php endif; ?>
+        <?php else: ?>
+            <?= /* @noEscape */ __('No shipping information available'); ?>
+        <?php endif; ?>
+    </div>
+</div>

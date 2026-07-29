@@ -1,0 +1,71 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+
+?>
+
+<form class="form form-login" id="login-form" method="post"
+      action="<?= /* @noEscape */ $block->getPostActionUrl() ?>"
+      data-mage-init='{"validation":{}}'>
+    <?= /* @noEscape */ $block->getBlockHtml('formkey'); ?>
+    <h3 class="head"><?= /* @noEscape */ __('Login') ?></h3>
+    <div class="clearfix head_right">
+        <div class="form-element-padding-none">
+            <input type="email" name="login[username]"
+                   value="<?= /* @noEscape */ $block->escapeHtml($block->getUsername()) ?>"
+                   id="email"
+                   class="form_size form-control input-text required-entry validate-email"
+                   placeholder="<?= /* @noEscape */ __('Email Address') ?>"
+                   title="<?= /* @noEscape */ __('Email Address') ?>"
+                   data-msg-validate-email="<?= /* @noEscape */ __('Please enter a valid email address.');?>"
+                   data-validate="{required:true, 'validate-email':true}">
+        </div>
+        <div class="form-element-padding-none">
+            <input type="password"
+                   name="login[password]"
+                   value="<?= /* @noEscape */ $block->escapeHtml($block->getPassword()) ?>"
+                   class="form_size form-control input-text required-entry"
+                   placeholder="<?= /* @noEscape */ __('Password') ?>"
+                   id="pass"
+                   title="Password"
+                   data-validate="{required:true}"/>
+        </div>
+        <div class="form-element-padding-none">
+            <button type="submit" class="btn btn-primary form-control"
+                    title="<?= /* @noEscape */ __('Sign in') ?>" name="send" id="send2">
+                <span><span><?= /* @noEscape */ __('Sign in') ?></span></span>
+            </button>
+        </div>
+    </div>
+    <div class="clearfix right_bottom">
+        <div class="checkbox custom_check">
+            <input name="remember" type="checkbox" id="remember" <?= /* @noEscape */ $block->escapeHtml($block->getRememberMe()) == 1 ? 'checked="checked"' : ''; ?>>
+            <label class="remember_lable" for="remember">
+                <?= /* @noEscape */ __('Remember Me'); ?>
+            </label>
+        </div>
+    </div>
+    <div class="forgot">
+        <a class="forget-psw"
+           href="<?= /* @noEscape */ $block->getForgotPasswordUrl(); ?>">
+            <?= /* @noEscape */ __('Forgot Your Password?') ?>
+        </a>
+    </div>
+    <p class="already-account">
+        <?= /* @noEscape */ __('You have account ?'); ?><a href='<?= /* @noEscape */ $block->getUrl("*/*/register"); ?>'><?= /* @noEscape */ __('Create Account'); ?></a>
+    </p>
+</form>

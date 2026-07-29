@@ -1,0 +1,219 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsVendorReview
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+?>
+
+<?php
+/**
+ * @var \Magento\Framework\Escaper $escaper
+ */
+$vendor = $block->getVendor();
+$rating_opt = $block->getRatingOption();
+?>
+
+<div class="block review-add">
+    <div class="block-title">
+        <strong><?= $escaper->escapeHtml(__('Write Your Own Review')) ?></strong>
+    </div>
+    <div class="block-content">
+        <?php if ($block->getAllowWriteReviewFlag()): ?>
+            <?php if (!$block->getCustomerIsVendor()) { ?>
+            <form action="<?= $escaper->escapeHtml($block->getAction()) ?>"
+                  class="review-form"
+                  method="post"
+                  id="review-form"
+                  data-role="product-review-form"
+                  data-bind="scope: 'review-form'">
+                <input name="form_key" type="hidden" value="<?php echo $block->getFormKey();?>">
+                <fieldset class="fieldset review-fieldset" data-hasrequired="<?php __('* Required Fields'); ?>">
+                    <legend class="legend review-legend">
+                        <span class="reviewing_vendor-wrap">
+                            <?= __("You're reviewing")?>
+                            <span class="reviewing_vendor">
+                                <?= $escaper->escapeHtml(
+                                    __("%1", ucwords($vendor->getPublicName()))
+                                );?>
+                            </span>
+                        </span>
+                        <span class="vendorFeedMsg">
+                            <?= __('Tell us how was your experience with us.') ?>
+                        </span>
+                        <strong></strong>
+                    </legend><br />
+
+                    <span id="input-message-box"></span>
+                    <fieldset class="field required review-field-ratings">
+                        <legend class="label">
+                            <span><?= $escaper->escapeHtml(__('Your Rating')) ?></span>
+                        </legend><br/>
+                        <div class="control">
+                            <div class="nested" id="product-review-table">
+                                <?php foreach ($block->getRatings() as $_rating): ?>
+                                    <div class="field choice review-field-rating">
+                                        <label class="label"
+                                               id="<?= $escaper->escapeHtml($_rating->getRatingCode())?>_rating_label">
+                                            <span><?= $escaper->escapeHtml($_rating->getRatingLabel()) ?></span>
+                                        </label>
+                                        <div class="control review-control-vote">
+                                            <?php $iterator = 1; ?>
+                                            <?php foreach ($rating_opt as $key => $_option): ?>
+                                                <?php if ($key > 0) { ?>
+                                                    <input
+                                                        type="radio"
+                                                        name="<?= $escaper->escapeHtml($_rating->getRatingCode()) ?>"
+                                                        id="<?= $escaper->escapeHtml($_rating->getRatingCode())?>
+                                                        _<?= $escaper->escapeHtml($key) ?>"
+                                                        value="<?= $escaper->escapeHtml($key) ?>"
+                                                        class="radio"
+                                                        data-validate="{'rating-required':true}"
+                                                        aria-labelledby="<?= $escaper->escapeHtml(
+                                                            $_rating->getRatingCode()
+                                                        )?>_rating_label <?= $escaper->escapeHtml(
+                                                            $_rating->getRatingCode()
+                                                        )?>_<?= $escaper->escapeHtml($key) ?>_label" />
+                                                    <label
+                                                        class="rating-<?= $escaper->escapeHtml($iterator); ?>"
+                                                        for="<?= $escaper->escapeHtml($_rating->getRatingCode())?>
+                                                        _<?= $escaper->escapeHtml($key) ?>"
+                                                        title="<?= $escaper->escapeHtml(
+                                                            __('%1 %2', $iterator, $iterator > 1 ? 'stars' : 'star')
+                                                        )?>"
+                                                        id="<?= $escaper->escapeHtml($_rating->getRatingCode())?>
+                                                        _<?= $escaper->escapeHtml($key) ?>_label">
+                                                        <span>
+                                                            <?= $escaper->escapeHtml(
+                                                                __('%1 %2', $iterator, $iterator > 1 ? 'stars' : 'star')
+                                                            )?>
+                                                        </span>
+                                                    </label>
+
+                                                    <?php $iterator++;} ?>
+                                            <?php endforeach; ?>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                            <input
+                                type="hidden"
+                                name="vendor_name"
+                                class="vendor_name"
+                                value="<?= $escaper->escapeHtml($vendor->getName()); ?>"
+                            />
+                            <input
+                                type="hidden"
+                                name="vendor_id"
+                                class="validate"
+                                value="<?= $escaper->escapeHtml($vendor->getId()); ?>"
+                            />
+                            <input
+                                type="hidden"
+                                name="customer_id"
+                                class="validate"
+                                value="<?= $escaper->escapeHtml($block->getCustomerid()); ?>"
+                            />
+                        </div>
+                    </fieldset>
+                    <?php //endif ?>
+                    <div class="field review-field-nickname required">
+                        <label for="nickname_field" class="label">
+                            <span><?= $escaper->escapeHtml(__('Nickname')) ?></span>
+                        </label>
+                        <div class="control">
+                            <input
+                                type="text"
+                                name="customer_name"
+                                id="customer_name"
+                                class="input-text"
+                                data-validate="{required:true}"
+                                data-bind="value: nickname()"
+                            />
+                        </div>
+                    </div>
+                    <div class="field review-field-summary required">
+                        <label for="summary_field" class="label">
+                            <span><?= $escaper->escapeHtml(__('Summary')) ?></span>
+                        </label>
+                        <div class="control">
+                            <input
+                                type="text"
+                                name="subject"
+                                id="subject"
+                                class="input-text"
+                                data-validate="{required:true}"
+                                data-bind="value: review().title"
+                            />
+                        </div>
+                    </div>
+                    <div class="field review-field-text required">
+                        <label for="review_field" class="label">
+                            <span><?= $escaper->escapeHtml(__('Review')) ?></span>
+                        </label>
+                        <div class="control">
+                            <textarea
+                                name="review"
+                                id="review"
+                                cols="5"
+                                rows="3"
+                                data-validate="{required:true}"
+                                data-bind="value: review().detail">
+                            </textarea>
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="actions-toolbar review-form-actions">
+                    <div class="primary actions-primary">
+                        <button type="submit" class="action submit primary">
+                            <span><?= $escaper->escapeHtml(__('Submit Review')) ?></span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <script>
+                require(['jquery', 'reviewFormLoader'], function($, reviewFormLoader) {
+                    reviewFormLoader();
+                });
+            </script>
+
+<script type="text/x-magento-init">
+{
+    "[data-role=product-review-form]": {
+        "Magento_Ui/js/core/app": <?= /* @noEscape */ $block->getJsLayout() ?>
+    },
+    "#review-form": {
+        "Magento_Review/js/error-placement": {},
+        "Magento_Review/js/validate-review": {},
+        "Magento_Review/js/submit-review": {}
+    }
+}
+</script>
+        <?php } else { ?>
+            <div class="message info notlogged" id="review-form">
+                <div>
+                    <?= $escaper->escapeHtml(__('You can not write review for yourself.')) ?>
+                </div>
+            </div>
+
+        <?php } else: ?>
+            <div class="message info notlogged" id="review-form">
+                <div>
+                    <?= /* @noEscape */ __('Only registered users can write reviews. Please, <a href="%1">Sign in</a> or <a href="%2">create an account</a>', $this->getLoginLink(),$this->getLoginLink()) ?>
+                </div>
+            </div>
+        <?php endif ?>
+    </div>
+</div>

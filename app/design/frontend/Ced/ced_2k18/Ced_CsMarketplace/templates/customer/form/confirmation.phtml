@@ -1,0 +1,82 @@
+<?php
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license      https://cedcommerce.com/license-agreement.txt
+ */
+
+?>
+<?php
+$helper = $this->helper(\Ced\CsMarketplace\Helper\Tool\Image::class);
+$logo = $helper->getStoreConfig("ced_loginsignup/header/logo",$block->getCurrentStoreId())?"ced/csmarketplace/".$helper->getStoreConfig("ced_loginsignup/header/logo",$block->getCurrentStoreId()):'';
+$logoImage = $helper->getResizeImage($logo, 'logo', 190, 45);
+$footerContent = $helper->getStoreConfig("ced_csmarketplace/general/footer_content",$block->getCurrentStoreId());
+$isfooterEnable = $helper->getStoreConfig("ced_csmarketplace/general/enable_footer",$block->getCurrentStoreId());
+?>
+
+<div class="page-title">
+    <h1><?= /* @noEscape */ __('Send confirmation link') ?></h1>
+</div>
+<?= $block->getMessagesBlock()->getGroupedHtml() ?>
+<form action="" method="post" id="form-validate">
+    <div class="fieldset">
+        <h2 class="legend"><?= /* @noEscape */ __('Retrieve your confirmation link here') ?></h2>
+        <p><?= /* @noEscape */ __('Please enter your email below and we\'ll send you confirmation link for it.') ?></p>
+        <ul class="form-list">
+            <li>
+                <label for="email_address" class="required"><em>*</em><?= /* @noEscape */ __('Email Address') ?></label>
+                <div class="input-box">
+                    <input type="text" name="email" id="email_address" title="<?= /* @noEscape */ __('Email Address') ?>" class="input-text required-entry validate-email" value="<?= /* @noEscape */ $block->htmlEscape($block->getEmail()) ?>" />
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="buttons-set">
+        <p class="required"><?= /* @noEscape */ __('* Required Fields') ?></p>
+        <p class="back-link"><a href="<?= /* @noEscape */ $this->helper('customer')->getLoginUrl() ?>"><small>&laquo; </small><?= /* @noEscape */ __('Back to Login') ?></a></p>
+        <button type="submit" title="<?= /* @noEscape */ __('Submit') ?>" class="button"><span><span><?= /* @noEscape */ __('Submit') ?></span></span></button>
+    </div>
+</form>
+<script type="text/javascript">
+//<![CDATA[
+   // var dataForm = new VarienForm('form-validate', true);
+//]]>
+</script>
+<?php if($isfooterEnable): ?>
+<div class="ced_vendor_footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="ced_vendor_footer_links">
+					<ul>
+						<li>
+							<a href="<?= /* @noEscape */ $block->getBaseUrl(); ?>">
+								<?= /* @noEscape */ __('Home') ?>
+							</a>
+							|
+						</li>
+						<li>
+							<a href="<?= /* @noEscape */ $block->getBaseUrl().'contact'; ?>">
+								<?= /* @noEscape */ __('Contact') ?>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<p><?= /* @noEscape */ $footerContent; ?></p>
+			</div>
+		</div>
+	</div>
+</div>
+<?php endif;?>

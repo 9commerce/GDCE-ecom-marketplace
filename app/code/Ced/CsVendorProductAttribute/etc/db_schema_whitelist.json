@@ -1,0 +1,30 @@
+{
+    "ced_vendor_product_attributes": {
+        "column": {
+            "id": true,
+            "vendor_id": true,
+            "attribute_id": true,
+            "attribute_code": true,
+            "sort_order": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "ced_vendor_attributes_set": {
+        "column": {
+            "id": true,
+            "vendor_id": true,
+            "attribute_set_id": true,
+            "attribute_set_code": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "catalog_eav_attribute": {
+        "column": {
+            "attribute_set_ids": true
+        }
+    }
+}

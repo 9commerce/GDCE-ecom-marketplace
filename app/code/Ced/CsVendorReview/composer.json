@@ -1,0 +1,20 @@
+{
+    "name": "ced/module-csvendorreview",
+    "description": "Give functionality to the customers to gives Reviews to the Vendors",
+    "require": {
+        "php": "~7.3.0|~7.4.0|~8.1.0",
+        "magento/magento-composer-installer": "*"
+    },
+    "type": "magento2-module",
+    "version": "1.0.13",
+    "license": [
+        "EULA"
+    ],
+    "autoload": {
+        "files": [ "registration.php" ],
+        "psr-4": {
+            "Ced\\CsVendorReview\\": ""
+        }
+    },
+    "minimum-stability": "stable"
+ }

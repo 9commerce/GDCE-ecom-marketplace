@@ -1,0 +1,102 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsPurchaseOrder
+ * @author        CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license      https://cedcommerce.com/license-agreement.txt
+ */
+
+/** @var \Ced\CsPurchaseOrder\Block\Vendor\EditQuotations\Tab\AssignedList $block */
+
+$helper = $this->helper('Ced\CsPurchaseOrder\Helper\Data');?>
+<div class="admin__field field field-product-name"
+     data-ui-id="adminhtml-add-0-form-fieldset-element-form-field-detailed-rating">
+    <label class="label admin__field-label" for="field-product-name"
+           data-ui-id="adminhtml-add-0-form-fieldset-element-note-label">
+        <span><?= /* @noEscape */ __('Requested Product Name') ?></span>
+    </label>
+    <div class="admin__field-control control">
+        <div id="product-name" class="control-value admin__field-value">
+            <div id="product_detail"><?= /* @noEscape */ $block->getPoDetail()->getTitle() ?></div>
+
+        </div>
+    </div>
+</div>
+<div class="admin__field field field-category-name"
+     data-ui-id="adminhtml-add-0-form-fieldset-element-form-field-detailed-category">
+    <label class="label admin__field-label" for="field-product-category"
+           data-ui-id="adminhtml-add-0-form-fieldset-element-note-label">
+        <span><?= /* @noEscape */ __('Selected Category') ?></span>
+    </label>
+    <div class="admin__field-control control">
+        <div id="category-name" class="control-value admin__field-value">
+            <div id="category_detail">
+                <?= /* @noEscape */ __($this->helper('Ced\CsPurchaseOrder\Helper\Data')->getCategoryName($block->getPoDetail()->getCategoryId())); ?>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="admin__field field field-document"
+     data-ui-id="adminhtml-add-0-form-fieldset-element-form-field-detailed-rating">
+    <label class="label admin__field-label" for="detailed-rating"
+           data-ui-id="adminhtml-add-0-form-fieldset-element-note-label">
+        <span><?= /* @noEscape */ __('Documents File') ?></span>
+    </label>
+    <div class="admin__field-control control">
+        <div id="document-details" class="control-value admin__field-value">
+            <div class="document_box">
+                <a href="<?= /* @noEscape */ $helper->getFileSrc($block->getPoDetail()->getId()) . $helper->getFileName($block->getPoDetail()->getId()) ?>"
+                   target="_blank"><?= /* @noEscape */ $helper->getFileName($block->getPoDetail()->getId()) ?></a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="admin__field field field-requested-qty"
+     data-ui-id="adminhtml-add-0-form-fieldset-element-form-field-detailed-rating">
+    <label class="label admin__field-label" for="detailed-rating"
+           data-ui-id="adminhtml-add-0-form-fieldset-element-note-label">
+        <span><?= /* @noEscape */ __('Requested Quantity') ?></span>
+    </label>
+    <div class="admin__field-control control">
+        <div id="requested-qty-details" class="control-value admin__field-value">
+            <div id="requested-qty"><?= /* @noEscape */ $block->getPoDetail()->getProposedQty() ?></div>
+        </div>
+    </div>
+</div>
+<div class="admin__field field field-unit-price"
+     data-ui-id="adminhtml-add-0-form-fieldset-element-form-field-detailed-rating">
+    <label class="label admin__field-label" for="detailed-rating"
+           data-ui-id="adminhtml-add-0-form-fieldset-element-note-label">
+        <span><?= /* @noEscape */ __('Estimated Budget Per Quantity') ?></span>
+    </label>
+    <div class="admin__field-control control">
+        <div id="unit-price-details" class="control-value admin__field-value">
+            <div id="unit-price"><?= /* @noEscape */ $this->helper('Ced\CsPurchaseOrder\Helper\Data')
+                    ->getFormatedPrice($block->getPoDetail()->getPreferredPricePerQty()) ?></div>
+        </div>
+    </div>
+</div>
+<?php if(!empty($comment = $block->getPoDetail()->getDescription())){?>
+<div class="admin__field field field-comment"
+     data-ui-id="adminhtml-add-0-form-fieldset-element-form-field-comment">
+    <label class="label admin__field-label" for="detailed-comment"
+           data-ui-id="adminhtml-add-0-form-fieldset-element-note-label">
+        <span><?= /* @noEscape */ __('Comments') ?></span>
+    </label>
+    <div class="admin__field-control control">
+        <div id="comment-details" class="control-value admin__field-value">
+            <div id="comment"><?= /* @noEscape */ $comment ?></div>
+        </div>
+    </div>
+</div>
+<?php }?>

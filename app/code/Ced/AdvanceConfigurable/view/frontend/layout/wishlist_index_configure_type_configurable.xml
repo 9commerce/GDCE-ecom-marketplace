@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_AdvanceConfigurable
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (http://cedcommerce.com/)
+ * @license      http://cedcommerce.com/license-agreement.txt
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+  <head>
+      <css src="Ced_AdvanceConfigurable::css/main.css" />
+  </head>
+   <body>
+       	<referenceBlock name="alert.urls">
+       	  <block class="Ced\AdvanceConfigurable\Block\Product\View\Type\Configurable" name="product.info.options.configurable1" as="options_configurable1" before="-" template="Ced_AdvanceConfigurable::product/view.phtml">
+       		  <container name="product.single.attribute" as="product_single_attribute">
+                    <block class="Ced\AdvanceConfigurable\Block\Product\View\Type\Configurable" name="single.attribute" as="single_attribute" before="-" template="Ced_AdvanceConfigurable::product/view/single.phtml"/>
+            </container>
+            <container name="product.double.attribute" as="product_double_attribute">
+                    <block class="Ced\AdvanceConfigurable\Block\Product\View\Type\Configurable" name="double.attribute" as="double_attribute" before="-" template="Ced_AdvanceConfigurable::product/view/double.phtml"/>
+            </container>
+            <container name="product.multiple.attribute" as="product_multiple_attribute">
+                    <block class="Ced\AdvanceConfigurable\Block\Product\View\Type\Configurable" name="multiple.attribute" as="multiple_attribute" before="-" template="Ced_AdvanceConfigurable::product/view/multiple.phtml"/>
+            </container>
+       	  </block>
+		    </referenceBlock>
+    </body>
+</page>

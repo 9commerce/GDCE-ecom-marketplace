@@ -1,0 +1,115 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsPurchaseOrder
+ * @author        CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license      https://cedcommerce.com/license-agreement.txt
+ */
+
+/** @var Ced\CsPurchaseOrder\Block\Request\View $block */
+
+use Ced\CsPurchaseOrder\Model\Quote\Source\Status;
+
+$loaderurl = $block->getViewFileUrl('images/loader-2.gif');
+?>
+<?php $_requests = $block->getRequestcollection();
+?>
+<?php if ($_requests && count($_requests)): ?>
+    <div class="table-wrapper quotations-history">
+        <table class="data table table-order-items history" id="ced-customer-quotations">
+            <caption class="table-caption"><?= /* @noEscape */
+                __('Purchase Request') ?></caption>
+            <thead>
+            <tr>
+                <th scope="col" class="col id"><?= /* @noEscape */
+                    __('Request Id') ?></th>
+                <th scope="col" class="col name"><?= /* @noEscape */
+                    __('Requested Product Name') ?></th>
+                <th scope="col" class="col proposed_qty"><?= /* @noEscape */
+                    __('Requested Quantity') ?></th>
+                <th scope="col" class="col price"><?= /* @noEscape */
+                    __('Estimated Budget Per Quantity') ?></th>
+                <th scope="col" class="col final_qty"><?= /* @noEscape */
+                    __('Approved Quantity') ?></th>
+                <th scope="col" class="col final_price"><?= /* @noEscape */
+                    __('Approved Estimated Budget Per Quantity') ?></th>
+                <th scope="col" class="col delete"><?= /* @noEscape */
+                    __('Status') ?></th>
+                <th scope="col" class="col actions">&nbsp;</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($_requests as $_request):
+                $id = $_request->getId(); ?>
+                <tr>
+                    <td class="col view">
+                        <a href="<?= /* @noEscape */ $block->getUrl('cspurchaseorder/request/edit', ['requestid' => $_request['id']]) ?>"
+                           class="action view">
+                            <span><?= /* @noEscape */
+                                sprintf("%'.09d", $_request->getId()); ?></span>
+                    </td>
+                    <td class="col name"><?= /* @noEscape */ $_request->getTitle() ?></td>
+                    <td class="col proposed_qty"><?= /* @noEscape */ $_request->getProposedQty() ?></td>
+                    <td class="col price"><?= /* @noEscape */ $this->helper('Magento\Framework\Pricing\Helper\Data')->currency(round($_request->getPreferredPricePerQty(), 2), true, false) ?></td>
+                    <td class="col final_qty"><?php if ($final_qty = $_request->getNegotiatedFinalQty())
+                            /* @noEscape */ echo $final_qty;
+                        else /* @noEscape */ echo 'n/a';
+                        ?></td>
+                    <td class="col final_price"><?php if ($final_price = $_request->getNegotiatedFinalPrice())
+                            /* @noEscape */ echo $this->helper('Magento\Framework\Pricing\Helper\Data')->currency(round($final_price, 2), true, false);
+                        else /* @noEscape */ echo 'n/a'; ?></td>
+                    <td class="col status">
+                        <?php if ($_request['status'] == Status::APPROVED){ ?>
+                            <a href="<?= /* @noEscape */ $block->getUrl('cspurchaseorder/request/AddToCart',
+                            ['requestid' => $_request->getId(),
+                                'product_id' => $_request->getProductId()]) ?>"
+                           class="action view">
+                            <span><?= /* @noEscape */ __('Checkout') ?></span></a>
+                        <?php } elseif ($_request['status'] == Status::ORDER_PLACED) { ?>
+                            <a href="<?= /* @noEscape */ $block->getUrl('sales/order/view', array('order_id' => $_request['order_id'])) ?>"
+                               class="action view">
+                                <span><?= /* @noEscape */ __('ViewOrder') ?></span></a>
+                        <?php } else{ /* @noEscape */ echo $_request['status']; } ?>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+        <?= /* @noEscape */ $block->getPagerHtml(); ?>
+    </div>
+<?php else: ?>
+    <div class="message info empty"><span><?= /* @noEscape */ __('You have no purchase request'); ?></span></div>
+<?php endif ?>
+<div data-role="loader" class="loading-mask" style="display: none;" id="loader">
+    <div class="loader"><img src="<?= /* @noEscape */ $loaderurl; ?>" alt="Loading...">
+        <p>Please wait...</p>
+    </div>
+</div>
+<script>
+    function accepted(requestid) {
+
+        var url = '<?= /* @noEscape */ $this->getUrl('cspurchaseorder/request/accept')?>';
+        jQuery.ajax({
+            type: 'POST',
+            url: url,
+            data: {
+                'requestid': requestid,
+            },
+            success: function (data) {
+                window.location.href = '<?= /* @noEscape */ $this->getUrl('cspurchaseorder/request/view')?>';
+                document.getElementById('accept').value = 'Accepted';
+                document.getElementById("accept").disabled = true;
+            }
+        });
+    }
+</script>

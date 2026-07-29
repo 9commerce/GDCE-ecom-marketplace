@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsVendorReview
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+  <table name="ced_csvendorreview_rating" resource="default" engine="innodb" comment="Ced CsVendorReview ced_csvendorreview_rating">
+    <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="csvendorreview_rating"/>
+    <column xsi:type="text" name="rating_label" nullable="true" comment="rating_label"/>
+    <column xsi:type="text" name="rating_code" nullable="true" comment="rating_code"/>
+    <column xsi:type="int" name="sort_order" padding="11" unsigned="false" nullable="false" identity="false" comment="sort_order"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="id"/>
+    </constraint>
+  </table>
+  <table name="ced_csvendorreview_review" resource="default" engine="innodb" comment="Ced CsVendorReview ced_csvendorreview_review">
+    <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="csvendorreview_review"/>
+    <column xsi:type="int" name="vendor_id" padding="11" unsigned="false" nullable="false" identity="false" comment="vendor_id"/>
+    <column xsi:type="text" name="vendor_name" nullable="true" comment="vendor_name"/>
+    <column xsi:type="int" name="customer_id" padding="11" unsigned="false" nullable="false" identity="false" comment="customer_id"/>
+    <column xsi:type="text" name="customer_name" nullable="true" comment="customer_name"/>
+    <column xsi:type="int" name="quality" padding="11" unsigned="false" nullable="false" identity="false" comment="quality"/>
+    <column xsi:type="int" name="pricing" padding="11" unsigned="false" nullable="false" identity="false" comment="pricing"/>
+    <column xsi:type="int" name="service" padding="11" unsigned="false" nullable="false" identity="false" comment="service"/>
+    <column xsi:type="int" name="value" padding="11" unsigned="false" nullable="false" identity="false" comment="value"/>
+    <column xsi:type="text" name="subject" nullable="true" comment="subject"/>
+    <column xsi:type="text" name="review" nullable="true" comment="review"/>
+    <column xsi:type="smallint" name="status" padding="6" unsigned="false" nullable="false" identity="false" comment="status"/>
+    <column xsi:type="timestamp" name="created_at" on_update="true" nullable="true" default="CURRENT_TIMESTAMP" comment="created_at"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="id"/>
+    </constraint>
+  </table>
+</schema>

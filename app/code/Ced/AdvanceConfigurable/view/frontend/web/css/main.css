@@ -1,0 +1,116 @@
+.product-matrix {
+  overflow: hidden; 
+}
+.matrix-form > .actions {
+  padding-top: 25px;
+}
+.product-matrix .next,
+.product-matrix .prev {
+  border: 1px solid #a19191;
+  border-radius: 50%;
+  cursor: pointer;
+  height: 35px;
+  padding-top: 0;
+  position: absolute;
+  text-align: center;
+  width: 35px;
+  line-height: 42px;
+}
+.product-matrix .prev {
+  left: 0;
+}
+.product-matrix .next {
+  right: 0;
+}
+.matrix-table{
+  transition:0.4s all;
+}
+.matrix-table tbody td {
+  padding: 17px 8px;
+  vertical-align: middle;
+}
+.matrix-table td input {
+  width: 145px;
+}
+.matrix-table .heading-tr td {
+  background-color: #006f90;
+  color: white;
+  text-align: center;
+  border-right: 1px solid rgba(0,0,0,0.1);
+}
+.matrix-table .qty-available {
+  font-size: 11px;
+  line-height: 19px;
+  padding: 5px 2px;
+  text-align: center;
+  display: none;
+}
+.product-matrix-vertical-layout
+{
+  height: 300px;
+  overflow-y: scroll;
+}
+.product-info-main form.matrix-form {
+  position: relative;
+}
+.product-matrix-matrix-layout
+{
+  height: 300px;
+  overflow: scroll;
+}
+.product-matrix-matrix-layout.layout-2 {
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+.vertical-div {
+  background: #078eaf none repeat scroll 0 0;
+  float: left;
+  width: 15%;
+}
+.product-matrix .vertical-div .vertical {
+  background: #006f90 none repeat scroll 0 0;
+  color: #fff;
+  padding-bottom: 32px;
+  padding-top: 33px;
+  text-align: center;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+.vertical-div > .vertical:first-child {
+  margin-top: 54px;
+}
+.product-matrix-matrix-layout.layout-2 .style-2-table-wrap {
+  float: left;
+  overflow-x: hidden;
+  width: 85%;
+}
+.style-2-table-wrap .next,
+.style-2-table-wrap .prev {
+  right: -39px;
+  top: 43%;
+  transform: translateY(-55%);
+}
+.style-2-table-wrap .prev {
+  left: -41px;
+  right: unset;
+}
+.product-matrix-matrix-layout.layout-2 .style-2-table-wrap .matrix-table td input {
+  width: 120px;
+}
+.product-matrix .next img,
+.product-matrix .prev img {
+  width: 16px;
+}
+.matrix-table tbody tr:nth-child(2n) {
+  background-color: #eeeeee;
+  transition: 300ms all;
+}
+.matrix-table tbody tr:nth-child(2n):hover {
+  background-color: #e4e4e4;
+}
+.matrix-table tbody td .no-product {
+  background-image: url('../images/new/close.png');
+  height: 15px;
+  width: 15px;
+  background-size: 15px;
+  margin: 0 auto;
+}

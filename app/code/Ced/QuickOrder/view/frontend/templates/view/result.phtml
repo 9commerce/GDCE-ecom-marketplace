@@ -1,0 +1,107 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_QuickOrder
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+?>
+<?php
+ 	  $store = '';
+	  $resultCollection = $block->getResult();
+	  $getTrId = $block->getTrId();
+	  $currencySymbol = $block->getCurrentCurrencyCode();
+	  $mediaUrl  = $block->getMediaUrl();
+	  $directoryPath = $block->getDirectoryPath();
+	  $stockState = $block->getstockRegistry();
+	  $priceCurrencyObject = $block->getPriceCurrencyInterface();
+	  $storeManager = $block->getStoreManagerInterface();
+	  $currencyCode = $storeManager->getStore()->getCurrentCurrency()->getCode();
+	  $store = $storeManager->getStore()->getStoreId(); //get current store id if store id not get passed
+
+     
+?>
+<div class ="search-result">
+    <?php if(!empty($resultCollection)) { ?>
+	<ul class ="ul-data-result">	
+	<?php foreach($resultCollection as $productCollection):?>
+		<?php if($productCollection->getTypeId()=='configurable'):?>
+			<li class ="li-data-result-configurable">
+				<div class ="inner-result-data" >
+                        <?php  $productImage = $block->getImage($productCollection, 'category_page_grid');
+                            echo $productImage->toHtml();
+                            $productPrice = '';
+                            $getSpecialPrice = $productCollection->getPrice();
+                            if(!$getSpecialPrice){
+                            	$productPrice = $productCollection->getRegularPrice();
+                            }else{
+                            	$productPrice = $getSpecialPrice;
+                            }
+                            	$productPrice = $priceCurrencyObject->convert($productPrice, $store, $currencyCode);
+
+                            ?>
+					<span class="span-name configurable"><?= /* @noEscape */ $productCollection->getName()?></span>
+					<div class ="inner-result" style="display: none;">
+							<span class="span-currency-symbol"><?= /* @noEscape */ $currencySymbol;?></span>
+							<input type="hidden" name="productId[]" 
+							value="<?= /* @noEscape */ $productCollection->getId()?>" class="configurableProductId">
+							<input type="hidden" name="product_type[]" 
+							value="<?= /* @noEscape */ $productCollection->getTypeId()?>" class="product_type_li">
+							<input type="hidden" name="productName[]" 
+							value="<?= /* @noEscape */ $productCollection->getName()?>" class="configurableProductName">
+							<input type="hidden" name="product_price[]" 
+							value="<?= /* @noEscape */ $productPrice?>" class="product_price">
+							<input type="hidden" name="configurable_product_sku[]" 
+							value="<?= /* @noEscape */ $productCollection->getSku()?>" class="configurable_product_sku">
+					</div>
+				</div>
+			</li>
+		<?php else:?>
+		<li class ="li-data-result">
+			<div class ="inner-result-data">
+                   <?php  $productImage = $block->getImage($productCollection, 'category_page_grid');
+                   echo $productImage->toHtml()?>
+				<?php $total = $stockState->getStockItem($productCollection->getId()); 
+				$getSpecialPrice = $productCollection->getPrice();
+				if(!$getSpecialPrice){
+            	$productPrice = $productCollection->getRegularPrice();
+            	}	else{
+            	$productPrice = $getSpecialPrice;
+            	}
+            	$productPrice = $priceCurrencyObject->convert($productPrice, $store, $currencyCode);
+				?>
+				<span class="span-name"><?= /* @noEscape */ $productCollection->getName()?></span>
+				<div class ="inner-result" style ="display:none;">
+					<span class="total-product-qty"><?= /* @noEscape */ (int)$total->getQty(); ?></span>
+					<span class="span-type"><?= /* @noEscape */ $productCollection->getTypeId()?></span>
+					<span class="span-sku"><?= /* @noEscape */ $productCollection->getSku()?></span>
+					<span class="span-price"><?= /* @noEscape */ $currencySymbol.$productPrice?></span>
+					<span class="span-currency-symbol"><?= /* @noEscape */ $currencySymbol;?></span>
+					<span class="get-price"><?= /* @noEscape */ $productPrice?></span>
+					<span class="span-qty"><?= /* @noEscape */ '1'?></span>
+					<span class ="span-productid"><?= /* @noEscape */ $productCollection->getId()?></span>
+				</div>
+			</div>
+		</li>
+		<?php endif;?>
+<?php endforeach;?>
+	</ul>
+	<?php } else { ?>
+		<div class="no-result">
+			<span><?= /* @noEscape */ __('No result found')?></span>
+		</div>
+	<?php }?>
+</div>
+
+
+

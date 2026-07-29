@@ -1,0 +1,411 @@
+/* cs purchase order */
+
+
+.field.selct_category .choose-category {
+    min-width: 150px;
+    height: 40px;
+    background: #333;
+    border-color: #333;
+    color: #fff;
+}
+.upload_note {
+    font-size: 11px;
+    color: #000;
+    text-shadow: 0 0 0;
+    font-style: italic;
+    padding-left: 5px;
+}
+.upload_note span {
+    color: #6A6A6A;
+}
+
+.page-products .columns {
+    z-index: auto !important;
+}
+.search_form_overlay.ced-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    overflow-y: scroll;
+    display: none;
+    z-index: 99;
+}
+.search_form_overlay.ced-modal-overlay.active{
+    display: block;
+}
+.terms-condition.ced-modal-content {
+    background: #fff;
+    max-width: 600px;
+    margin: 25px auto;
+    padding: 18px;
+    width: 100%;
+    position: relative;
+}
+.terms-header.ced-modal-header {
+    border-bottom: 1px solid #e4e4e4;
+    margin-bottom: 18px;
+}
+
+.ced-modal-overlay .ced-modal-header h3 {
+    font-size: 18px;
+    margin-top: 0;
+}
+.ced-modal-overlay .ced-modal-header .close_term {
+    position: absolute;
+    right: 7px;
+    top: 7px;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #333;
+    text-align: center;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.ced-modal-overlay .ced-modal-data div {
+    padding: 0 !important;
+}
+.ced-modal-overlay .main h1 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+.ced-modal-overlay .main h2 {
+    font-size: 16px;
+    text-shadow: 0 0 0;
+}
+.ced-modal-overlay .main p {
+    color: #909090;
+}
+
+
+
+
+.cspurchaseorder-select-category .modal-inner-wrap {
+    max-width: 600px !important;
+    width: 100% !important;
+}
+.cspurchaseorder-select-category .modal-inner-wrap .modal-header {
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 10px;
+}
+.cspurchaseorder-select-category .modal-inner-wrap .modal-header h1 {
+    font-size: 14px;
+    font-weight: bold;
+}
+.cspurchaseorder-select-category .modal-inner-wrap .modal-header .action-close {
+    margin: 11px;
+}
+.cspurchaseorder-select-category .modal-inner-wrap .modal-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.cspurchaseorder-select-category .modal-inner-wrap .modal-content .form-list {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+.ced_formlist_container .ced-col-select-cat {
+    width: 150px;
+}
+.ced_formlist_container .ced-col-select-cat select {
+    padding: 0;
+    font-size: 12px;
+}
+.cspurchaseorder-select-category .modal-inner-wrap #msg {
+    color: #000;
+    font-size: 13px;
+    padding-left: 0 !important;
+    margin-bottom: 6px;
+}
+.cspurchaseorder-select-category .modal-inner-wrap .modal-footer {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.cspurchaseorder-quotations-assignedview #grid_records_vendor_history_content .ui-wrapper.order-items,
+.cspurchaseorder-request-negotiation .field.vendor_id > .order-history-block .ui-wrapper.order-items {
+    display: grid;
+    margin-top: 20px;
+    max-height: 450px;
+    overflow: auto;
+    border: 1px solid #c2c2c2;
+    padding: 15px;
+}
+.cspurchaseorder-quotations-assignedview #grid_records_vendor_history_content .ui-wrapper.order-items ul.note-list > li,
+.cspurchaseorder-request-negotiation .field.vendor_id > .order-history-block .ui-wrapper.order-items ul.note-list li {
+    margin: 10px 0;
+}
+.cspurchaseorder-quotations-assignedview #grid_records_vendor_history_content .ui-wrapper.order-items ul.note-list > li.purchaseorder-left-chat-column,
+.cspurchaseorder-request-negotiation .field.vendor_id > .order-history-block .ui-wrapper.order-items ul.note-list li.purchaseorder-left-chat-column {
+    background: #e0e0e0;
+    border-radius: 15px 15px 15px 0;
+    padding: 12px 15px;
+}
+.cspurchaseorder-quotations-assignedview #grid_records_vendor_history_content .ui-wrapper.order-items ul.note-list > li.purchaseorder-right-chat-column,
+.cspurchaseorder-request-negotiation .field.vendor_id > .order-history-block .ui-wrapper.order-items ul.note-list li.purchaseorder-right-chat-column {
+    border-radius: 15px 15px 0 15px;
+    padding: 12px 15px;
+}
+.cspurchaseorder-request-negotiation .field.vendor_id > .field {
+    margin: 10px 0;
+}
+.cspurchaseorder-request-negotiation .field.vendor_id > .order-history-block {
+    margin: 20px 0;
+}
+.cspurchaseorder-request-negotiation .field.vendor_id > .order-history-block .ui-wrapper.order-items ul.note-list,
+.cspurchaseorder-quotations-assignedview #grid_records_vendor_history_content .ui-wrapper.order-items ul.note-list {
+    list-style: none;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+.cspurchaseorder-quotations-assignedview #grid_records_assigned_details_content {
+    display: flex;
+    flex-direction: column;
+}
+.cspurchaseorder-quotations-assignedview #grid_records_assigned_details_content .admin__field {
+    margin: 0;
+}
+.cspurchaseorder-quotations-assignedview #grid_records_assigned_details_content .admin__field .admin__field-control.control {
+    padding-right: 30px;
+}
+.submit-buying-request {
+    white-space: normal;
+    min-width: fit-content;
+    max-width: 100%;
+    transition: color 500ms ease, background-color 500ms ease, border-color 500ms ease;
+}
+.row {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+.submit-buying-request:hover {
+    background-color: #fb7c00;
+    color: #fff;
+}
+/* Request to quote form and image start */
+.submit-buying-request h2.heading-title{
+    font-size: 1.5em;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    font-weight: 600;
+}
+.submit-buying-request form.submitbuyingrequest{
+    padding: 20px;
+    background: #efefef;
+}
+.submit-buying-request .fieldset .field{
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 15px;
+}
+.submit-buying-request .fieldset .field.productname,
+.submit-buying-request .field.quantity,
+.submit-buying-request .field.price,
+.submit-buying-request .field.selct_category {
+    width: 50%;
+    float: left;
+}
+.submit-buying-request .fieldset {
+    margin-bottom: 25px;
+}
+.submit-buying-request .field.document,
+.submit-buying-request .field.comments{
+    width: 100%;
+
+}
+.submit-buying-request .fieldset > .field .control,
+.submit-buying-request .fieldset > .field .label {
+    padding: 0 5px;
+}
+.submit-buying-request .fieldset > .field .label,
+.submit-buying-request .fieldset > .fields > .field .label{
+    font-weight: 400 !important;
+}
+.submit-buying-request .field.selct_category label span{
+    font-weight: 400 !important;
+    margin-bottom: 10px;
+}
+.submit-buying-request .field input,
+.submit-buying-request .field textarea,
+.submit-buying-request .field select{
+    background: #fff;
+    width: 100%;
+    padding: 5px 10px;
+    border-radius: 0;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    box-shadow: unset;
+    box-sizing: border-box;
+}
+.submit-buying-request .field input,
+.submit-buying-request .field select{
+    height: 36px;
+}
+.submit-buying-request .field texarea{
+    height: 60px;
+}
+.submit-buying-request .actions-toolbar .primary .action {
+    padding: 7px 25px;
+}
+.submit-buying-request .checkbox.custom_check label{
+    font-size: 14px;
+    margin-left: 5px;
+}
+.submit-buying-request  .term_condition{
+    font-weight: 500;
+    text-decoration: underline;
+}
+.cms-index-index .submit-buying-request {
+    margin-bottom: 50px;
+}
+.submit-buying-request .field.selct_category .choose-category{
+    height: 36px;
+    background: #fff;
+    border-color: #ccc;
+    color: #000;
+    border-radius: 2px;
+    text-align: left;
+    font-size: 13px;
+}
+.submit-buying-request img{
+    height: 100%;
+}
+.cspurchaseorder-select-category  .action-close {
+    padding: 12px 15px;
+    margin: 0 !important;
+}
+.cspurchaseorder-select-category  .action-close:before,
+.cspurchaseorder-select-category  .action-close:before,
+.cspurchaseorder-select-category  .action-close:before{
+    font-size: 12px;
+}
+.cspurchaseorder-select-category  .action-close:hover::before,
+.cspurchaseorder-select-category  .action-close:hover::before,
+.cspurchaseorder-select-category  .action-close:hover::before {
+    color: #000 !important;
+}
+.ced_formlist_container .ced-col-select-cat {
+    width: 100%;
+    list-style: none;
+}
+
+.cspurchaseorder-select-category .ced_formlist_container  .ced-col-select-cat select {
+    padding: 0;
+    font-size: 13px;
+    height: auto;
+}
+.cspurchaseorder-select-category .ced_formlist_container  .input-box select option {
+    padding: 10px 10px;
+    text-transform: capitalize;
+    font-size: 14px;
+}
+.cspurchaseorder-select-category .modal-inner-wrap{
+    max-width: 400px !important;
+}
+.cspurchaseorder-select-category .modal-inner-wrap #msg {
+    font-size: 14px;
+    margin-bottom: 10px;
+    text-transform: capitalize;
+    font-weight: 600;
+}
+.cspurchaseorder-select-category .modal-title{
+    border-bottom: 1px solid #e3e3e3;
+}
+.cspurchaseorder-select-category .modal-footer{
+    border-top:1px solid #e3e3e3 !important;
+}
+
+.cspurchaseorder-select-category .modal-inner-wrap .modal-header{
+    padding-left: 0;
+    padding-right: 0;
+}
+.cspurchaseorder-select-category .modal-inner-wrap .modal-header h1 {
+    font-size: 18px;
+    font-weight: 400;
+    padding-left: 15px;
+}
+.buying-request-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 20px;
+    justify-content: space-between;
+}
+.buying-request-media,
+.buying-request-content {
+    width: 49%;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+}
+@media only screen and (min-width: 480px) and (max-width: 768px) {
+    .submit-buying-request .fieldset > .field .label, .submit-buying-request .fieldset > .fields > .field .label,
+    .submit-buying-request .field.selct_category label span{
+        font-size: 13px !important;
+    }
+
+}
+@media only screen and (max-width: 480px){
+    .submit-buying-request img {
+        height: auto;
+    }
+    .submit-buying-request .fieldset .field.productname,
+    .submit-buying-request .field.quantity,
+    .submit-buying-request .field.price,
+    .submit-buying-request .field.selct_category {
+        width: 100%;
+    }
+    .submit-buying-request .field.price, .submit-buying-request .field.selct_category {
+        padding-left: 0;
+    }
+
+}
+/* Request to quote form and image end */
+@media (max-width: 767px){
+    .cspurchaseorder-select-category .modal-inner-wrap {
+        max-width: none !important;
+    }
+    .ced_formlist_container .ced-col-select-cat {
+        margin-bottom: 10px;
+    }
+    .ced_formlist_container .ced-col-select-cat {
+        width: 50%;
+        margin: 0;
+        padding: 5px;
+        box-sizing: border-box;
+    }
+    #category_container_new.hor-scroll {
+        margin-left: -5px;
+        margin-right: -5px;
+    }
+
+    .cspurchaseorder-quotations-assignedview #grid_records_vendor_history_content .ui-wrapper.order-items,
+    .cspurchaseorder-request-negotiation .field.vendor_id > .order-history-block .ui-wrapper.order-items {
+        max-height: 250px;
+        padding: 10px;
+    }
+    .cspurchaseorder-quotations-assignedview #grid_records_vendor_history_content .ui-wrapper.order-items ul.note-list > li,
+    .cspurchaseorder-request-negotiation .field.vendor_id > .order-history-block .ui-wrapper.order-items ul.note-list li {
+        margin: 5px 0;
+        width: fit-content;
+    }
+    .buying-request-media,
+    .buying-request-content {
+        width: 100%;
+    }
+}
+@media (max-width: 500px) {
+    .ced_formlist_container .ced-col-select-cat {
+        width: 100%;
+    }
+}

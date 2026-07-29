@@ -1,0 +1,160 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsOrder
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+?>
+<?php
+/** @var $block \Ced\CsOrder\Block\Order\View\Totals */
+$vorder = $block->getVorder();
+$_order = $block->getOrder();
+$_source = $block->getSource();
+$_fullInfo = $block->getFullTaxInfo();
+?>
+<div class="order-totals">
+    <table width="100%" cellspacing="0">
+        <colgroup>
+            <col>
+            <col width="1">
+        </colgroup>
+        <tfoot>
+        <tr class="0">
+            <td class="label">
+                <strong><?= /* @noEscape */
+                    __('SubTotal') ?></strong>
+            </td>
+            <td class="emph">
+                <strong>
+                    <span class="price">
+                        <?= /* @noEscape */
+                        $block->displayPrices(
+                            $_order,
+                            $vorder->getBaseOrderTotal(),
+                            $vorder->getOrderTotal(),
+                            false,
+                            ''
+                        ); ?>
+                    </span>
+                </strong>
+            </td>
+        </tr>
+        <?php if ($block->getCsOrderHelper()->canShowShipmentBlock($vorder)) { ?>
+            <tr class="1">
+                <td class="label">
+                    <strong><?= /* @noEscape */
+                        __('Shipping & Handling') ?></strong>
+                </td>
+                <td class="emph">
+                    <strong>
+                    <span class="label">
+                        <?= /* @noEscape */
+                        $block->displayPrices(
+                            $_order,
+                            $vorder->getBaseShippingAmount(),
+                            $vorder->getShippingAmount(),
+                            false,
+                            ' '
+                        );
+                        ?>
+                    </span>
+                    </strong>
+                </td>
+            </tr>
+            <tr class="2">
+                <td class="label">
+                    <strong><?= /* @noEscape */
+                        __('Grand Total (Earned)') ?></strong>
+                </td>
+                <td class="emph">
+                    <strong>
+                    <span class="price">
+                        <?= /* @noEscape */
+                        $block->displayPrices(
+                            $_order,
+                            $vorder->getBaseOrderTotal() + $vorder->getBaseShippingAmount(),
+                            $vorder->getOrderTotal() + $vorder->getShippingAmount(),
+                            false,
+                            ''
+                        );
+                        ?>
+                    </span>
+                    </strong>
+                </td>
+            </tr>
+        <?php } else { ?>
+            <tr class="2">
+                <td class="label">
+                    <strong><?= /* @noEscape */
+                        __('Grand Total (Earned)') ?></strong>
+                </td>
+                <td class="emph">
+                    <strong>
+                    <span class="price">
+                        <?= /* @noEscape */
+                        $block->displayPrices(
+                            $_order,
+                            $vorder->getBaseOrderTotal(),
+                            $vorder->getOrderTotal(),
+                            false,
+                            ''
+                        );
+                        ?>
+                    </span>
+                    </strong>
+                </td>
+            </tr>
+        <?php } ?>
+        <tr class="3">
+            <td class="label">
+                <strong> <?= /* @noEscape */
+                    __('Commission Fee') ?></strong>
+            </td>
+            <td class="emph">
+                <strong>
+                    <span class="price">
+                        <?= /* @noEscape */
+                        $block->displayPrices(
+                            $_order,
+                            $vorder->getShopCommissionBaseFee(),
+                            $vorder->getShopCommissionFee(),
+                            false,
+                            ' '
+                        ); ?>
+                    </span>
+                </strong>
+            </td>
+        </tr>
+        <tr class="2">
+            <td class="label">
+                <strong><?= /* @noEscape */
+                    __('Net Earned') ?></strong>
+            </td>
+            <td class="emph">
+                <strong><span class="price">
+                    <?= /* @noEscape */
+                    $block->displayPrices(
+                        $_order,
+                        $vorder->getBaseOrderTotal() - $vorder->getShopCommissionBaseFee(),
+                        $vorder->getOrderTotal() - $vorder->getShopCommissionFee(),
+                        false,
+                        ' '
+                    ); ?>
+                   </span>
+                </strong>
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+</div>

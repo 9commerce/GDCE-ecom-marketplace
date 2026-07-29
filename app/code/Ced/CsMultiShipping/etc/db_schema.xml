@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMultiShipping
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+  <!-- <table name="quote_address" resource="checkout">
+    <column xsi:type="text" name="shipping_method" nullable="true"/>
+  </table> -->
+  <table name="sales_order" resource="sales">
+    <column xsi:type="varchar" name="charge_transfer_to" nullable="true" length="50" comment="Charge Transfer to - Admin/Vendor"/>
+    <!-- <column xsi:type="text" name="shipping_method" nullable="true"/> -->
+  </table>
+  <!-- <table name="quote_shipping_rate" resource="checkout">
+    <column xsi:type="text" name="code" nullable="true" comment="Code"/>
+    <column xsi:type="text" name="method" nullable="true" comment="Method"/>
+  </table> -->
+</schema>

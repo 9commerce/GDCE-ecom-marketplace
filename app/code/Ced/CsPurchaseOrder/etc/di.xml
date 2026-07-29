@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsPurchaseOrder
+ * @author 		CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license      https://cedcommerce.com/license-agreement.txt
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="purchaseorder_data_data_source" xsi:type="string">
+                    Ced\CsPurchaseOrder\Model\ResourceModel\Purchaseorder\Grid\Collection
+                </item>
+                <item name="purchaseorder_categories_data_source" xsi:type="string">
+                    Ced\CsPurchaseOrder\Model\ResourceModel\Category\Grid\Collection
+                </item>
+                <item name="vendors_assigned_quotations_data_source" xsi:type="string">
+                    Ced\CsPurchaseOrder\Model\ResourceModel\VendorStatus\Grid\Collection
+                </item>
+                <item name="purchaseorder_vendors_data_source" xsi:type="string">
+                    Ced\CsPurchaseOrder\Model\ResourceModel\VendorStatus\VendorAssigned\Grid\Collection
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Checkout\Controller\Sidebar\UpdateItemQty">
+        <plugin name="ced_rfc_quantity_update" type="Ced\CsPurchaseOrder\Plugin\UpdateItemQty" sortOrder="10"/>
+    </type>
+    <type name="Magento\Checkout\Model\Cart">
+        <plugin name="ced-cspurchaseorder-update-cart" type="Ced\CsPurchaseOrder\Plugin\CartPlugin" sortOrder="7" />
+    </type>
+</config>

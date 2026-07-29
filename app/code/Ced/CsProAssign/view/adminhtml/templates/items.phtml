@@ -1,0 +1,87 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category  Ced
+ * @package   Ced_CsProAssign
+ * @author    CedCommerce Core Team <connect@cedcommerce.com >
+ * @copyright Copyright CedCommerce (https://cedcommerce.com/)
+ * @license      https://cedcommerce.com/license-agreement.txt
+ */
+?>
+<?php
+/**
+ * @var \Magento\Framework\Escaper $escaper
+ */
+?>
+<div class="admin__page-section-title">
+    <strong class="title"><?= $escaper->escapeHtml($block->getHeaderText()) ?></strong>
+    <div style="float:right;">
+        <div id="addbuttion" class="actions">
+            <?= $block->getAddButtonsHtml() ?>
+        </div>
+        <div id="assignbuttion" class="actions" style="display:none;">
+            <?= $block->getAssignButtonsHtml() ?>
+        </div>
+    </div>
+    <div style="clear:both;"></div>
+</div>
+<div id="childproductgrid" style="display:none;">
+    <?= $block->getGridHtml() ?>
+</div>
+<script type="text/javascript">
+    var assignbuttion = document.getElementById('assignbuttion');
+    var addbuttion = document.getElementById('addbuttion');
+
+    window.onload = function () {
+        document.getElementById('addbuttion').style.display = 'block';
+        document.getElementById('assignbuttion').style.display = 'none';
+        document.getElementById('childproductgrid').style.display = 'none';
+    }
+
+    function addProduct() {
+        document.getElementById('addbuttion').style.display = 'none';
+        document.getElementById('assignbuttion').style.display = 'block';
+        document.getElementById('childproductgrid').style.display = 'block';
+    }
+
+    function assignProduct() {
+        var ids = document.getElementsByName("csassign_product_id");
+        var parray = new Array();
+        var cboxes = document.getElementsByName('csassign_product_id');
+        var len = cboxes.length;
+        for (var i = 0; i < len; i++) {
+            if (cboxes[i].checked) {
+                if (cboxes[i].value != 'on')
+                    parray.push(cboxes[i].value);
+            }
+        }
+        //	var csloader = new varienLoader();
+        if (parray.toString().length > 0) {
+            var url = '<?= $escaper->escapeUrl($block->getUrl("csassign/assign/addproducts")); ?>';
+            new Ajax.Request(url, {
+                parameters: {
+                    'vendor_id': '<?= (int)$block->getRequest()->getParam("vendor_id"); ?>',
+                    'product_ids': parray.toString()
+                },
+                onComplete: function (transport) {
+                    if (transport.responseText != 'success') {
+                        location.reload();
+                    } else {
+                        location.reload();
+                    }
+                }
+            });
+
+        } else {
+            alert('Please Select Product(s)');
+        }
+    }
+</script>

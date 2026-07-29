@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsPurchaseOrder
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license      https://cedcommerce.com/license-agreement.txt
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="b2bextension_tab" translate="label" sortOrder="11">
+            <label>Ced B2B Extensions</label>
+        </tab>
+        <section id="b2bextension" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
+                 showInStore="0">
+            <tab>b2bextension_tab</tab>
+            <resource>Ced_QuickOrder::config</resource>
+            <label>Ced B2B Extensions Configuration</label>
+            <group id="purchaseorder" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1"
+                   showInStore="0">
+                <label>B2B Categorywise Request For Quote</label>
+                <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1"
+                       showInStore="0">
+                    <label>Enable B2B Categorywise Request For Quote</label>
+                    <config_path>ced_purchaseorder/general/activation</config_path>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="tc_content" translate="label comment" type="text" sortOrder="20" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Enter Terms and Condition Static Block ID</label>
+                    <comment>
+                        <![CDATA[
+                            1. This field need the block identifier from the <b>Content > Elements > Blocks</b>.<br />
+                            2. Please use the correct identifier, otherwise system will render the blank content on vendor section.
+                        ]]>
+                    </comment>
+                </field>
+                <field id="submit_buying_request" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enable Submit Buying Request On HomePage</label>
+                    <config_path>ced_purchaseorder/general/submit_buying_request</config_path>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="submit_buying_request_shop_page" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enable Submit Buying Request On Vendor Shop Page</label>
+                    <config_path>ced_purchaseorder/general/submit_buying_request_shop_page</config_path>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

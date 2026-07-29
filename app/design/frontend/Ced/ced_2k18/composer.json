@@ -1,0 +1,23 @@
+{
+    "name": "ced/theme-csmarketplace",
+    "description": "N/A",
+    "require": {
+        "php": "~7.3.0|~7.4.0|~8.1.0",
+        "magento/theme-frontend-blank": "100.4.*",
+        "magento/framework": "103.0.*"
+    },
+    "type": "magento2-theme",
+    "version": "6.0.49",
+    "license": [
+        "EULA"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+		"psr-4": {
+		"Ced\\ced_2k18\\": ""
+	   }
+    },
+    "minimum-stability": "stable"
+}

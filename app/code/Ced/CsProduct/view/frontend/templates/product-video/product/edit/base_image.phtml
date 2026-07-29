@@ -1,0 +1,106 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsProduct
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license      https://cedcommerce.com/license-agreement.txt
+ */
+// @codingStandardsIgnoreFile
+?>
+<div class="row">
+    <div class="add-video-button-container">
+        <button
+                id="add_video_button"
+                title="<?= /* @noEscape */
+                $addVideoTitle; ?>"
+                type="button"
+                class="action-secondary"
+                onclick="jQuery('#new-video').modal('openModal'); jQuery('#new_video_form')[0].reset();"
+                data-ui-id="widget-button-1">
+            <span><?= $block->escapeHtml(
+                __('Add Video')) ?></span>
+        </button>
+    </div>
+</div>
+<div id="<?= /* @noEscape */
+$htmlId; ?>-container"
+     class="images"
+     data-mage-init='{"baseImage":{}}'
+     data-max-file-size="<?= /* @noEscape */
+     $fileMaxSize; ?>"
+>
+    <div class="image image-placeholder">
+        <input type="file" name="image" data-url="<?=
+        /* @noEscape */
+        $uploadUrl; ?>" multiple="multiple"/>
+        <img class="spacer" src="<?= /* @noEscape */
+        $spacerImage; ?>"/>
+        <p class="image-placeholder-text"><?= /* @noEscape */
+            $imagePlaceholderText; ?></p>
+    </div>
+    <script id="<?= /* @noEscape */
+    $htmlId; ?>-template"
+            data-template="image"
+            type="text/x-magento-template">
+        <div class="image">
+            <img class="spacer" src="<?= /* @noEscape */
+            $spacerImage; ?>"/>
+            <img
+                    class="product-image"
+                    src="<%- data.url %>"
+                    data-position="<%- data.position %>"
+                    alt="<%- data.label %>"/>
+            <div class="actions">
+                <button
+                        type="button"
+                        class="action-delete"
+                        data-role="delete-button"
+                        title="<?= /* @noEscape */
+                        $deleteImageText; ?>">
+                    <span><?= /* @noEscape */
+                        $deleteImageText; ?></span>
+                </button>
+                <button
+                        type="button"
+                        class="action-make-base"
+                        data-role="make-base-button"
+                        title="<?= /* @noEscape */
+                        $makeBaseText; ?>">
+                    <span><?= /* @noEscape */
+                        $makeBaseText; ?></span>
+                </button>
+                <div class="draggable-handle"></div>
+            </div>
+            <div class="image-label"></div>
+            <div class="image-fade"><span><?= /* @noEscape */
+                    $hiddenText; ?></span></div>
+        </div>
+    </script>
+</div>
+<span class="action-manage-images" data-activate-tab="image-management">
+    <span><?= /* @noEscape */
+        $imageManagementText; ?></span>
+</span>
+<script>
+    require([
+        'jquery'
+    ], function ($) {
+
+        'use strict';
+
+        $('[data-activate-tab=image-management]')
+            .on('click.toggleImageManagementTab', function () {
+                $('#product_info_tabs_image-management').trigger('click');
+            });
+    });
+</script>

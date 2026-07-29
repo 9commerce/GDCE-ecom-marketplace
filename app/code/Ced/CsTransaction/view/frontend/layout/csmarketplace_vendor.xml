@@ -1,0 +1,62 @@
+<!--
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsTransaction
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="vendorpanel"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+    	<referenceBlock name="vendor_payments" remove="true" />
+        <referenceBlock name="csmarketplace_vendor_navigation">
+					<block class="Ced\CsMarketplace\Block\Link\Current" name="vendor_transactions" after="vendor_payments">
+						<arguments>
+							<argument name="name" xsi:type="string">vendor_transactions</argument>
+							<argument name="label" xsi:type="string" translate="true">Transactions</argument>
+							<argument name="path" xsi:type="string">#</argument>
+							<argument name="font_awesome" xsi:type="string">fa fa-money fa-fw</argument>
+							<argument name="sort_order" xsi:type="string">100</argument>
+							<argument name="level" xsi:type="string">1</argument>
+						</arguments>
+						<block class="Ced\CsMarketplace\Block\Links"
+                               name="vendor_transactions_container" as="vendor_transactions_container">
+							<arguments>
+								<argument name="css_class" xsi:type="string">nav nav-second-level collapse</argument>
+							</arguments>
+							<block class="Ced\CsMarketplace\Block\Link\Current" name="requested_transactions">
+								<arguments>
+									<argument name="name" xsi:type="string">requested_transactions</argument>
+									<argument name="label" xsi:type="string" translate="true">Requested Transaction</argument>
+									<argument name="path" xsi:type="string">cstransaction/vpayments/request/</argument>
+									<argument name="font_awesome" xsi:type="string">fa fa-users</argument>
+									<argument name="sort_order" xsi:type="string">30</argument>
+									<argument name="level" xsi:type="string">2</argument>
+								</arguments>
+							</block>
+							<block class="Ced\CsMarketplace\Block\Link\Current" name="all_transactions">
+								<arguments>
+									<argument name="name" xsi:type="string">all_transactions</argument>
+									<argument name="label" xsi:type="string" translate="true">View All Transaction</argument>
+									<argument name="path" xsi:type="string">csmarketplace/vpayments/index</argument>
+									<argument name="font_awesome" xsi:type="string">fa fa-university</argument>
+									<argument name="sort_order" xsi:type="string">20</argument>
+									<argument name="level" xsi:type="string">2</argument>
+								</arguments>
+							</block>
+						</block>
+					</block>
+        </referenceBlock>
+    </body>
+</page>

@@ -1,0 +1,70 @@
+<?php
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license      https://cedcommerce.com/license-agreement.txt
+ */
+
+// @codingStandardsIgnoreFile
+?>
+<?php
+    $products = $block->getProducts();
+    $store = $this->helper(\Ced\CsMarketPlace\Helper\Data::class)->setStoreId(0)->getStore();
+?>
+<table bgcolor="FFFFFF" cellspacing="0" cellpadding="10" border="0" width="650" style="border:1px solid #E0E0E0;" summary="<?= __('Products') ?>">
+    <thead>
+        <tr>
+            <th align="left" bgcolor="#EAEAEA"
+				style="font-size: 13px; padding: 3px 9px"><?= __('Product Name') ?></th>
+            <th align="left" bgcolor="#EAEAEA"
+				style="font-size: 13px; padding: 3px 9px"><?= __('SKU') ?></th>
+            <th align="left" bgcolor="#EAEAEA"
+				style="font-size: 13px; padding: 3px 9px"><?= __('Qty') ?></th>
+            <th align="left" bgcolor="#EAEAEA"
+				style="font-size: 13px; padding: 3px 9px"><?= __('Website(s)') ?></th>
+        </tr>
+    </thead>
+    <tbody  bgcolor="#F6F6F6">
+    <?php $i=0;?>
+        <?php foreach ($products[0] as $product): ?>
+            <tr align="left" 
+				style="font-size: 13px; padding: 3px 9px" <?= $i%2 ? ' bgcolor="#EAEAEA"' : '#F6F6F6' ?> class="border">
+                <td class="number">
+                <?php if($products[1][$product->getId()]->getCheckStatus()==\Ced\CsMarketplace\Model\Vproducts::APPROVED_STATUS && $product->getStatus()==\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED){?>
+                <a href="<?= $product->getProductUrl() ?>" title="<?php  echo $product->getName()?>" ><?= $product->getName();?></a>
+                <?php }else{?>
+                <?= $product->getName();?>
+                <?php }?>
+                </td>
+                <td class="number"><?= $product->getSku();?></td>
+                <td class="number"><?= $product->getStockItem()->getQty();?></td>
+                <td class="number">
+                <?php 
+                    $WebsiteName=array();
+                    $helper = $this->helper(\Ced\CsMarketplace\Helper\Data::class);
+                	foreach($product->getWebsiteIds() as $websiteId){
+                		if($websiteId!=0){
+                            $WebsiteName[] = $helper->setWebsiteId($websiteId)->getWebsite()->getName();
+                        }
+                	} 
+                	echo implode(',',$WebsiteName);    	
+                ?>
+                
+                </td>
+            </tr>
+            <?php $i++;?>
+        <?php endforeach; ?>
+   	</tbody>
+</table>

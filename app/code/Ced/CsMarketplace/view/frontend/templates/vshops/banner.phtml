@@ -1,0 +1,41 @@
+<?php
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+
+// @codingStandardsIgnoreFile
+ 
+?>
+<?php 
+	$helper = $block->imageHelper();
+	// Vendor Logo  
+	/*in new customization set the default w n h ration 10:3, and removed this from admin*/
+    $width = 1000;
+	$height = 300;
+?>
+<?php if ($block->aclHelper()->isEnabled()) { ?>
+	<div class="category-products">
+    <ul class="products-list" id="products-list" style="list-style: none">
+        <li>
+            <a>
+             	<img id="product-collection-image-1" alt="Company Banner" height="100%" width="100%" 
+		          src="<?= /* @noEscape */ $helper->getResizeImage($block->getVendorBanner(), 'banner', $width, $height,false,false); ?>" />
+            </a>
+        </li>
+     </ul>
+   </div>
+<?php } ?>

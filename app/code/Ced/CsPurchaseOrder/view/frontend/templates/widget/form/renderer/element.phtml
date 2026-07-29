@@ -1,0 +1,18 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php $_element = $block->getElement() ?>
+<?php if ($_element->getNoSpan() !== true): ?>
+<span class="field-row">
+<?php endif; ?>
+<?= /* @noEscape */ $_element->getLabelHtml() ?>
+<?= /* @noEscape */ $_element->getElementHtml() ?>
+<?php if ($_element->getNoSpan() !== true): ?>
+</span>
+<?php endif; ?>

@@ -1,0 +1,1654 @@
+/*===================================================================================*/
+/*===========        NEW SELLER LANDING PAGE AND SIGNUP PAGE DESIGN       ===========*/
+/*===================================================================================*/
+
+/*====================== header css ====================*/
+.main_header_vendor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  z-index: 99;
+  box-shadow: 0px 0px 15px 0px rgba(72,73,121,0.15);
+  transition: 0.3s all;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.main_header_vendor .navbar-brand {
+  padding: 0;
+  height: auto;
+  margin-top: 4px;
+  margin-right: 8px;
+}
+.main_header_vendor .navbar-brand img{
+  width: 150px;
+}
+.main_header_vendor .navbar-expand-md.navbar-light {
+  margin-bottom: 0 !important;
+  margin-top: 9px;
+}
+.main_header_vendor .navigation-custom-class li {
+  display: inline-block;
+}
+.main_header_vendor .navigation-custom-class li a {
+  color: #252525 !important;
+  display: inline-block;
+  padding: 10px;
+  font-size: 14px;
+}
+.main_header_vendor .res-form-right.res-form-open{
+  display: none;
+}
+.main_header_vendor .form-login > h3,
+.main_header_vendor .form-login .already-account{
+  display: none;
+}
+
+.form-login-wrapper .right_bottom {
+  margin-top: 5px;
+}
+.form-login-wrapper .head_right .form-element-padding-none {
+  padding-right: 0px;
+  padding-left: 0px;
+  display: inline-block;
+  vertical-align: top;
+  margin: 0;
+  width: 175px;
+}
+.form-login-wrapper .head_right .form-element-padding-none:last-child {
+  width: 80px;
+}
+.form-login-wrapper .head_right {
+  position: relative;
+  margin-bottom: 10px;
+}
+.form-login-wrapper .head_right .form-element-padding-none  div.mage-error {
+  display: block;
+  font-size: 9px;
+  color: #f20909;
+  position: absolute;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  left: 0;
+}
+.main_header_vendor  .form-login-wrapper .head_right .form-element-padding-none  div.mage-error {
+  position: static;
+}
+.form-login-wrapper .head_right .form-element-padding-none input {
+  border-radius: 0px;
+  font-size: 12px;
+  border: 1px solid #e4e4e4;
+  box-shadow: unset;
+}
+.form-login-wrapper .head_right .form-element-padding-none button {
+  border-radius: 0;
+  font-size: 12px;
+}
+.checkbox.custom_check {
+  float: left;
+  position: relative;
+  padding-bottom: 0 !important;
+  margin-bottom: 0;
+  margin-top: 2px;
+}
+.checkbox.custom_check input{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+.checkbox.custom_check label::before {
+  border: 2px solid #333;
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  content: '';
+  left: 0;
+  top: 2px;
+  border-radius: 2px;
+}
+.checkbox.custom_check input:checked + label::after {
+  content: '\f00c';
+  font-family: FontAwesome;
+  position: absolute;
+  left: 3px;
+  font-size: 10px;
+  top: 0px;
+  line-height: 17px;
+}
+.main_header_vendor  .form-login-wrapper .forgot{
+  float: right;
+  margin-top: -20px;
+}
+.form-login-wrapper .forgot a {
+  color: #000 !important;
+  display: inline-block;
+}
+@media (min-width: 768px){
+  .mobile_header_content {
+    display: none;
+  }
+}
+.mobile_header_content .links {
+  list-style: none;
+  margin-bottom: 0;
+}
+.mobile_header_content li {
+  display: inline-block;
+}
+.mobile_header_content li a {
+  color: #000 !important;
+  font-size: 16px;
+  display: inline-block;
+  padding: 5px;
+}
+.mobile_header_content li a i {
+  font-size: 18px;
+}
+.csmarketplace-account-login .page.messages{
+  padding: 0px;
+}
+.csmarketplace-account-login .page.messages #error-msg-modal{
+  display: none ;
+}
+.csmarketplace-account-login .page.messages #error-msg-modal.active{
+  display: block;
+}
+.csmarketplace-account-login .page-wrapper main.page-main {
+  padding-top: 81px;
+  padding-bottom: 0;
+}
+body.hidden_body {
+  overflow: hidden;
+}
+.mobile_sign {
+  float: right;
+  display: none;
+}
+
+/*================== header if social login enable ===================*/
+.main_header_vendor.ced_social_login_header .pull-left.menu_logo {
+  float: none !important;
+  width: 100%;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.main_header_vendor.ced_social_login_header .pull-left.menu_logo .navbar-nav {
+  float: right;
+}
+.main_header_vendor .navigation-custom-class li a.socail_login_link {
+  border-radius: 0;
+  padding: 6px 15px;
+}
+.main_header_vendor.ced_social_login_header .mobile_header_content{
+  float: right;
+  padding-right: 71px;
+}
+.ced_social_login_header .socail_login_link {
+  position: absolute;
+  right: 0;
+  top: 4px;
+}
+/*================= banner css ================*/
+.section_banner_new {
+  background-size: cover;
+  position: relative;
+  color: #ffffff;
+  padding: 50px 0px;
+}
+.section_banner_new > .container {
+  position: relative;
+  z-index: 1;
+}
+.section_banner_new::after{
+  background-image: linear-gradient(rgb(1,101,208, 0.9),rgba(52,132,217,.9)),url(../images/login_landing_page/04.png),url(../images/login_landing_page/03.png);
+  background-position: top,bottom;
+  background-repeat: no-repeat, repeat;
+  background-size: cover;
+
+  position: relative;
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.9;
+}
+.section_banner_new .content_wrap_sec {
+  padding-top: 88px;
+}
+
+.section_banner_new.video .banner_content {
+  padding: 20px 0px;
+  font-size: 65px;
+  text-shadow: 1px 0 0;
+  color: #fff;
+}
+.section_banner_new .banner_content {
+  padding: 20px 0px;
+  font-size: 50px;
+  text-shadow: 1px 0 0;
+  color: #fff;
+}
+.section_banner_new .banner_paragraph{
+  font-size: 23px;
+  padding-bottom: 20px;
+}
+.section_banner_new .button_set {
+  padding-bottom: 40px;
+}
+.section_banner_new .button_set button {
+  padding: 15px 45px;
+  font-size: 15px;
+  border-radius: 45px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.section_banner_new .card_icon{
+  padding: 15px 5px;
+  font-size: 14px;
+}
+.section_banner_new .icon_register {
+  font-size: 24px !important;
+}
+/*=================== banner video section ===================*/
+.section_banner_new.video.content_wrap_sec {
+  height: calc(100vh - 81px);
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+}
+.section_banner_new.video.content_wrap_sec::after {
+  background-image: url('../images/login_landing_page/vedio_bg.png');
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.5;
+}
+.section_banner_new.video.content_wrap_sec > video {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.section_banner_new.video.content_wrap_sec > video{
+  background-image: url('../images/login_landing_page/vedio_bg.png');
+}
+.video_wrapp {
+  left: 0;
+  width: 100%;
+  top: 0;
+  height: 100%;
+  background-color: #3a3cd8d1;
+  text-align: center;
+  display: table;
+  position: relative;
+  z-index: 1;
+}
+.video_wrapp_inner{
+  display: table-cell;
+  vertical-align: middle;
+}
+/*=================== section count admin info ======================*/
+.content_wrap_sec {
+  padding-top: 45px;
+  padding-bottom: 45px;
+}
+.content_wrap_sec .col_info{
+  padding-bottom: 40px;
+  font-size: 14px;
+}
+.content_wrap_sec .inner .counter{
+  font-size: 40px;
+  color: #000000;
+}
+.content_wrap_sec .inner .counter-para {
+  font-size: 20px;
+  color: #000000;
+}
+.content_wrap_sec.admin_info .line{
+  border-bottom:1px solid #e4e4e4;
+}
+.content_wrap_sec.admin_info {
+  padding-bottom: 0px;
+}
+/*==================== section story ===============*/
+.section_story{
+  padding-bottom: 40px;
+}
+.section_story .story_image{
+  padding-right: 30px;
+}
+.section_story .story_content{
+  padding-left: 30px;
+}
+.section_story .story_content .story_heading {
+  font-size: 25px;
+  color: #000;
+  font-weight: 200;
+}
+.section_story .story_content .sub_heading{
+  font-size: 24px;
+  padding-bottom: 15px;
+}
+.section_story .story_content .sub_heading strong{
+  font-weight: normal;
+  color: #000;
+  font-size: 20px;
+}
+.section_story .story_content .str_para {
+  font-size: 14px;
+  line-height: 24px;
+  color: #5e5753;
+  padding-bottom: 15px;
+  text-align: justify;
+}
+.content_wrap_sec .button-set .btn.btn-primary {
+  padding: 10px 30px !important;
+  border-radius: 0px !important;
+}
+/*===================== section contact us ======================*/
+.section_contact_us{
+  background-color: #3987da;
+  color: #ffffff;
+  font-size: 18px;
+}
+.section_contact_us .contact_span{
+  font-size: 22px;
+}
+.section_contact_us a{
+  text-decoration-line: none;
+  color: #ffffff !important;
+}
+.section_contact_us button .arrow_contact{
+  padding:0px 5px;
+  font-weight: bold;
+  font-size: 18px;
+}
+.section_contact_us .contact_right{
+  text-align: right;
+}
+.section_contact_us .contact_right .btn.btn-primary{
+  font-weight: normal;
+  border-radius: 0px !important;
+  padding: 15px 30px;
+}
+/*===================== get ready section ==================*/
+.section_get_ready.content_wrap_sec{
+  background-color: #f3f5ff;
+}
+.how_get_row {
+  display: flex;
+}
+.how_get_main_wrapper {
+  flex: 0 0 50%;
+}
+.how_get_image {
+  flex: 0 0 50%;
+}
+.ger_ready_h {
+  font-size: 25px;
+  font-weight: normal;
+  color: #000;
+}
+.how_get .content {
+  font-size: 15px;
+  line-height: 25px;
+  color: #383838;
+}
+.get_ready_steps h4 {
+  color: #000;
+  font-size: 18px;
+}
+.get_ready_steps p {
+  color: #666;
+  font-size: 15px;
+}
+.steps_for_get_ready .carousel-indicators {
+  position: static;
+  margin: 0;
+  width: 100%;
+  text-align: left;
+  margin-top: 25px;
+}
+.steps_for_get_ready .carousel-indicators li {
+  width: auto;
+  height: auto;
+  text-indent: unset;
+  border: none;
+  background: transparent;
+  color: #333;
+  text-shadow: 0 0 0;
+  padding: 5px;
+  font-size: 15px;
+}
+.get_ready_steps .btn.btn-primary {
+  margin-top: 10px;
+  display: block;
+  border-radius: 0;
+  width: 150px;
+}
+.steps_for_get_ready .carousel-indicators li.active{
+  color: #000;
+  text-decoration-line: underline;
+}
+.section_get_ready.content_wrap_sec .line{
+  border-bottom: 1px solid #e4e4e4;
+}
+/*=================== section-view-marketplace ==================*/
+.section-view-marketplace{
+  background-image: linear-gradient(rgb(1,101,208, 0.9),rgba(52,132,217,.9)),url('../images/login_landing_page/view-marketplace.jpg');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  padding: 45px;
+  color: #ffffff;
+}
+.section-view-marketplace .contact-view-left h2{
+  font-size: 25px;
+  padding-bottom: 10px;
+}
+.section-view-marketplace .contact-view-left p{
+  font-size: 18px;
+}
+.section-view-marketplace .contact-view-right{
+  padding-top: 35px;
+  text-align: right;
+}
+.section-view-marketplace .contact-view-right .btn.btn-primary{
+  padding:15px 30px;
+  border-radius: 0px !important;
+}
+/*=================== features section ===============*/
+.feature_sec .section_title{
+  padding:0px;
+}
+.feature_sec.content_wrap_sec  .section_title h3{
+  font-weight: unset;
+  font-size: 25px;
+  margin-bottom: 15px;
+  color: #000;
+}
+.feature_sec .section_title p{
+  font-size: 15px;
+  color: #666363;
+  padding-bottom: 20px;
+  margin-bottom: 0px;
+}
+.features_box {
+  padding: 15px;
+  margin: 15px 0px;
+  background-color: #fff;
+  box-shadow: 0px 0px 4px -3px rgba(72,73,121,0.15);
+}
+.para_all {
+  font-size: 15px;
+  color: #666363;
+  padding-top: 5px;
+}
+.h3_hedaing {
+  font-size: 18px;
+  color: #000;
+  margin-bottom: 5px;
+  font-weight: normal;
+}
+.icon-image-manage {
+  margin-right: 10px;
+  width: 36px;
+}
+/*====================== footer section start =================*/
+.section_footer{
+  background-color: #0165d0;
+  color: #ffffff;
+  padding: 20px 10px;
+}
+p.footer_para {
+  width: 60%;
+  float: left;
+  padding-top: 10px;
+  font-weight: normal;
+  font-size: 14px;
+}
+.section_footer ul{
+  width: 40%;
+  float: left;
+  text-align: right;
+}
+.section_footer ul>li{
+  list-style-type: none;
+  display: inline-block;
+  font-size: 24px;
+}
+.footer-icon{
+  color: #ffffff;
+  margin-left: 10px;
+  padding: 5px;
+  background-color: #008aff;
+  border-radius: 5px;
+  font-size: 18px !important;
+}
+.footer-icon-facebook{
+  color: #ffffff;
+  margin-left: 10px;
+  padding: 5px 10px;
+  background-color: #008aff;
+  border-radius: 5px;
+  font-size: 18px !important;
+}
+/*======================= registration form css =======================*/
+.ced_custom_cont {
+  width: 80%;
+  margin: 4% auto;
+  box-shadow: 2px 4px 45px 0 rgba(0, 0, 0, 0.47);
+  max-width: 900px;
+  background-color: #fff;
+}
+.ced_custom_register_page .left_left::after {
+  content: '';
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: #1a283f;
+  opacity: 0.8;
+}
+.csmarketplace-account-login .ced_custom_register_page .ced-vendor-signup {
+  padding-bottom: 40px;
+  padding-top: 6%;
+  background-color: #e71d37;
+}
+
+
+.ced_custom_register_page .left_left {
+  top: 0;
+  flex: 0 0 40%;
+  padding: 20px 5px;
+  background-image: linear-gradient(rgba(1, 101, 208, 0.6),rgba(52,132,217,0.5)),url('../images/login_landing_page/image_new.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: relative;
+  text-align: center;
+}
+.ced_custom_register_page .ced_custom_cont .ced_custom {
+  display: flex;
+  flex-wrap: wrap;
+  display: -ms-flexbox;
+}
+.ced_custom_register_page .left_left .img-seller-mobile {
+  height: 100%;
+  display: table;
+  width: 100%;
+}
+.ced_custom_register_page .left_left .img-seller-mobile {
+  position: relative;
+  z-index: 1;
+}
+.ced_custom_register_page .left_left .left-container {
+  color: #333;
+  text-align: center;
+  display: table-cell;
+  vertical-align: middle;
+}
+.ced_custom_register_page .left_left .steps_indi {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.ced_custom_register_page .left_left .steps_indi li.active {
+  color: #fff;
+  font-weight: bold;
+  border: 2px solid #fff !important;
+  text-shadow: 0px 0px 0px;
+}
+.ced_custom_register_page .left_left .bullets {
+  padding: 0;
+  margin: 0;
+  margin-top: 0px;
+  list-style: none;
+  margin-top: 10px;
+}
+.ced_custom_register_page .left_left .left-container .heading {
+  font-size: 32px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  color: #fff;
+}
+.ced_custom_register_page .left_left .left-container .subtitle {
+  color: #fff;
+  font-size: 19px;
+}
+.ced_custom_register_page .left_left .left-container .subtitle2 {
+  margin-bottom: 50px;
+}
+.ced_custom_register_page .left_left .need_help {
+  text-shadow: 0 0 0;
+  color: #fff;
+  padding: 15px 0px;
+  font-size: 14px;
+}
+.ced_custom_register_page .right_con {
+  flex: 0 0 60%;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+.ced_custom_register_page .right_con .ced-vendor-signup-wrapper {
+  float: none;
+  margin: 0px auto;
+  top: auto;
+}
+.ced-vendor-signup-wrapper {
+  width: 490px;
+}
+.ced-vendor-signup-wrapper {
+  float: right;
+  position: relative;
+  top: 66px;
+  max-width: 500px;
+}
+.form-create-account{
+  width: 100%;
+}
+.ced-vendor-signup-wrapper form.create.account input {
+  border: 1px solid #dbdbdb;
+  border-radius: 0;
+  color: #000;
+  font-size: 12px;
+  background: #fff;
+}
+.ced-vendor-signup-wrapper .panel.panel-default {
+  border: medium none;
+  border-radius: 0;
+  margin: 0;
+  box-shadow: none;
+  margin: 15px 0px;
+}
+.ced_custom_cont .ced-vendor-signup-wrapper .panel.panel-default .panel-body {
+  padding-left: 0 !important;
+}
+.ced-vendor-signup-wrapper .panel.panel-default .panel-body {
+  padding: 6px !important;
+  padding-left: 6px;
+}
+.ced_custom_register_page .right_con .ced-vendor-signup-wrapper form.create.account {
+  padding: 14px 0px 14px 0px;
+}
+.ced-vendor-signup-wrapper form.create.account {
+  min-width: 100%;
+  padding: 14px 28px 14px 28px;
+  width: 100%;
+}
+.panel-body li{
+  list-style-type: none;
+}
+.ced_custom_cont .right_con .ced-vendor-signup-wrapper .register-panel > .panel-heading{
+  background-color: #ffffff !important;
+  border-bottom: none;
+}
+.ced-vendor-signup-wrapper .register-panel > .panel-heading h1 {
+  font-size: 21px;
+  margin: 0;
+  padding-bottom: 20px;
+}
+.password-strength-meter {
+  background: #f4f4f4 none repeat scroll 0 0;
+  font-size: 9px;
+  line-height: 20px;
+  margin: 5px 0px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.ced_custom_cont .right_con .clearfix .checkbox label {
+  font-weight: normal !important;
+  display: block;
+}
+.need_help span{
+  display: block;
+  font-weight: normal !important;
+}
+form.check-form{
+  padding-left: 20px;
+  padding-bottom: 15px;
+}
+.ced_custom_cont .right_con .clearfix .checkbox {
+  font-size: 12px !important;
+  padding-bottom: 17px !important;
+  margin-bottom: 0px;
+}
+.form-create-account input {
+  border: 1px solid #dbdbdb;
+  border-radius: 0;
+  color: #000;
+  font-size: 12px;
+}
+.psw-set input {
+  border: 1px solid #dbdbdb;
+  border-radius: 0;
+  color: #000;
+  font-size: 12px;
+}
+.page-products.csmarketplace-account-register.page-layout-vendor-empty .page-wrapper{
+  margin-left: 0px !important;
+  width: 100%;
+  padding-right: 0px !important;
+  padding-left: 0px !important;
+}
+.page-products.csmarketplace-account-register.page-layout-vendor-empty .page-wrapper .page-main {
+  padding-bottom: 0;
+}
+.page-products.csmarketplace-account-register.page-layout-vendor-empty .page-wrapper .page-main .page-title-wrapper{
+  display: none;
+}
+.page-wrapper .ced_custom_cont .right_con .panel-default .panel-heading{
+  display: none;
+  border: none !important;
+}
+.page-wrapper .ced_custom_cont .right_con .panel-default{
+  border: none !important;
+  margin-bottom: 0px;
+}
+.page-wrapper .ced_custom_cont .right_con .panel-default .panel-heading.heading-top{
+  display: block !important;
+  font-size: 21px;
+  background-color: #fff !important;
+  color: #212529 !important;
+  border: none !important;
+  font-weight: 900;
+}
+
+.ced_custom_cont .right_con .field-name-lastname{
+  float: right;
+}
+.ced_custom_cont .right_con .field-name-firstname {
+  float: left;
+}
+
+.ced_custom_cont .right_con .field-name-lastname,
+.ced_custom_cont .right_con .field-name-firstname {
+  width: 49%;
+  margin-bottom: 15px;
+}
+.ced_custom_cont .right_con .password,
+.ced_custom_cont .right_con .confirmation {
+  margin-bottom: 0;
+}
+
+.ced_custom_cont .right_con .panel-body input[type="text"]{
+  font-size: 12px !important;
+}
+.page-wrapper .ced_custom_cont .right_con .fieldset .panel.panel-default .panel-body{
+  padding-left: 5px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+.page-wrapper .ced_custom_cont .right_con .fieldset .panel.panel-default .panel-body .wide .input-box {
+  margin:5px 0px !important;
+  padding-left: 10px;
+  width: 100% !important;
+}
+.fieldset .panel.panel-default .panel-body .wide::after{
+  content: '';
+  clear: both;
+  display: table;
+}
+.page-wrapper .ced_custom_cont .right_con .panel-body .wide .input-box .addafter {
+  margin-bottom:  0px !important;
+}
+fieldset .panel.panel-default .panel-body.panel-psw{
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+.vendor_exitance {
+  margin-top: 10px !important;
+}
+.panel-body.panel-submit{
+  padding-top: 0px;
+}
+.content .buttons-set .button.btn.btn-primary {
+  border-radius: 0px !important;
+  width: 100%;
+  height: 48px;
+}
+/* updated change for backbutton and required field */
+.panel-body .back-link.col-md-6 a{
+  color: #000 !important;
+}
+.back-link.col-md-6 {
+  text-align: center;
+}
+/* End of register page css */
+
+
+/*================== Login popup if social login enable ================*/
+.overlay-popup{
+  background-color: rgba(0, 0, 0, 0.7);
+  position: fixed;
+  left: 0;
+  overflow-y: scroll;
+  top: 0;
+  z-index: -99;
+  opacity: 0;
+  visibility: hidden;
+  height: 100%;
+  width: 100%;
+  transition: 0.3s all;
+  -webkit-transition: 0.3s all;
+}
+.overlay-popup.social_login.active{
+  opacity: 1;
+  z-index: 999;
+  visibility: visible;
+}
+.register-popup {
+  width: 450px;
+  background: #fff;
+  margin: 5% auto;
+  position: relative;
+  top: 0;
+  display: flex;
+}
+.login-left-part {
+  width: 30%;
+  float: left;
+  text-align: center;
+  padding: 18px;
+  background: #f3f3f3;
+  margin-right: 15px;
+}
+.login-left-part h3 {
+  font-size: 30px;
+  margin-bottom: 68px;
+}
+.login-left-part p {
+  font-size: 14px;
+}
+.login-left-part img{
+width: 145px;
+margin-top: 25px;
+}
+.login-left-part .need {
+  padding-top: 7rem;
+}
+.login-right-form {
+  padding: 0px 15px;
+  width: 100%;
+}
+
+.overlay-popup .ced-sociallogin-login-lower a{
+  display: block;
+}
+.overlay-popup .ced-sociallogin-login-lower a >  div {
+  float: none !important;
+  width: 100% !important;
+  height: 35px !important;
+  margin-bottom: 10px;
+  background-size: contain !important;
+  background-repeat: no-repeat;
+}
+.overlay-popup .ced-sociallogin-login-lower a >  div.ced_google_connect {
+  background-image: url('../images/login_landing_page/google_new.png') !important;
+}
+.overlay-popup .ced-sociallogin-login-lower a >  div.ced_fb_connect {
+  background-image: url('../images/login_landing_page/facebook_new.png') !important;
+}
+.overlay-popup .ced-sociallogin-login-lower a >  div.ced_twitter_connect {
+  background-image: url('../images/login_landing_page/twitter_new.png') !important;
+}
+.overlay-popup .ced-sociallogin-login-lower a >  div.ced_linkedin_connect{
+  background-image: url('../images/login_landing_page/linkedin_new.png') !important;
+}
+
+
+.login-right-form .close-button-popup {
+  background: transparent;
+  border: unset;
+  font-size: 21px;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.login-right-form .social-login{
+  transition: 0.3s all;
+  -webkit-transition: 0.3s all;
+  border-radius: 4px;
+  background-color: transparent;
+  text-align: center;
+  margin-bottom: 10px;
+}
+.login-right-form .social-login a {
+  position: relative;
+  display: block;
+  color: #FFF !important;
+  padding: 11px 10px;
+  border-radius: 3px;
+  height: 40px;
+  box-shadow: 0 2px 11px rgba(0,0,0,0.1);
+  position: relative;
+}
+.login-right-form .social-login span{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 40px;
+  background-color: rgba(0,0,0,0.3);
+  text-align: center;
+}
+.login-right-form .social-login span svg{
+  width: 16px !important;
+  height: 40px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.login-right-form .form.form-login {
+  margin: 29px 0px;
+}
+.login-right-form .validate-email, .login-right-form .validate-password ,.login-right-form .form-element-padding-none input[type="password"]{
+  margin-bottom: 12px;
+}
+.login-right-form .form.form-login .btn.btn-info.form-control.form_size1 {
+  width: 100%;
+  border-radius: 0;
+  padding: 7px 10px;
+  background-color: #ec0928 !important;
+  height: auto;
+  margin-top: 13px;
+  transition: 0.3s all;
+  -webkit-transition: 0.3s all;
+}
+.login-right-form .forgot {
+  margin-top: -16px;
+  text-align: center;
+  float: right;
+}
+.login-right-form .right_bottom {
+  margin-top: 10px;
+}
+.login-right-form .already-account {
+  text-align: center;
+  font-size: 14px;
+  margin-top: 20px;
+  margin-bottom: 0;
+}
+.login-right-form .register-popup .forgot a {
+  color: #000 !important;
+  font-weight: 600;
+  font-size: 14px;
+}
+.clear{
+  clear: both;
+}
+.overlay-popup .form-element-padding-none input{
+  height: 40px;
+  border-radius: 0;
+}
+.overlay-popup .form-element-padding-none button {
+  height: 40px;
+  border-radius: 0;
+}
+/*================== Login popup if social login enable end ================*/
+
+/*========================== error-popup modal ==================*/
+body.csmarketplace-account-login .page.messages .modal.fade .message ,
+body.csmarketplace-account-register .page.messages .modal.fade .message {
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-top: 0px;
+  position: relative;
+  padding-right: 0px;
+  margin-bottom: 0px;
+  background-color: #fff !important;
+}
+body.csmarketplace-account-login .page.messages .modal.fade .message >  div ,
+body.csmarketplace-account-register .page.messages .modal.fade .message >  div {
+  text-align: center;
+}
+body.csmarketplace-account-login .modal ,
+body.csmarketplace-account-register .modal {
+  display: block;
+}
+body.csmarketplace-account-login .fade:not(.show) ,
+body.csmarketplace-account-register .fade:not(.show) {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.75);
+}
+body.csmarketplace-account-login .modal-header.modal-head-content ,
+body.csmarketplace-account-register .modal-header.modal-head-content {
+  padding-bottom: 0px;
+  border: none;
+  background-color: #fff !important;
+  border-radius: 3px 3px 0px 0px;
+}
+body.csmarketplace-account-login .modal-body.modal-body-content ,
+body.csmarketplace-account-register .modal-body.modal-body-content {
+  background-color: #fff !important;
+}
+body.csmarketplace-account-login .modal-body.modal-body-content p ,
+body.csmarketplace-account-register .modal-body.modal-body-content p {
+  font-size: 15px;
+  margin-bottom: 0px;
+  color: #333;
+  word-break: break-word;
+}
+body.csmarketplace-account-login .modal-body.modal-body-content p strong ,
+body.csmarketplace-account-register .modal-body.modal-body-content p strong {
+  font-size: 18px;
+  color: #000;
+}
+body.csmarketplace-account-login .modal-footer.modal-footer-content ,
+body.csmarketplace-account-register .modal-footer.modal-footer-content {
+  text-align: center;
+  justify-content: center !important;
+  border: none;
+  background-color: #bc2a2a;
+  border-radius: 0px 0px 3px 3px;
+}
+body.csmarketplace-account-login .modal-footer.modal-footer-content a ,
+body.csmarketplace-account-register .modal-footer.modal-footer-content a {
+  text-decoration: none;
+  color: #fff !important;
+  font-size: 16px;
+  display: block;
+}
+body.csmarketplace-account-login .modal-dialog.modal-wrap ,
+body.csmarketplace-account-register .modal-dialog.modal-wrap {
+  width: 330px;
+  margin: 150px auto !important;
+  max-width: calc(100% - 30px);
+}
+body.csmarketplace-account-login .message-success .modal-footer.modal-footer-content {
+  background: rgb(0, 104, 16);
+}
+#msg-popup-wrapper .message-success::before {
+  margin: 0px auto;
+  margin-top: 0px;
+  display: block;
+  position: static;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  margin-top: 19px;
+  font-size: 30px;
+}
+#msg-popup-wrapper .message-success .modal-header.modal-head-content {
+  display: none;
+}
+.csmarketplace-account-login .page.messages .modal.fade .modal-title .icon-error ,
+.csmarketplace-account-register .page.messages .modal.fade .modal-title .icon-error {
+  color: #bc2a2a !important;
+  font-size: 32px !important;
+}
+
+/* media query */
+/*========== Responsive view for background video ==============*/
+@media screen and (max-width: 1345px)and (min-width: 965px){
+  .section_banner_new.video.content_wrap_sec {
+    height: 100% !important;
+  }
+  .section_banner_new .banner_content {
+    font-size: 52px;
+  }
+  .video_wrapp .video_wrapp_inner .content_wrapper {
+    padding: 100px 0px;
+  }
+   .carousel-inner .item.active .get_ready_steps .btn.btn-primary {
+    display: block;
+    width: 115px;
+  }
+}
+@media screen and (max-width: 964px)and (min-width: 767px){
+  .section_banner_new.video.content_wrap_sec {
+    height: 100% !important;
+  }
+  .section_banner_new .banner_content {
+    font-size: 52px;
+  }
+  .video_wrapp .video_wrapp_inner .content_wrapper {
+    padding: 50px 0px;
+  }
+  .carousel-inner .item.active .get_ready_steps .btn.btn-primary {
+    display: block;
+    width: 115px;
+  }
+  /*============== responsive section-story ==============*/
+}
+/*================ Responsive navigation =======*/
+@media (max-width: 991px){
+  /*========== Responsive header =================*/
+  .main_header_vendor .navigation-custom-class li a {
+    padding-left: 3px;
+    padding-right: 3px;
+    font-size: 13px;
+  }
+  .form-login-wrapper .head_right .form-element-padding-none {
+    width: 113px;
+  }
+  .form-login-wrapper .head_right .form-element-padding-none:last-child{
+    width: 65px;
+  }
+  /*====================== banner new responsive ===================*/
+  .section_banner_new .banner_content {
+    text-align: center;
+    font-size: 38px;
+  }
+  .section_banner_new .banner_paragraph {
+    text-align: center;
+  }
+  .section_banner_new .button_set {
+    text-align: center;
+  }
+  .icon_area {
+    display: none;
+  }
+  .content_image {
+    display: none;
+  }
+  /*============== responsive contact us ==============*/
+  .contact_right {
+    width: 20%;
+    text-align: left;
+  }
+  .contact_left{
+    width: 80%;
+  }
+  .section_contact_us .contact_right {
+    text-align: left;
+    padding-top: 15px;
+  }
+  .section-view-marketplace .contact-view-right {
+    text-align: left;
+  }
+
+  .section_story .story_image {
+    display: none;
+  }
+  .section_story .story_content{
+    padding-left: 0;
+  }
+
+}
+@media (max-width: 767px){
+  .navbar-nav{
+    display: none;
+  }
+  .main_header_vendor .menu_logo,
+  .main_header_vendor .form-login-wrapper-main{
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  .main_header_vendor .navbar-expand-md.navbar-light {
+    margin-top: 0px;
+    min-height: auto;
+  }
+  .main_header_vendor .navbar-brand{
+    margin-top: 0;
+  }
+  .form-login-wrapper .head_right .form-element-padding-none {
+    display: block;
+    margin-bottom: 23px;
+  }
+  .form-login-wrapper .head_right .form-element-padding-none input {
+    width: 100%;
+  }
+  .overlay_vi.active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 999;
+  }
+  .overlay_vi {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6);
+    z-index: -9;
+    transition: 0.5s all;
+    opacity: 0;
+    visibility: hidden;
+  }
+  .register-popup {
+    width: calc(100% - 24px);
+  }
+  .mobile_sign{
+    display: block;
+    position: absolute;
+    right: 0;
+  }
+
+  .main_header_vendor .form-login-wrapper-main {
+    position: fixed;
+    z-index: 999999;
+    width: 100%;
+    left: 0;
+    background: #fff;
+    padding: 20px;
+    transition: 0.3s all;
+    -webkit-transition: 0.3s all;
+    -ms-transition: 0.3s all;
+    -moz-transition: 0.3s all;
+    -o-transition: 0.3s all;
+    bottom: -100%;
+  }
+  .main_header_vendor .form-login-wrapper-main.active {
+    bottom: 0;
+  }
+  .hidden_body .main_header_vendor {
+    position: static;
+  }
+  .form-login-wrapper .head_right .form-element-padding-none,
+  .form-login-wrapper .head_right .form-element-padding-none:last-child {
+    width: 100%;
+  }
+  .main_header_vendor .form-login .already-account {
+    margin-top: 13px;
+    text-align: center;
+  }
+  .main_header_vendor .form-login > h3, .main_header_vendor .form-login .already-account{
+    display: block;
+  }
+  /*=================== responsive video banner ======================*/
+  .section_banner_new.video.content_wrap_sec {
+    height: 100% !important;
+  }
+  .section_banner_new.video.content_wrap_sec > video {
+    /*display: none;*/
+    height: 100%;
+  }
+  .video_wrapp .video_wrapp_inner .content_wrapper {
+    padding: 50px 0px;
+  }
+  .section_banner_new .banner_paragraph {
+    font-size: 20px;
+  }
+  .section_banner_new .button_set {
+    padding-bottom: 0px;
+  }
+  .section_banner_new .button_set button {
+    padding: 10px 20px;
+  }
+  /*==================== responsive register page ===============*/
+  .ced_custom_cont {
+    width: 100%;
+  }
+  .ced_custom_register_page .left_left {
+    display: none;
+  }
+  .ced_custom_register_page .right_con {
+    flex: 0 0 100% !important;
+  }
+  .ced_custom_cont .right_con .field-name-lastname,
+  .ced_custom_cont .right_con .password,
+  .ced_custom_cont .right_con .field-name-firstname,
+  .ced_custom_cont .right_con .confirmation {
+    width: 100%;
+  }
+  .fieldset .panel.panel-default .panel-body .wide .input-box {
+    padding-left: 0px !important;
+  }
+  fieldset .panel.panel-default .panel-body.panel-psw {
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+  }
+  .fieldset .panel.panel-default .panel-body{
+    padding-bottom: 0px !important;
+    padding-top: 0px !important;
+  }
+  .field.password.enter-password.required .input-box{
+    width: 100% !important;;
+  }
+  .field.confirmation.enter-confirm-password .input-box{
+    margin-top: 5px;
+    width: 100% !important;;
+  }
+  .ced-vendor-signup.reg {
+    padding-bottom: 3rem;
+    padding-top: 3rem;
+  }
+  /*========================== Responsive count admin info ====================*/
+  .content_wrap_sec.admin_info .col_info{
+    text-align: center !important;
+    border-bottom: 1px dashed #e4e4e4;
+    padding: 15px 0px;
+  }
+  .content_wrap_sec.admin_info .line{
+    border-bottom: none !important;
+  }
+  /*==================== Responsive contact us ===============*/
+  .section_contact_us .contact_right{
+    text-align: left;
+  }
+  .section_contact_us{
+    line-height: 2;
+  }
+  .section_contact_us .contact_span {
+    font-size: 22px;
+  }
+  .section_contact_us{
+    font-size: 24px !important;
+  }
+  .contact_left {
+    width: 100% !important;
+    text-align: center !important;
+  }
+  .contact_right {
+    width: 100% !important;
+    text-align: center !important;
+  }
+  /*=============== responsive story section ============*/
+  .section_story .story_image{
+    padding-right: 0px !important;
+  }
+  .section_story .story_content{
+    padding-left: 0px !important;
+    text-align: center;
+  }
+  .section_story .story_content .sub_heading {
+    font-size: 20px !important;
+  }
+  .section_story .story_content .story_heading {
+    font-size: 28px !important;
+    padding-top: 15px;
+    margin-bottom: 10px !important;
+  }
+  /* Responsive section-view-marketplace  */
+  .section-view-marketplace{
+    text-align: center;
+  }
+  .section-view-marketplace .contact-view-right {
+    text-align: center !important;
+  }
+  /*================= Responsive get Ready  =================*/
+  .get_ready_steps .btn.btn-primary{
+    margin: 0px auto;
+    margin-top: 15px;
+  }
+  .section_get_ready .how_get_row .how_get_image {
+    display: none;
+  }
+  .section_get_ready .how_get_row .how_get_main_wrapper {
+    flex: 0 0 100% !important;
+    text-align: center;
+  }
+  .steps_for_get_ready .carousel-indicators{
+    text-align: center;
+  }
+  /*=============== Responsive feature section ===============*/
+  .feature_sec{
+    text-align: center;
+  }
+  .feature_sec .features_box{
+    margin: 0px !important;
+  }
+  .feature_sec .section_title h3{
+    font-weight: 300 !important;
+  }
+  .feature_sec .features_box .h3_hedaing{
+    font-weight: normal;
+  }
+  .feature_sec .features_box .h3_hedaing .icon-image-manage{
+    display: block;
+    margin: 0 auto 10px;
+  }
+  .back-link.col-md-6 {
+    padding-left: 0px;
+    float: left
+  }
+    /* revised css for signup button */
+  .main_header_vendor.ced_social_login_header .socail_login_link{
+    /*display: none;*/
+  }
+  .main_header_vendor.ced_social_login_header .mobile_header_content {
+    display: none;
+  }
+}
+@media (max-width: 576px){
+  /* section get ready */
+  .section_get_ready .how_get_row .how_get_main_wrapper{
+    text-align: center;
+  }
+  .section_get_ready .how_get_row .how_get_main_wrapper .align_carousel_items{
+    text-align: center !important;
+  }
+  .section_get_ready .how_get_row .how_get_main_wrapper .how_get .ger_ready_h {
+    text-shadow: none !important;
+  }
+  /* footer section */
+  p.footer_para{
+    width: 100% !important;
+    text-align: center !important;
+    margin-bottom: 10px;
+  }
+  .footer_list_right{
+    text-align: center !important;
+    width: 100% !important;
+    margin-top: 10px;
+  }
+}
+@media (max-width: 480px){
+  /* section new banner  */
+  .section_banner_new .banner_content {
+    font-size: 32px !important;
+    padding: 0px !important;
+    margin-top: 0px;
+  }
+  .section_banner_new .banner_paragraph {
+    font-size: 18px !important;
+  }
+  .section_banner_new .button_set {
+    padding-bottom: 0px !important;
+  }
+  .section_banner_new .button_set .btn.btn-primary {
+    border-radius: 30px;
+    padding: 5px 15px !important;
+    margin-right: 10px;
+    font-size: 14px;
+  }
+  /* section-story */
+  .section_story.content_wrap_sec .story_image {
+    padding: 15px;
+    background-color: #fff;
+  }
+}
+/*============ media ============*/
+/* scroll-top */
+.scroll-icon {
+  position: fixed;
+  right: 50px;
+  bottom: 50px;
+  width: 35px;
+  height: 35px;
+  background: #fff;
+  text-align: center;
+  line-height: 35px;
+  box-shadow: 0 4px 5px 0px rgba(0,0,0,0.1);
+  color: #000 !important;
+  z-index: 999;
+  display: none;
+}
+
+.csmarketplace-account-login .page-wrapper{
+  padding-bottom: 0px !important;
+  padding-top: 0px !important;
+}
+.csmarketplace-account-approval.page-layout-vendor-empty .main_header_vendor .section_header .menu_logo .img_brand {
+  width: 150px;
+}
+/* css for required fields color */
+ .csmarketplace-account-register .mage-error {
+  color: #e60909;
+  font-size: 11px;
+  margin-top: 3px;
+}
+.csmarketplace-account-register .validation-advice {
+  color: #ec3c3c;
+}
+/* spacing between submit panel and field */
+.ced_custom_register_page .right_con .panel-body.panel-submit{
+  padding-top: 5px;
+}
+/* css for scroll icon */
+.csmarketplace-account-forgotpassword .scroll-icon ,
+.csmarketplace-account-approval .scroll-icon {
+  display: none;
+}
+/* css for page message width */
+.csmarketplace-account-register .page.messages {
+  max-width:1170px;
+  margin: 0px auto;
+}
+.csmarketplace-account-forgotpassword .ced_vendor_before_wrap ,
+.csmarketplace-account-approval .ced_vendor_before_wrap,
+.csmarketplace-account-approval .page.messages {
+  margin: 50px auto;
+}
+.csmarketplace-account-forgotpassword .page-wrapper ,
+.csmarketplace-account-approval .main.page-main {
+  padding-bottom: 0px !important;
+}
+.csmarketplace-account-approval .page-wrapper ,
+.csmarketplace-account-approval .page-wrapper .page-main ,
+.csmarketplace-account-forgotpassword .page-wrapper .page-main {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+  padding-bottom: 0px;
+}
+.csmarketplace-account-approval .section_footer {
+  position: fixed;
+  left:0px;
+  right:0px;
+  bottom: 0px;
+}
+
+/*==========================================================
+=            rtl for steps to get ready section            =
+==========================================================*/
+.rtl-is-active .main_header_vendor .menu_logo .form-login-wrapper-main.pull-right {
+    float: left !important;
+}
+.rtl-is-active .main_header_vendor .menu_logo .navbar-nav {
+    float: right !important;
+}
+.rtl-is-active.csmarketplace-account-login .steps_for_get_ready .carousel-indicators {
+    text-align: right;
+}
+/* for footer */
+.rtl-is-active.csmarketplace-account-login p.footer_para {
+    float: right;
+    text-align: right;
+}
+.rtl-is-active.csmarketplace-account-login .section_footer ul {
+    float: left;
+    text-align: left
+}
+/* responsive view for rtl */
+.rtl-is-active .mobile_sign {
+  float: left;
+  right: auto;
+  left: 0;
+}
+.rtl-is-active .main_header_vendor .menu_logo .navbar-nav {
+    float: left !important;
+}
+
+@media (max-width: 991px){
+  .rtl-is-active .section-view-marketplace .contact-view-right {
+    text-align: right;
+  }
+}
+@media (max-width: 767px){
+  .rtl-is-active .section-view-marketplace .contact-view-right {
+    text-align: center !important;
+    float: none !important;
+  }
+  .rtl-is-active .ced_social_login_header .socail_login_link {
+    left: 0px;
+    display: block !important;
+    width: 64px;
+    right: auto;
+  }
+}
+/*rtl-view for signin button*/
+.rtl-is-active .main_header_vendor.ced_social_login_header .socail_login_link {
+  left: 0;
+  right: auto;
+}
+/*css for login popup close button view*/
+.rtl-is-active .register-popup .login-right-form .close-button-popup {
+  position: relative;
+  float: left;
+}
+/* css for register newsletter issue */
+.rtl-is-active .ced_custom_cont .right_con .clearfix .checkbox {
+  float: right;
+}
+/* css for header elements ordering */
+.main_header_vendor .navbar-expand-md.navbar-light {
+  display: flex;
+  justify-content: space-between;
+}
+.main_header_vendor .navbar-brand {
+  order: -1;
+}
+.main_header_vendor .menu_logo .navbar-nav{
+  order: 0;
+}
+.form-login-wrapper-main.pull-right {
+  order: 1;
+}
+/* css for captcha issue in rtl */
+.rtl-is-active .right_con .control.captcha-image {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+/* issue on reg. form */
+.right_con .customer-name-prefix .input-box {
+  margin: 0px;
+}
+.right_con .customer-name-prefix .input-box select {
+  margin-bottom: 10px;
+}
+.right_con .gender.input-box  {
+  margin-bottom: 5px;
+}
+.right_con .gender.input-box select {
+  color: #333;
+}
+.right_con .input-box.captcha {
+  margin-top: 15px;
+}
+.right_con .input-box {
+  margin: 10px 0px;
+}
+.right_con .panel-body {
+  padding: 0px 15px;
+}
+.field.date .ui-datepicker-trigger {
+  display: none;
+}
+.right_con .customer-name-prefix-middlename-suffix .field-name-lastname  .input-box,
+.right_con .customer-name-prefix-middlename-suffix .field-name-firstname .input-box {
+  margin-bottom: 10px;
+}
+.right_con .customer-name-prefix-middlename-suffix .input-box {
+  margin: 5px 0px;
+}
+.right_con .customer-name-prefix-middlename-suffix .field-name-middlename ,
+.right_con .customer-name-prefix-middlename-suffix .field-name-lastname ,
+.right_con .customer-name-prefix-middlename-suffix .field-name-firstname {
+  width: 100%;
+}
+
+.login-container .overlay-popup {
+    overflow-y: hidden;
+}

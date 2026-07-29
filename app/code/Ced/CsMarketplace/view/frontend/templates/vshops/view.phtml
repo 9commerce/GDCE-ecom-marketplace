@@ -1,0 +1,196 @@
+<?php
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+?>
+<?php
+
+/** @var Ced\CsMarketplace\Block\Vshops\View  $block*/
+
+$helper = $block->imageHelper();
+$width = (int)$helper->getStoreConfig('ced_vshops/general/logo_image_width', $block->getCurrentStoreId());
+$height = (int)$helper->getStoreConfig('ced_vshops/general/logo_image_height', $block->getCurrentStoreId());
+$width = $width ? $width : 175;
+$height = $height ? $height : 150;
+$mediaUrl = $block->getMediaUrl();
+
+?>
+<?php if ($block->aclHelper()->isEnabled()) { ?>
+    <div class="block block-poll vendor_details">
+        <div class="block-content">
+            <img src="<?= /* @noEscape */
+            $helper->getResizeImage($block->getVendorLogo(), 'logo', $width, $height); ?>" alt="logo"/>
+            <div class="block_vendor-details">
+                <div class="vendor-details-top">
+                    <div class="vendor-details-top-title-rating">
+                        <?= $block->getChildHtml('page.main.title'); ?>
+                        <?= $block->getChildHtml('csmarketplace_vshops_view_rating'); ?>
+                    </div>
+                    <ul class="vendor-social-links">
+                        <?php $flag = 1;
+                        foreach ($block->getLeftProfileAttributes() as $attribute) { ?>
+                            <?php $attribute->setStoreId($block->getStoreId()); ?>
+                            <?php if ($block->escapeHtml($block->Method($attribute->getAttributeCode())) != '' && $attribute->getData('fontawesome_class_for_left_profile') != '') { ?>
+                                <?php if (str_contains($attribute->getData('fontawesome_class_for_left_profile'), 'social')) {
+                                    if ($flag) {
+                                        echo __("Connect with us on") . "&nbsp;&nbsp;";
+                                        $flag = 0;
+                                    } ?>
+                                    <li>
+                                    <span>
+                                        <?php if (str_contains($attribute->getData('fontawesome_class_for_left_profile'), 'fa fa-facebook-square')) { ?>
+                                            <a title="Facebook" href="https://www.facebook.com/<?= /* @noEscape */
+                                            $block->escapeHtml($block->Method($attribute->getAttributeCode())); ?>"><i
+                                                        class="<?= /* @noEscape */
+                                                        $attribute->getData('fontawesome_class_for_left_profile'); ?>"></i></a>
+                                        <?php } elseif (str_contains($attribute->getData('fontawesome_class_for_left_profile'), 'fa fa-instagram')) { ?>
+                                            <a title="Instagram" href="https://instagram.com/<?= /* @noEscape */
+                                            $block->escapeHtml($block->Method($attribute->getAttributeCode())); ?>"> <i
+                                                        class="<?= /* @noEscape */
+                                                        $attribute->getData('fontawesome_class_for_left_profile'); ?>"></i> </a>
+                                        <?php } elseif (str_contains($attribute->getData('fontawesome_class_for_left_profile'), 'fa fa-twitter')) { ?>
+                                            <a title="Twitter" href="https://twitter.com/<?= /* @noEscape */
+                                            $block->escapeHtml($block->Method($attribute->getAttributeCode())); ?>"> <i
+                                                        class="<?= /* @noEscape */
+                                                        $attribute->getData('fontawesome_class_for_left_profile'); ?>"></i> </a>
+                                        <?php } elseif (str_contains($attribute->getData('fontawesome_class_for_left_profile'), 'fa fa-pinterest-square')) { ?>
+                                            <a title="Pinterest" href="https://www.pinterest.com/<?= /* @noEscape */
+                                            $block->escapeHtml($block->Method($attribute->getAttributeCode())); ?>"> <i
+                                                        class="<?= /* @noEscape */
+                                                        $attribute->getData('fontawesome_class_for_left_profile'); ?>"></i> </a>
+                                        <?php } ?>
+                                    </span>
+                                    </li>
+                                <?php } ?>
+                            <?php } ?>
+                        <?php } ?>
+                    </ul>
+                </div>
+                <div class="vendor-details-bottom-list-wrapper">
+                    <ul class="vendor-details-bottom-list">
+                        <?php foreach ($block->getLeftProfileAttributes() as $attribute) { ?>
+                            <?php $attribute->setStoreId($block->getStoreId()); ?>
+                            <?php if ($block->escapeHtml($block->Method($attribute->getAttributeCode())) != '') { ?>
+                                <?php if (!str_contains($attribute->getData('fontawesome_class_for_left_profile'), 'social')) { ?>
+
+                                    <li>
+                                        <?php if ($attribute->getFrontendInput() == 'file' || $attribute->getFrontendInput() == 'image') : ?>
+                                            <span title="<?php if ($attribute->getStoreLabel() && strlen($attribute->getStoreLabel()) > 0) {
+                                                /* @noEscape */
+                                                echo __($attribute->getStoreLabel());
+                                            } else {
+                                                /* @noEscape */
+                                                echo __($attribute->getFrontendLabel());
+                                            } ?>">
+                                    <i class="<?= /* @noEscape */
+                                    $attribute->getData('fontawesome_class_for_left_profile'); ?>"></i>
+                                     </span> <a target="_blank" href="<?= /* @noEscape */
+                                            $mediaUrl . $block->escapeHtml($block->Method($attribute->getAttributeCode())) ?>"><?= /* @noEscape */
+                                                (__($block->baseName($block->escapeHtml($block->Method($attribute->getAttributeCode()))))); ?></a>
+                                        <?php else : ?>
+                                            <span title="<?php if (!empty($attribute->getStoreLabel())) {
+                                                /* @noEscape */
+                                                echo __($attribute->getStoreLabel());
+                                            } else {
+                                                /* @noEscape */
+                                                echo __($attribute->getFrontendLabel());
+                                            } ?>">
+                                    <i class="<?= /* @noEscape */
+                                    $attribute->getData('fontawesome_class_for_left_profile'); ?>"></i>
+                                      <?php if ($attribute->usesSource()) {
+                                          $data = $attribute->getSource()->getOptionText($block->Method($attribute->getAttributeCode()));
+                                          if (is_array($data)) {
+                                              $data = implode(', ', $data);
+                                          }
+                                          /* @noEscape */
+                                          echo $data;
+                                      } else if ($attribute->getFrontendInput() == 'date') {
+                                          /* @noEscape */
+                                          echo $block->getTimezone($block->Method($attribute->getAttributeCode()));
+                                      } else {
+                                          if ($attribute->getData('fontawesome_class_for_left_profile') == 'fa fa-facebook-square') { ?>
+                                              <a href="https://www.facebook.com/<?= /* @noEscape */
+                                              $block->escapeHtml($block->Method($attribute->getAttributeCode())); ?>"><?= /* @noEscape */
+                                                  $block->escapeHtml($block->Method($attribute->getAttributeCode())); ?></a>
+                                          <?php } elseif ($attribute->getData('fontawesome_class_for_left_profile') == 'fa fa-twitter') { ?>
+                                              <a href="https://twitter.com/<?= /* @noEscape */
+                                              $block->escapeHtml($block->Method($attribute->getAttributeCode())); ?>"><?= /* @noEscape */
+                                                  $block->escapeHtml($block->Method($attribute->getAttributeCode())); ?></a>
+                                          <?php } else {
+                                              /* @noEscape */
+                                              if ($attribute->getData('fontawesome_class_for_left_profile') == 'fa fa-calendar') {
+                                                  $vcreatedat = $block->escapeHtml($block->Method($attribute->getAttributeCode()));
+                                                  $newtimestamp = strtotime($vcreatedat . '-6 hour -30 minutes');
+                                                  echo $add_date = date('Y-m-d H:i:s', strtotime($vcreatedat . '-6 hour -30 minutes'));
+                                              } else {
+                                                  echo __($block->escapeHtml($block->Method($attribute->getAttributeCode())));
+                                              }
+                                          }
+                                      } ?>
+                                </span>
+
+                                        <?php endif; ?>
+                                    </li>
+                                <?php } ?>
+                            <?php }
+                        }
+                        ?>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="product data items ced-vendor-view-tabs"
+             data-mage-init='{"mage/tabs": {"animate": {"duration": 200}, "active": 0, "collapsible": true }}'>
+             <?= $block->getChildHtml('csmarketplace_vshops_about'); ?>
+            <div class="item title vendorAttributes" data-role="collapsible">
+                <a class="switch" data-toggle="trigger" href="#tab-vendor-attributes">
+                    <svg width="10" height="11" viewBox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 9.30432L1 1.30432M9 1.30432L1 9.30432" stroke="#3A3A3A" stroke-width="1.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"/>
+                    </svg>
+                    <?= __('Vendor details') ?>
+                </a>
+            </div>
+            <div id="tab-vendor-attributes" class="item content vendorAttributes" data-role="content">
+            </div>
+            <?= $block->getChildHtml('cscmspage.navigation'); ?>
+        </div>
+    </div>
+
+
+<?php } ?>
+
+<script>
+    require([
+        'jquery',
+        'mage/mage'
+    ], function ($) {
+
+        if (window.innerWidth < 767) {
+            if ($('.cscmspage-page-index,.csmarketplace-vshops-view,.csvendorreview-rating-lists').length) {
+                if ($('.vendor-messaging').length) {
+                    $('.vendor-messaging').insertBefore($('.ced-vendor-view-tabs'))
+                }
+                if ($('.add-fav-seller').length) {
+                    $('.add-fav-seller').insertBefore($('.ced-vendor-view-tabs'))
+                }
+                $('#tab-vendor-attributes').append($('.vendor-details-bottom-list-wrapper'))
+            }
+        }
+    })
+</script>

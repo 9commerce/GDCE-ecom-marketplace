@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsPurchaseOrder
+ * @author 		CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (http://cedcommerce.com/)
+ * @license      http://cedcommerce.com/license-agreement.txt
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="ced_purchaseorder_quote_customer_email" label="Quote Customer" file="quotation_to_customer.html"
+              type="html"
+              module="Ced_CsPurchaseOrder" area="frontend"/>
+    <template id="ced_purchaseorder_quote_admin_email" label="Quote Admin" file="quotation_to_admin.html" type="html"
+              module="Ced_CsPurchaseOrder" area="frontend"/>
+    <template id="ced_purchaseorder_approved_quote_customer_email" label="Approved Quote Customer"
+              file="approved_quotation_to_customer.html" type="html" module="Ced_CsPurchaseOrder" area="frontend"/>
+    <template id="ced_purchaseorder_approved_quote_vendor_email" label="Approved Quote Vendors"
+              file="approved_quotation_to_vendor.html" type="html" module="Ced_CsPurchaseOrder" area="frontend"/>
+    <template id="ced_purchaseorder_updated_quote_customer_email" label="Updated Quote Customers"
+              file="updated_quotation_to_customer.html" type="html" module="Ced_CsPurchaseOrder" area="frontend"/>
+    <template id="ced_purchaseorder_updated_quote_vendor_email" label="Updated Quote Vendors"
+              file="updated_quotation_to_vendor.html" type="html" module="Ced_CsPurchaseOrder" area="frontend"/>
+</config>

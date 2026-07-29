@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsVendorProductAttribute
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+  <table name="ced_vendor_product_attributes" resource="default" engine="innodb" comment="Vendor Product Attributes Table">
+    <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="ID"/>
+    <column xsi:type="int" name="vendor_id" padding="10" unsigned="true" nullable="false" identity="false" comment="Vendor Id"/>
+    <column xsi:type="int" name="attribute_id" padding="10" unsigned="true" nullable="false" identity="false" default="0" comment="Attribute Id"/>
+    <column xsi:type="varchar" name="attribute_code" nullable="false" length="255" comment="Attribute Code"/>
+    <column xsi:type="varchar" name="sort_order" nullable="false" length="255" comment="Sort Order"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="id"/>
+      <column name="vendor_id"/>
+    </constraint>
+  </table>
+  <table name="ced_vendor_attributes_set" resource="default" engine="innodb" comment="Vendor Attribute Set Table">
+    <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="ID"/>
+    <column xsi:type="int" name="vendor_id" padding="10" unsigned="true" nullable="false" identity="false" comment="Vendor Id"/>
+    <column xsi:type="int" name="cat_id" padding="10" unsigned="true" nullable="false" identity="false" comment="Cat Id"/>
+    <column xsi:type="int" name="attribute_set_id" padding="10" unsigned="true" nullable="false" identity="false" default="0" comment="Attribute Set Id"/>
+    <column xsi:type="varchar" name="attribute_set_code" nullable="false" length="255" comment="Attribute Set Code"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="id"/>
+      <column name="vendor_id"/>
+    </constraint>
+  </table>
+  <table name="catalog_eav_attribute" resource="default">
+    <column xsi:type="varchar" name="attribute_set_ids" nullable="false" length="255" comment="Attribute Set Ids"/>
+  </table>
+</schema>

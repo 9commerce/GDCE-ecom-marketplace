@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsPurchaseOrder
+ * @author 		CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license      https://cedcommerce.com/license-agreement.txt
+ */
+ -->
+<page layout="2columns-left" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="customer_account"/>
+    <body>
+        <attribute name="class" value="account"/>
+        <referenceContainer name="sidebar.main">
+            <referenceBlock name="customer_account_navigation">
+                <block class="Magento\Framework\View\Element\Html\Link\Current" name="purchase.order"
+                       after="customer-account-navigation-address-link" ifconfig="ced_purchaseorder/general/activation">
+                    <arguments>
+                        <argument name="label" xsi:type="string" translate="true">Submit Buying Request</argument>
+                        <argument name="path" xsi:type="string">cspurchaseorder/index/buyingrequest</argument>
+                        <argument name="sortOrder" xsi:type="number">20</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Framework\View\Element\Html\Link\Current" name="purchase.order.allrequest"
+                       after="purchase.order" ifconfig="ced_purchaseorder/general/activation">
+                    <arguments>
+                        <argument name="label" xsi:type="string" translate="true">View All Request</argument>
+                        <argument name="path" xsi:type="string">cspurchaseorder/request/view</argument>
+                        <argument name="sortOrder" xsi:type="number">10</argument>
+                    </arguments>
+                </block>
+            </referenceBlock>
+        </referenceContainer>
+    </body>
+</page>
+                    

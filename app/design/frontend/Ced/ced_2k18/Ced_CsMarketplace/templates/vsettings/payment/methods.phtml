@@ -1,0 +1,36 @@
+<?php
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license      https://cedcommerce.com/license-agreement.txt
+ */
+
+?>
+
+<h3 class="legend" style="color:#23527C;"><?= /* @noEscape */ __('Payment Method Information') ?></h3>
+<?= /* @noEscape */ $block->getFormHtml(); ?>
+<div class="buttons-set">
+    <p class="required"><?= /* @noEscape */ __('* Required Fields') ?></p>
+    <p class="back-link"><a href="<?= /* @noEscape */ $block->escapeUrl($block->getBackUrl()) ?>"><small>&laquo; </small><?= /* @noEscape */ __('Back') ?></a></p>
+</div>
+<script>
+require([
+    'jquery',
+    'mage/mage'
+], function($){
+    var dataForm = $('#form-validate');
+    dataForm.mage('validation', {});
+});
+</script>

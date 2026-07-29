@@ -1,0 +1,36 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_AdvanceConfigurable
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license      https://cedcommerce.com/license-agreement.txt
+ */
+?>
+<?php
+$store = $this->_storeManager->getStore();
+$json = json_decode($block->getJsonConfig());
+$configurable = json_decode(json_encode($json), True);
+$_product = $block->getProduct();
+$allowed_attributes = $this->_scopeConfig->getValue('configuration/advance/allowed_attributes',
+    \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $this->getStore()->getId());
+$allowed = explode(',', $allowed_attributes ?? '');
+$attributes = $_product->getTypeInstance(true)->getConfigurableAttributesAsArray($_product);
+$productAttributesOptions = $_product->getTypeInstance(true)->getConfigurableOptions($_product);
+if (count($configurable['attributes']) == 1)
+    echo $this->getChildHtml('product_single_attribute');
+elseif (count($configurable['attributes']) == 2)
+    echo $this->getChildHtml('product_double_attribute');
+else
+    echo $this->getChildHtml('product_multiple_attribute');
+?>
+

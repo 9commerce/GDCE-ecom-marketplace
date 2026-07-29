@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\App\RouterList">
+        <arguments>
+            <argument name="routerList" xsi:type="array">
+                <item name="csmarketplacerouter" xsi:type="array">
+                    <item name="class" xsi:type="string">Ced\CsMarketplace\Controller\Router</item>
+                    <item name="disable" xsi:type="boolean">false</item>
+                    <item name="sortOrder" xsi:type="string">1</item>
+                </item>
+                <item name="csmarketplacemain" xsi:type="array">
+                    <item name="class" xsi:type="string">Ced\CsMarketplace\Controller\Main</item>
+                    <item name="disable" xsi:type="boolean">false</item>
+                    <item name="sortOrder" xsi:type="string">2</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Theme\Model\View\Design">
+        <plugin name="set_vendor_panel_theme"
+                type="Ced\CsMarketplace\Plugin\SetVendorPanel"
+                sortOrder="1"
+                disabled="false"/>
+    </type>
+    <type name="Magento\Framework\View\Element\Message\MessageConfigurationsPool">
+        <arguments>
+            <argument name="configurationsMap" xsi:type="array">
+                <item name="addCustomSuccessMessage" xsi:type="array">
+                    <item name="renderer" xsi:type="const">
+                        \Magento\Framework\View\Element\Message\Renderer\BlockRenderer::CODE
+                    </item>
+                    <item name="data" xsi:type="array">
+                        <item name="template" xsi:type="string">Ced_CsMarketplace::addCustomSuccessMessage.phtml</item>
+                    </item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Ced\CsMarketplace\Model\NotificationHandler">
+        <arguments>
+            <argument name="notificationList" xsi:type="array">
+                <item name="basic" xsi:type="object">Ced\CsMarketplace\Model\Notification</item>
+            </argument>
+        </arguments>
+    </type>
+    <preference for="Magento\Framework\View\Element\BlockFactory"
+                type="Ced\CsMarketplace\Model\View\Element\BlockFactory"/>
+    <preference for="Magento\Checkout\CustomerData\Cart" type="Ced\CsMarketplace\CustomerData\Cart"/>
+    <type name="Magento\Config\Model\Config\Structure">
+        <plugin name="ced-extend-system-xml" type="Ced\CsMarketplace\Plugin\Model\Config\Structure"/>
+    </type>
+    <type name="Magento\Catalog\Model\ResourceModel\Product\Collection">
+        <plugin name="csmarketplace_model_flatcatalog" type="Ced\CsMarketplace\Model\ResourceModel\Vshop\Flatcatalog" disabled="false" sortOrder="1" />
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="vendor_products_grid_data_source" xsi:type="string">Ced\CsMarketplace\Model\ResourceModel\VendorProductCollection</item>
+                 <item name="customers_listing_data_source" xsi:type="string">Ced\CsMarketplace\Model\ResourceModel\Customer\Grid\Collection</item>
+                 <item name="sales_order_grid_data_source" xsi:type="string">Magento\Sales\Model\ResourceModel\Order\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Ced\CsMarketplace\Model\ResourceModel\VendorProductCollection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">ced_csmarketplace_vendor_products</argument>
+            <argument name="resourceModel" xsi:type="string">Ced\CsMarketplace\Model\ResourceModel\Vproducts</argument>
+        </arguments>
+    </type>
+    <preference for="Magento\Catalog\Model\Indexer\Category\Flat\State"
+                type="Ced\CsMarketplace\Model\Indexer\FlatCategory"/>
+    <preference
+            for="Magento\InventoryCatalog\Plugin\CatalogInventory\Model\ResourceModel\Stock\Status\AdaptAddStockDataToCollectionPlugin"
+            type="Ced\CsMarketplace\Plugin\CatalogInventory\ModelResourceModelStockStatus\AdaptAddStockDataToCollectionPlugin"/>
+        
+        <!-- plugin added to solve issue of product and vendor count showing wrong in vshop and vendor page in 2.4.5-->
+
+    <type name="Magento\CatalogInventory\Model\Configuration">
+        <plugin name="csmarketplace_product_count" type="Ced\CsMarketplace\Plugin\Configuration" disabled="false" sortOrder="1" />
+    </type>
+    
+</config>

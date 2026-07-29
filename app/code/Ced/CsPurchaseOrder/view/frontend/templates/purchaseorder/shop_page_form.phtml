@@ -1,0 +1,508 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsPurchaseOrder
+ * @author        CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license      https://cedcommerce.com/license-agreement.txt
+ */
+
+/** @var Ced\CsPurchaseOrder\Block\Requestform $block */
+ ?>
+<?php
+$loaderurl = $block->getViewFileUrl('images/loader-2.gif');
+$value = 0;
+$tc_content = $this->helper('Ced\CsPurchaseOrder\Helper\Data')->getConfigData('b2bextension/purchaseorder/tc_content');
+$customerLogin =  $this->helper('Ced\CsPurchaseOrder\Helper\Data')->customerLogin();
+?>
+<button id="modal-btn" class="submit-buying-request">Submit Buying Request</button>
+
+<div id="modal-content">
+    <div class="modal-inner-content">
+        <form class="form-addres submitbuyingrequestshoppage" action="<?= /* @noEscape */
+        $block->getSaveUrl() ?>" method="post" id="form-validate"
+              enctype="multipart/form-data" data-hasrequired="<?= /* @noEscape */
+        __('* Required Fields') ?>" data-mage-init='{"validation":{}}'>
+            <fieldset class="fieldset" id="fieldset">
+                <legend class="legend"><span><?= /* @noEscape */
+                        __('Request Product Information') ?></span></legend>
+                <input type="text" id="vendor_id" name="vendor_id" value="<?= /* @noEscape */
+        $block->getVendorId() ?>" hidden/>
+                <div class="field productname required">
+                    <label class="label" for="title"><span><?= /* @noEscape */
+                            __('Requested Product Name') ?></span></label>
+                    <div class="control">
+                        <input type="text" name="title" value=""
+                               title="<?= /* @noEscape */
+                               __('Requested Product Name') ?>" class="input-text required-entry" id="product_name">
+                    </div>
+                </div>
+                <div class="field selct_category required">
+                    <label class="label" for="title"><span><?= /* @noEscape */
+                            __('Select Category') ?></span></label>
+                    <div class="control">
+                        <input type="text" style="display: none"
+                               value="" title="<?= /* @noEscape */
+                        __('Category') ?>" class="required-entry required" readonly id="category">
+                        <input type="button" value="Select Category" class="choose-category" id="choose-category"/>
+                        <!-- <span style="color: red;">*</span> -->
+                    </div>
+                    <div for="search-cat" class="mage-error1" id="search-cat-error"></div>
+                    <input type="text" id="category_id" name="category_id" hidden/>
+                </div>
+                
+                
+                <div <?php if ($block->getFileName()) { ?> class=" field document"
+                    <?php } else { ?> class="field document required"  <?php } ?>>
+                    <?php if (!$block->getFileName()) { ?>
+                        <label class="label" for="document_description"><span><?= /* @noEscape */
+                                __('Upload Document for RFQ') ?></span></label>
+                        <p class="upload_note">Note: <span>Only jpeg,jpg,png,pdf,docx,doc,zip,txt,odt file types are allowed.</span></p>
+                    <?php } ?>
+                    <?php if ($block->getFileName()) { ?>
+                        <label class="label" for="document_description"><span><?= /* @noEscape */
+                                __('View Uploaded Document') ?></span></label>
+                    <?php } ?>
+                    <?php if (!$block->getFileName()) { ?>
+                        <div class="control">
+                            <input type="file" name="document_file" id="document_file"
+                                   class="<?php if (!$block->getFileName()) /* @noEscape */ echo 'required-entry required' ?> validate-file-type">
+                        </div>
+                    <?php } ?>
+                    <?php if ($block->getFileName()) ?>
+                    <a href="<?= /* @noEscape */ $block->getFileSrc() . $block->getFileName() ?>"
+                       target="_blank"><?= /* @noEscape */ $block->getFileName() ?></a>
+                    <div for="file-type-error" class="file-error" id="file-error"></div>
+                    <div generated="true" class="image-error" id="images-errors-upload" style="display:none;">This is a required
+                    field.
+                    </div>
+                </div>
+
+                <?= /* @noEscape */ $block->getChildHtml('chathistory'); ?>
+
+                <div class="field customer_id">
+                    <div class="control">
+                        <input type="hidden" name="customer_id" value="<?= /* @noEscape */ $block->getCustomerId() ?>"
+                               title="<?= /* @noEscape */
+                               __('Customer Id') ?>" id="customer_id">
+                    </div>
+                </div>
+
+                <div class="field required">
+                    <label class="label" for="proposed_qty"><span><?= /* @noEscape */
+                            __('Requested Quantity') ?></span></label>
+                    <div class="control">
+                        <input type="text" name="proposed_qty" value="<?= /* @noEscape */ $block->getQty() ?>"
+                               title="<?= /* @noEscape */
+                               __('Requested Quantity') ?>" id="qty"
+                               class="input-text required-entry validate-number validate-greater-than-zero integer ">
+                    </div>
+                </div>
+
+                <div class="field price required">
+                    <label class="label" for="preferred_price_per_qty"><span><?= /* @noEscape */
+                            __('Estimated Budget Per Quantity') ?></span></label>
+                    <div class="control">
+                        <input type="text" name="preferred_price_per_qty" value=""
+                               title="<?= /* @noEscape */
+                               __('Estimated Budget Per Quantity') ?>"
+                               class="required-entry validate-number validate-greater-than-zero"
+                               id="price">
+                    </div>
+                </div>
+
+                <div class="field comments">
+                    <label class="label" for="comments"><span><?= /* @noEscape */
+                            __('Comments') ?></span></label>
+                    <div class="control">
+                        <textarea name="comments" value="" maxlength="8000"
+                                  title="<?php ?>"
+                                  class="input-textarea" id="comments"></textarea>
+                    </div>
+                </div>
+                
+                <!-- For Terms & conditions  -->
+                <div class="clearfix">
+                    <div class="checkbox custom_check">
+                        <input name="terms_and_conditions" title="Terms and Condition" id="terms" class="checkbox required"
+                               type="checkbox">
+                        <label for="terms">
+                            <?= /* @noEscape */ __("I've read and accept ") ?>
+                            <a class="term_condition"
+                               href="javascript:void(0)"><?= /* @noEscape */ __("terms and condition") ?></a>
+                        </label>
+                    </div>
+                </div>
+            </fieldset>
+
+            <?php //if (!$block->checkInvoice()): ?>
+            <div class="actions-toolbar">
+                <div class="primary">
+                    <button id="submit_button" type="submit" class="action save primary" title="<?= /* @noEscape */
+                    __('Submit Request') ?>">
+                        <span><?= /* @noEscape */
+                            __('Submit Request') ?></span>
+                    </button>
+                </div>
+            </div><?php //endif; ?>
+        </form>
+    </div>
+</div>
+<div data-role="loader" class="loading-mask" style="display: none;" id="loader">
+    <div class="loader"><img src="<?= /* @noEscape */ $loaderurl; ?>" alt="Loading...">
+        <p>Please wait...</p></div>
+</div>
+<div class="search_form_overlay ced-modal-overlay">
+    <div class="terms-condition ced-modal-content">
+        <div class="terms-header ced-modal-header">
+            <h3><?= /* @noEscape */ __('Terms And Condition') ?></h3>
+            <span title="Close" class="close_term ced_close">X</span>
+        </div>
+        <div class="terms-inner ced-modal-data">
+            <?= /* @noEscape */
+            $this->getLayout()
+                ->createBlock(\Magento\Cms\Block\Block::class)
+                ->setBlockId($tc_content)
+                ->toHtml();
+            ?>
+        </div>
+    </div>
+</div>
+<div class="searchOverlay"></div>
+<div id="popup-content"></div>
+<div id="popup-mpdal" style="display:none">
+    <?php
+    $categories = $this->getCategories();
+    $count = count($categories);
+    if (count($categories) > 0){
+    ?>
+    <div id="msg" style="padding-left: 53px">
+        <div id="selected_category"></div>
+    </div>
+    <div class="entry-edit">
+        <div id="category_container" class="fieldset form-list ced_formlist_container">
+            <ul class="form-list">
+                <div class="hor-scroll" id="category_container_new">
+                    <li id='li_category_1' class="wide ced-col-select-cat">
+                        <div style="clear:both"></div>
+                        <div class="input-box">
+                            <select id="select_category_1" size="6" class='category_select'
+                                    onchange='getChildrenCategory(1)'>
+                                <?php
+                                foreach ($categories as $category) {
+                                    ?>
+                                    <option value='<?= /* @noEscape */ $category['value']; ?>'><?= /* @noEscape */ $category['label'] ?></option>
+                                    <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </li>
+                </div>
+            </ul>
+        </div>
+    </div>
+</div>
+<?php
+}
+?>
+<?php if($customerLogin){ ?>
+<script>
+    require([
+        'jquery',
+        'mage/mage'
+    ], function ($) {
+
+        var dataForm = $('#form-validate');
+        var ignore = null;
+        dataForm.mage('validation', {
+            ignore: ignore ? ':hidden:not(' + ignore + ')' : ':hidden'
+        }).find('input:text').attr('autocomplete', 'off');
+
+    });
+
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal',
+            'Magento_Ui/js/model/messageList'
+        ],
+        function (
+            $,
+            modal
+        ) {
+            $('#choose-category').on('click', function (event) {
+                var options = {
+                    type: 'popup',
+                    responsive: true,
+                    innerScroll: true,
+                    title: '<?= /* @noEscape */ __('Select Category') ?>',
+                    modalClass: "cspurchaseorder-select-category",
+                    buttons: [{
+                        text: $.mage.__('Select'),
+                        class: 'select-button',
+                        click: function () {
+                            /*if($(".last").val() != 0){
+                                return false;
+                            }*/
+
+                            document.getElementById('category').value = document.getElementById('selected_category').textContent;
+                            this.closeModal();
+                            jQuery.ajax({
+                                type: 'post',
+                                url: "<?= /* @noEscape */ $block->getUrl('cspurchaseorder/request/categories')  ?>",
+                                showLoader: true,
+                                data: {
+                                    'id': document.getElementById('category_id').value
+                                },
+                                success: function (response) {
+                                    jQuery("#rfqfields").append(response.html);
+                                    jQuery("#category").val(response.category_id);
+                                    jQuery("#choose-category").val(" Selected Category : " + response.category_id);
+                                }
+                            });
+                        }
+                    }]
+                };
+                var popup = modal(options, $('#popup-mpdal'));
+                $('#popup-mpdal').modal('openModal');
+                jQuery(".select-button").hide();
+            });
+        }
+    );
+
+    function getChildrenCategory(level) {
+        jQuery(".select-button").hide();
+        var count = jQuery("#category_container").find("select").length;
+        var id = jQuery('#select_category_' + level).val();
+        var url = '<?=  /* @noEscape */ $this->getUrl('cspurchaseorder/index/getchildcategories')?>';
+        jQuery.ajax({
+            type: 'POST',
+            url: url,
+            data: {
+                'id': id,
+                'level': level,
+            },
+            //dataType:'json',
+            success: function (data, textStatus, jQxhr) {
+                var category_idId;
+                var json = JSON.parse(data);
+
+                var children = jQuery("#category_container select").length;
+                for (var i = level + 1; i <= children; i++) {
+                    jQuery("#li_category_" + i).remove();
+                }
+                if (json.message == 'error') {
+                    jQuery("#li_category_" + level).addClass('lastcategory');
+                    jQuery(".select-button").show();
+                } else {
+                    jQuery('#category_container_new').append(json.html);
+                    var children = jQuery("#category_container select").length;
+                }
+                var text = "";
+                for (var i = 1; i <= children; i++) {
+                    if (i != 1) {
+                        if (jQuery("#select_category_" + i + " option:selected").text() != "")
+                            text += "->" + jQuery("#select_category_" + i + " option:selected").text();
+                        category_idId = jQuery("#select_category_" + i + " option:selected").val();
+                    } else {
+                        text += " " + jQuery("#select_category_1 option:selected").text();
+                        category_idId = jQuery("#select_category_" + i + " option:selected").val();
+                    }
+                }
+                text += "";
+                jQuery("#category_id").val(category_idId);
+                jQuery('#selected_category').empty();
+                jQuery('#selected_category').html(text);
+                text = "";
+            }
+        });
+    }
+
+    require([
+        'jquery',
+        'mage/mage'
+    ], function ($) {
+
+        // Drop
+
+        // Sending AJAX request and upload file
+        function uploadData(formdata) {
+
+            $.ajax({
+                url: '<?= /* @noEscape */ $this->getUrl('cspurchaseorder/gallery/upload')?>',
+                type: 'post',
+                data: formdata,
+                contentType: false,
+                processData: false,
+                dataType: 'json',
+                showLoader: true,
+                success: function (response) {
+                    addThumbnail(response);
+                }
+            });
+        }
+
+        // Added thumbnail
+        function addThumbnail(data) {
+            $("#uploadfile h1").remove();
+            var len = $("#uploadfilearea div.thumbnail").length;
+            var num = Number(len);
+            num = num + 1;
+
+            var name = data.name;
+            var size = convertSize(data.size);
+            var src = data.src;
+            var imagepath = data.imagepath;
+            // Creating an thumbnail
+            $("#uploadfilearea").prepend('<div id="thumbnail_' + num + '" class="thumbnail"></div>');
+            $("#thumbnail_" + num).append('<img src="' + src + '" width="100%" height="78%">');
+            //$("#thumbnail_"+num).append('<button type="button" class="action-remove" onclick="deleteimage(\''+imagepath+'\',\''+num+'\',\''+name+'\')">Delete<span>');
+            $("#thumbnail_" + num).append('<a onclick="deleteimage(\'' + imagepath + '\',\'' + num + '\',\'' + name + '\')"><img src= "<?= /* @noEscape */ $this->getViewFileUrl('Ced_CsPurchaseOrder::image/del_icon.png');?>"></a><br>');
+            var imagedata = document.getElementById('images').value;
+            if (!imagedata) {
+                document.getElementById('images').value = name;
+            } else {
+                document.getElementById('images').value = imagedata + ',' + name;
+            }
+
+        }
+
+        function deleteimage(path, num, name) {
+            var url = '<?= /* @noEscape */ $this->getUrl('cspurchaseorder/gallery/delete');?>';
+            jQuery.ajax(url, {
+                type: "POST",
+                data: {imagepath: path},
+                success: function (response) {
+                    jQuery('#thumbnail_' + num).remove();
+                    var oldimagevalue = document.getElementById('images').value;
+                    if (oldimagevalue.length == name.length)
+                        var newimagevalue = oldimagevalue.replace(name, '');
+                    else
+                        var newimagevalue = oldimagevalue.replace(name + ',', '');
+                    if (newimagevalue.charAt(0) == ',')
+                        newimagevalue = newimagevalue.substring(1);
+                    document.getElementById('images').value = newimagevalue;
+                },
+            });
+        }
+    });
+</script>
+<style>
+    .ced-upload-image-area .upload-area-image .upload-area::before {
+        content: "Upload Image";
+        display: inline-block;
+        margin-top: 30px;
+    }
+
+    div.image-error[generated] {
+        color: #e02b27;
+        font-size: 1.2rem;
+    }
+</style>
+<script>
+    require([
+        'jquery',
+        'mage/mage'
+    ], function ($) {
+        $('.term_condition').click(function () {
+            $('.ced-modal-overlay').addClass('active');
+            $('.searchOverlay').addClass('active');
+            $('body').addClass('term_popup_open');
+        });
+        $('.ced_close').click(function () {
+            $('.ced-modal-overlay').removeClass('active');
+            $('.searchOverlay').removeClass('active');
+            $('body').removeClass('term_popup_open');
+        });
+        $('input[type=file]').change(function(e) {
+            if(this.files[0].size/1024/1024 > 3){
+                alert('Could not upload file greater than 3 MB');
+                $("#document_file").val(null);
+                return false;
+            }
+        });
+        $('#form-validate').submit(function () {
+
+            if ($("#document_file").val()) {
+                var uploadedfile = $("#document_file");
+                var regex = new RegExp("(.pdf|.docx|.doc|.zip|.txt|.odt|.jpg|.jpeg|.png)$");
+                if (!regex.test($("#document_file").val().toLowerCase())) {
+                    $("#file-error").html('<span style="color:red" id="error-file">File type is not allowed</span>');
+                    return false;
+                }
+            }
+
+            if (!$("#category_id").val()) {
+                $("#search-cat-error").html('<span style="color:red" id="search-error">Please select a category</span>');
+                return false;
+            }
+
+            if (!$('#form-validate').validation('isValid')) {
+                $("#submit_button").show();
+                return false;
+            }
+
+            $("#submit_button").attr("disabled", "true");
+        });
+    });
+</script>
+<?php } ?>
+<?php if(!$customerLogin){ ?>
+<script>
+    require([
+        'Magento_Ui/js/modal/alert',
+        'jquery',
+        'mage/mage'
+    ], function (alert,$) {
+        $('.submitbuyingrequestshoppage').click(function () {
+            
+            alert({
+                title: $.mage.__('Submit Buying Request'),
+                content: $.mage.__('Please Login To Submit Buying Request'),
+                actions: {
+                    always: function(){}
+                }
+            });
+        });
+    });
+</script>
+<?php } ?>
+<script>
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal'
+        ],
+        function($, modal) {
+            var options = {
+                type: 'popup',
+                responsive: true,
+                innerScroll: true,
+                title: 'Submit Buying Request',
+                buttons: [{
+                    text: $.mage.__('Close'),
+                    class: 'modal-close',
+                    click: function (){
+                        this.closeModal();
+                    }
+                }]
+            };
+
+            modal(options, $('#modal-content'));
+            $("#modal-btn").on('click',function(){
+                $("#modal-content").modal("openModal");
+            });
+        }
+    );
+</script>
+

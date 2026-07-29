@@ -1,0 +1,99 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+use \Ced\CsMarketplace\Block\Vshops\Catalog\Product\ListProduct;
+?>
+<div class="block block-poll shop_search">
+    <div class="block-content">
+        <div class="top-search-wrap">
+            <div class="block block-search">
+                <div class="block block-title">
+                    <strong>
+                        <?= /* @noEscape */__('Look for') ?>
+                    </strong></div>
+                <div class="block block-content">
+                    <div class="form minisearch" id="ced_search_mini_form">
+                        <div class="field search">
+                            <label class="label" for="search" data-role="minisearch-label">
+                                <span>
+                                    <?= /* @noEscape */ __('Look for') ?>
+                                </span>
+                            </label>
+                            <div class="control">
+                                <input id="ced_product_search" type="text" name="<?= /* @noEscape */ ListProduct::SEARCH_QUERY_PARAM ?>"
+                                       value="<?= /* @noEscape */ $block->search() ?>"
+                                       placeholder="<?= /* @noEscape */ __('I\'m looking for...') ?>" class="input-text"
+                                       maxlength="128" role="combobox" aria-expanded="false"
+                                       aria-haspopup="false" aria-autocomplete="both" autocomplete="off">
+                                <div id="search_autocomplete" class="search-autocomplete" style="display: none;"></div>
+                            </div>
+                        </div>
+                        <div class="actions">
+                            <button type="submit" title="Look for"
+                                    id="ced_product_search_button"
+                                    class="action search" >
+                                <span>
+                                    <?= /* @noEscape */ __('Look for') ?>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    require([
+        'jquery'
+    ], function(jQuery) {
+
+         var input = document.getElementById("ced_product_search");
+         input.addEventListener("keyup", function(event) {
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                document.getElementById("ced_product_search_button").click();
+            }
+        });
+        
+        jQuery("#ced_product_search_button").click(function(){
+            jQuery('body').trigger('processStart');
+            var url = window.location.href;
+            var urlSplit = url.split('?');
+            var baseUrl = urlSplit[0];
+            var urlparam = [];
+            if (typeof urlSplit[1] !== 'undefined')
+            {
+                var parameters = urlSplit[1].split('&');
+                jQuery.each(parameters,function(key,value){
+                    if (value.indexOf('<?= /* @noEscape */ ListProduct::SEARCH_QUERY_PARAM ?>')<0)
+                    {
+                        urlparam.push(value);
+                    }
+                });
+            }
+            if(urlparam.length > 0 && url.indexOf('?') > 0) {
+                finalurl = baseUrl +'?'+urlparam.join('&')+ '&<?= /* @noEscape */ ListProduct::SEARCH_QUERY_PARAM ?>='+jQuery('#ced_product_search').val();
+            }else{
+                finalurl = baseUrl + '?<?= /* @noEscape */ ListProduct::SEARCH_QUERY_PARAM ?>='+jQuery('#ced_product_search').val();
+            }
+            window.location.href = finalurl;
+        });
+    });
+</script>

@@ -1,0 +1,78 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license      https://cedcommerce.com/license-agreement.txt
+ */
+// @codingStandardsIgnoreFile
+?>
+<?php
+$vendorProducts = $this->getLayout()->getBlockSingleton(\Ced\CsMarketplace\Block\Vendor\Dashboard\Info::class)->getVendorProductsData();
+$url = $this->getUrl('csmarketplace/vproducts/index',array('_secure'=>true));
+
+if($this->helper(\Ced\CsMarketplace\Helper\Data::class)->getStoreConfig('ced_csmarketplace/general/ced_vproduct_activation'))
+{
+	$url = $this->getUrl('csproduct/vproducts/index/',array('_secure'=>true));
+}
+$pendingProductsCount = isset($vendorProducts['total_int'][0])?$vendorProducts['total_int'][0]:0;
+$approvedProductsCount = isset($vendorProducts['total_int'][1])?$vendorProducts['total_int'][1]:0;
+$disapprovedProductsCount = isset($vendorProducts['total_int'][2])?$vendorProducts['total_int'][2]:0;
+$totalProductCount = (int)$disapprovedProductsCount+(int)$approvedProductsCount+(int)$pendingProductsCount;
+?>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<i class="fa fa-pie-chart fa-fw"></i> <?= __('Products Status'); ?>
+	</div>
+	<div class="panel-body">
+		<div id="morris-donut-chart" style="height: 200px;">
+            <?php if($totalProductCount == 0): ?>
+                <span class="no-products-available" ><?= __('No Products Available') ?></span>
+            <?php endif; ?>
+        </div>
+		<a href="<?= $url; ?>" class="btn btn-default btn-block"><?= __('View Details'); ?></a>
+	</div>
+</div>
+<?php if($totalProductCount > 0): ?>
+
+<script type="text/javascript">
+	require([
+		'jquery',
+		'jquery/ui',
+		'mage/mage',
+		'raphael',
+		'morrisMin',
+		], function($){
+			setTimeout( function(){
+				Morris.Donut({
+					element: 'morris-donut-chart',
+					data: [{
+                        label: "<?= __('Pending Products') ?>",
+                        value: <?= $pendingProductsCount ?>
+                    }, {
+                        label: "<?= __('Approved Products') ?>",
+                        value: <?= $approvedProductsCount ?>
+                    }, {
+                        label: "<?= __('Disapproved Products') ?>",
+                        value: <?= $disapprovedProductsCount ?>
+                    }],
+					resize: true,
+					colors: [
+					    "#348FE2", "#00ACAC", "#D9534F"
+                    ]
+				});
+			}  , 2000 );
+		});
+	</script>
+
+<?php endif; ?>

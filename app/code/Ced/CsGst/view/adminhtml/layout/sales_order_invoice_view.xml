@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+ 	<body>
+	 <referenceBlock name="invoice_items">
+ 		<action method="setTemplate">
+            <argument name="template" xsi:type="string">Ced_CsGst::order/invoice/view/items.phtml</argument>
+        </action>
+ 	<block class="Magento\Sales\Block\Adminhtml\Items\Renderer\DefaultRenderer" name="gst-items-view" template="Ced_CsGst::order/invoice/view/items/renderer/default.phtml"/>
+	 	<action method="setChild">
+        <argument name="alias" xsi:type="string">default</argument>
+        <argument name="block" xsi:type="string">gst-items-view</argument>
+    </action>
+    <block class="Magento\Bundle\Block\Adminhtml\Sales\Order\Items\Renderer" name="gst-bundle" template="Ced_CsGst::order/invoice/view/items/renderer/bundle.phtml"/>
+ 		 <action method="setChild">
+	        <argument name="alias" xsi:type="string">bundle</argument>
+	        <argument name="block" xsi:type="string">gst-bundle</argument>
+    	</action>
+ 		</referenceBlock>
+ 	</body>
+</page>

@@ -1,0 +1,108 @@
+<?php
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsVendorReview
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+
+?>
+<?php
+/**
+ * @var \Magento\Framework\Escaper $escaper
+ */
+$detail_rating = $block->getRatingDetails();
+if ($block->isActivated()) {
+    $width = $block->getVendorRating();
+    $url="";
+    $url = $block->getUrl('csvendorreview/rating/lists', ['id' => $block->getVendorId()]);
+    $helper = $block->helper();
+
+    ?>
+    <?php if (($helper->isCustomerAllowed() && $helper->checkVendorProduct())
+        || $width || !$helper->isCustomerAllowed()
+    ):?>
+        <div class="block">
+            <div class="accordion-mobile vendor-rating-title">
+                <strong><span><?= $escaper->escapeHtml(__('Vendor Review & Rating')) ?></span></strong>
+                <i class="fa fa-chevron-down"></i>
+            </div>
+            <div class="block-content vendor-rating">
+                <dl id="narrow-by-list2">
+                    <ul class="rating-listing">
+                        <?php if ($width > 1) { ?>
+                            <li>
+                                <strong><span><?= $escaper->escapeHtml(__('Average Rating')) ?></span></strong>
+                            </li>
+                            <li>
+                                <div class="rating-summary">
+                                    <div title="<?= $escaper->escapeHtml($width) ?>%" class="rating-result">
+                                        <span style="width:<?= $escaper->escapeHtml($width) ?>%;">
+                                            <span><?= $escaper->escapeHtml($width) ?>%</span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </li>
+                            <?php foreach ($detail_rating as $key => $dr) {?>
+                                <li>
+                                    <strong><span><?= $escaper->escapeHtml($key) ?></span></strong>
+                                </li>
+                                <li>
+                                    <div class="rating-summary">
+                                        <div title="<?= $escaper->escapeHtml(ceil($dr['rating']/$dr['count']))?>%"
+                                             class="rating-result">
+                                            <span style="width:
+                                            <?= $escaper->escapeHtml(ceil($dr['rating']/$dr['count']))?>%;">
+                                                <span>
+                                                    <?= $escaper->escapeHtml(ceil($dr['rating']/$dr['count']))?>%
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </li>
+                            <?php } ?>
+                            <li>
+                                <?php if (!$block->isCustomerReviewPage()) { ?>
+                                    <a href="<?= $escaper->escapeHtml($url) ?>">
+                                        <?= $escaper->escapeHtml(__('Read / Add Review')) ?>
+                                    </a>
+                                <?php } ?>
+                            </li>
+                        <?php } else { ?>
+                            <li>
+                                <a href="<?= $escaper->escapeHtml($url) ?>">
+                                    <?= $escaper->escapeHtml(__('Be The First To Review')) ?>
+                                </a>
+                            </li>
+                        <?php } ?>
+                    </ul>
+                </dl>
+            </div>
+        </div>
+
+        <style>
+            .sidebar .block-content.vendor-rating ul li span {
+                margin: 0;
+            }
+
+            .sidebar .block-content.vendor-rating ul li{
+                list-style: none;
+            }
+
+            .sidebar .block-content.vendor-rating{
+                list-style: none;
+            }
+        </style>
+    <?php endif;?>
+<?php } ?>

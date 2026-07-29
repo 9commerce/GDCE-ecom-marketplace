@@ -1,0 +1,161 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+
+
+?>
+<?php
+/** @var \Ced\CsMarketplace\Block\Vendor\Header $block */
+$helper = $block->imageHelper;
+$dataHelper = $block->_helper;
+$logo = $block->getLogo();
+$logoImage = $helper->getResizeImage($logo, 'logo', 335, 106);
+$footerContent = $block->getCedConfigValue("general/footer_content");
+$isfooterEnable = $block->getCedConfigValue("general/enable_footer");
+?>
+
+<?php if ($dataHelper->newLoginPageEnabled()) : ?>
+
+    <?php /*************  section_header ***************/ ?>
+    <header class="main_header_vendor <?php if ($dataHelper->isSocialLoginEnabled()) : echo 'ced_social_login_header'; endif; ?>" id="head">
+        <div class="section_header">
+            <div class="container container_tab">
+                <div class="row">
+                    <div class="menu_logo">
+                        <nav class="navbar navbar-expand-md navbar-light">
+                            <?php if ($dataHelper->canShowHeaderInfo()) : ?>
+                                <button class="toggleNavMobile" type="button" id="toggleNavMenu">
+                                    <div class="menu-icon"><span></span><span></span><span></span><span></span></div>
+                                </button>
+                            <?php endif; ?>
+                            <?php if ($logo) : ?>
+                                <a href="<?= /* @noEscape */ $block->getBaseUrl(); ?>" target="_blank" class="navbar-brand">
+                                    <img src="<?= /* @noEscape */ $logoImage ?>" alt="vendor panel logo">
+                                </a>
+                            <?php else: ?>
+                                <a href="<?= /* @noEscape */ $block->getBaseUrl(); ?>" target="_blank" class="navbar-brand">
+                                    <img src="<?= /* @noEscape */ $block->getViewFileUrl('images/demo.png'); ?>"
+                                         alt="vendor panel logo" class="img_brand">
+                                </a>
+                            <?php endif; ?>
+
+                            <?php if ($dataHelper->canShowHeaderInfo()) : ?>
+                                <div class="navbar-nav" id="mysidenav">
+                                    <ul class="navigation-custom-class">
+                                        <?php if ($block->getCedConfigValue('login_page/our_story_active')) { ?>
+                                            <li class="nav-list-items">
+                                                <a href="#story" class="nav-item nav-link nav_color"
+                                                   id="story-nav">
+                                                    <?= /* @noEscape */ __($block->escapeHtml($block->getVshopConfigValue('our_story_title'))); ?>
+                                                </a>
+                                            </li>
+                                        <?php
+                                        } if ($block->getCedConfigValue('login_page/steps_to_register_active')) { ?>
+                                            <li class="nav-list-items">
+                                                <a href="#steps" class="nav-item nav-link nav_color"
+                                                   id="steps-nav">
+                                                    <?= /* @noEscape */ __(
+                                                            $block->escapeHtml($block->getVshopConfigValue('steps_to_register_title'))
+                                                    ); ?>
+                                                </a>
+                                            </li>
+                                        <?php
+                                        } if ($block->getCedConfigValue('login_page/features_active')){ ?>
+                                            <li class="nav-list-items">
+                                                <a href="#features" class="nav-item nav-link nav_color"
+                                                   id="feature-nav">
+                                                    <?= /* @noEscape */ __($block->escapeHtml($block->getVshopConfigValue('features_title'))); ?>
+                                                </a>
+                                            </li>
+                                        <?php }?>
+                                        <li class="nav-list-items">
+                                            <a href="<?= /* @noEscape */ $block->getUrl("*/*/register"); ?>" class="nav-item nav-link  nav_color"
+                                               id="signup-nav"><?= /* @noEscape */ __('Signup'); ?></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php if ($dataHelper->canShowLogin()) : ?>
+                                <?php if ($dataHelper->isSocialLoginEnabled()) : ?>
+                                    <div class="nav-list-items">
+                                        <a href="JavaScript:void(0);" class="nav-item nav-link  nav_color socail_login_link btn btn-primary"
+                                           id="Signin-nav"><?= /* @noEscape */ __('Signin'); ?></a>
+                                    </div>
+                                <?php else: ?>
+                                    <div class="mobile_sign">
+                                        <a href="JavaScript:void(0);" class="nav-item nav-link mobile_login_link btn btn-primary"
+                                           id="Signin-nav"><?= /* @noEscape */ __('Signin'); ?></a>
+                                    </div>
+                                    <div class="form-login-wrapper-main pull-right">
+                                        <div class="form-login-wrapper">
+                                            <?= $block->getLoginFormHtml(); ?>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                            <?php endif; ?>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="overlay_vi"></div>
+    <a href='#' class="scroll-icon">
+        <i class="fa fa-arrow-up scroll-icon-top" aria-hidden="true"></i>
+    </a>
+    <?php /*************  End of section_header *****************/ ?>
+<?php else : ?>
+    <div class="ced_vendor_header">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="pull-left">
+                        <div class="v_header_logo">
+                            <?php if($logo):?>
+                                <a href="<?= /* @noEscape */ $block->getBaseUrl(); ?>" target="_blank">
+                                    <img src="<?= /* @noEscape */ $logoImage ?>" alt="<?= /* @noEscape */ __('vendor panel logo'); ?>">
+                                </a>
+                            <?php else:?>
+                                <a href="<?= /* @noEscape */ $block->getBaseUrl(); ?>" target="_blank">
+                                    <img src="<?= /* @noEscape */ $block->getViewFileUrl('images/demo.png'); ?>" alt="<?= /* @noEscape */ __('vendor panel logo'); ?>">
+                                </a>
+                            <?php endif;?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <?php /************* side_nav_responsive  *****************/ ?>
+    <?php /************* End of side_nav_responsive  *****************/ ?>
+<!--  Script for header-->
+<script type="text/javascript">
+    require(['jquery', 'jquery/ui'], function($){
+        $(document).ready(function(){
+            let hh= $('.ced_vendor_header').height();
+            $('.page-wrapper').css("padding-top", hh+20);
+
+            $('#toggleNavMenu, #mysidenav .nav-list-items > .nav-link').on('click', function () {
+                $('#toggleNavMenu, #toggleNavMenu > .menu-icon, #mysidenav').toggleClass('open');
+            });
+        });
+    });
+</script>
+<?php endif; ?>
+

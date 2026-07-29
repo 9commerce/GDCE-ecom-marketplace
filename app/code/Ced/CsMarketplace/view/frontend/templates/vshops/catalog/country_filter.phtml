@@ -1,0 +1,80 @@
+<?php
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+
+<div class="shipping">
+	<?= "Search Vendors" ?>
+    <div class="shipping-form vendor-address-form">
+       <form action="<?php //echo $this->getUrl('csmarketplace/vshops/index',$params) ?>" method="get" id="shipping-zip-form">
+           <?= $block->getBlockHtml('formkey'); ?>
+            <ul class="form-list">
+                <li>
+                    <label for="country" class=""><?= "Country" ?></label>
+                    <div class="input-box">
+                        <?php // echo $block->_objectManager->get('Magento\Directory\Block\Data')->getCountryHtmlSelect($this->getEstimateCountryId()) ?>
+                    </div>
+                </li>
+            <?php //if($this->getStateActive()): ?>
+                <li>
+                    <label for="region_id"<?php // if ($this->isStateProvinceRequired()) echo ' class="required"' ?>><?php //if ($this->isStateProvinceRequired()) echo '<em>*</em>' ?><?= "State/Province" ?></label>
+                    <div class="input-box">
+                        <select id="region_id" name="region_id" title="<?= /* @noEscape */ __('State/Province') ?>" style="display:none;"<?php // echo ($this->isStateProvinceRequired() ? ' class="validate-select"' : '') ?>>
+                            <option value=""><?= /* @noEscape */ __('Please select region, state or province') ?></option>
+                        </select>
+                       <script type="text/javascript">
+                       //<![CDATA[
+                           $('region_id').setAttribute('defaultValue',  "<?= /* @noEscape */ $block->getRequest()->getParam('region_id') ?>");
+                       //]]>
+                       </script>
+                       <input type="text" id="region" name="region" value="<?php /* @noEscape */ //echo $this->htmlEscape($this->getRequest()->getParam('region')) ?>"  title="<?= /* @noEscape */ __('State/Province') ?>" class="input-text" style="display:none;" />
+                   </div>
+                </li>
+            <?php //endif; ?>
+            <?php if($block->getCityActive()): ?>
+                <li>
+                    <label for="city"<?php //if ($this->isCityRequired()) echo ' class="required"' ?>><?php //if ($this->isCityRequired()) echo '<em>*</em>' ?><?= /* @noEscape */ __('City') ?></label>
+                    <div class="input-box">
+                        <input class="input-text<?php //if ($this->isCityRequired()):?> required-entry<?php //endif;?>" id="city" type="text" name="estimate_city" value="<?php //echo $this->htmlEscape($this->getEstimateCity()) ?>" />
+                    </div>
+                </li>
+            <?php endif; ?>
+                <li>
+                    <label for="postcode"><?= /* @noEscape */ __('Zip/Postal Code') ?></label>
+                    <div class="input-box">
+                        <input class="input-text validate-postcode" type="text" id="postcode" name="estimate_postcode" value="<?php //echo $this->htmlEscape($this->getRequest()->getParam('estimate_postcode')) ?>" />
+                    </div>
+                </li>
+				<li>
+                    <label for="postcode"><?= /* @noEscape */ __('Search By Vendor\'s Name') ?></label>
+                    <div class="input-box">
+                        <input class="input-text validate-postcode" type="text" id="char" name="char" value="<?php //echo $this->htmlEscape($this->getRequest()->getParam('char')) ?>" />
+                    </div>
+                </li>
+            </ul>
+            <div class="buttons-set">
+                <button type="button" title="<?= /* @noEscape */ __('Search') ?>" onclick="coShippingMethodForm.submit()" class="button"><span><span><?= /* @noEscape */ __('Search') ?></span></span></button>
+            </div>
+        </form>
+      </div>
+      </div>
+     
+      

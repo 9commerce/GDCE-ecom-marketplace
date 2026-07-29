@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsPurchaseOrder
+ * @author 		CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license      https://cedcommerce.com/license-agreement.txt
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../Store/etc/config.xsd">
+    <default>
+        <b2bextension>
+            <purchaseorder>
+                <tc_content>ced-category-customer-toc</tc_content>
+            </purchaseorder>
+        </b2bextension>
+        <ced_purchaseorder>
+            <general>
+                <activation>1</activation>
+                <submit_buying_request>1</submit_buying_request>
+                <submit_buying_request_shop_page>1</submit_buying_request_shop_page>
+            </general>
+        </ced_purchaseorder>
+        <ced>
+            <rewrites>
+                <cspurchaseorder>
+                    <quotations>
+                        <all>Adminhtml,Widget,Backend,RequireJs</all>
+                    </quotations>
+                </cspurchaseorder>
+            </rewrites>
+        </ced>
+        <vendor_acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <vendor>
+                    <title>Vendor Panel</title>
+                    <path>#</path>
+                    <sort_order>1</sort_order>
+                    <children>
+                        <po_quotations>
+                            <title>PO Quotationn</title>
+                            <sort_order>60</sort_order>
+                            <path>#</path>
+                            <children>
+                                <quotations_list>
+                                    <title>Quotation List</title>
+                                    <sort_order>10</sort_order>
+                                    <path>cspurchaseorder/quotations/qlist</path>
+                                </quotations_list>
+                                <assigned_quotations>
+                                    <title>Assigned Quotation</title>
+                                    <sort_order>20</sort_order>
+                                    <path>cspurchaseorder/quotations/viewassigned</path>
+                                </assigned_quotations>
+                                <assigned_categories>
+                                    <title>Assigned Categories</title>
+                                    <sort_order>30</sort_order>
+                                    <path>cspurchaseorder/categories/assigned</path>
+                                </assigned_categories>
+                            </children>
+                        </po_quotations>
+                    </children>
+                </vendor>
+            </resources>
+        </vendor_acl>
+    </default>
+</config>

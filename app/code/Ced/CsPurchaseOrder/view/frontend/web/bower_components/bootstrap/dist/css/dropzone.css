@@ -1,0 +1,124 @@
+.container{
+    width: 50%;
+    margin: 0 auto;
+}
+
+.upload-area{
+    width: 70%;
+    height: 200px;
+    border: 2px solid lightgray;
+    border-radius: 3px;
+    margin: 0 auto;
+    margin-top: 100px;
+    text-align: center;
+    overflow: auto;
+}
+
+.upload-area:hover{
+    cursor: pointer;
+}
+
+.upload-area h1{
+    text-align: center;
+    font-weight: normal;
+    font-family: sans-serif;
+    line-height: 50px;
+    color: darkslategray;
+}
+
+#file{
+    display: none;
+}
+
+/* Thumbnail */
+.thumbnail{
+    width: 80px;
+    height: 80px;
+    padding: 2px;
+    border: 2px solid lightgray;
+    border-radius: 3px;
+    float: left;
+    margin: 5px;
+    position: relative;
+}
+.thumbnail > a {
+  position: absolute;
+  right: -3px;
+  top: -5px;
+  cursor: pointer;
+}
+.upload-area-image .thumbnail > img {
+  height: 100% !important;
+  width: 100%;
+}
+.size{
+    font-size:12px;
+}
+
+
+.ced-upload-image-area .upload-area-image {
+  overflow: hidden;
+  position: relative;
+}
+.ced-upload-image-area .upload-area-image .upload-area {
+  float: left;
+  height: 85px;
+  margin: 5px;
+  width: 85px;
+}
+.ced-col-select-cat {
+  float: left;
+  height: 150px;
+  list-style: outside none none;
+  margin-right: 13px;
+  width: 20%;
+}
+.ced-col-select-cat.last{
+    margin-right: 0px;
+}
+.ced-col-select-cat .input-box,.ced-col-select-cat .input-box select {
+  height: 100%;
+}
+#category_container_new.hor-scroll {
+ 
+  overflow: hidden;
+  position: relative;
+}
+
+// CHAT
+.purchaseorder-comment-wrapper > .note-list {
+  list-style: outside none none;
+  padding: 0;
+  margin: 0;
+}
+.purchaseorder-comment-wrapper .note-list .purchaseorder-left-chat-column {
+  background: #90969a none repeat scroll 0 0;
+  border-radius: 15px;
+  color: #ffff;
+  position: relative;
+}
+.purchaseorder-left-chat-column::before {
+  border-bottom: 9px solid transparent;
+  border-right: 9px solid #90969a;
+  border-top: 9px solid transparent;
+  content: "";
+  left: -7px;
+  position: absolute;
+  top: 15px;
+}
+.purchaseorder-comment-wrapper .note-list .purchaseorder-right-chat-column {
+  background: #2ecc71 none repeat scroll 0 0;
+  border-radius: 15px;
+  color: #fff;
+  position: relative;
+}
+
+.purchaseorder-right-chat-column::after {
+  border-bottom: 9px solid transparent;
+  border-left: 9px solid #2ecc71;
+  border-top: 9px solid transparent;
+  content: "";
+  position: absolute;
+  right: -7px;
+  top: 15px;
+}

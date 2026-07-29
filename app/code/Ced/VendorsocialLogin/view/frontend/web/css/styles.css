@@ -1,0 +1,61 @@
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category  Ced
+ * @package   Ced_VendorsocialLogin
+ * @author    CedCommerce Core Team <connect@cedcommerce.com >
+ * @copyright Copyright CedCommerce (https://cedcommerce.com/)
+ * @license      https://cedcommerce.com/license-agreement.txt
+ */
+.ced-sociallogin-login {
+    width: 100% !important;
+}
+div.ced-sociallogin-register,
+div.ced-sociallogin-checkout,
+div.ced-sociallogin-login {
+    margin-top: 28px;
+}
+div.ced-sociallogin-login .content {
+    min-height: 100px;
+}
+div.ced-sociallogin-register .fieldset {
+    margin: 0px;
+}
+div.ced-sociallogin-account .col3-set .col-1 {
+    width: 29%
+}
+div.ced-sociallogin-account .col3-set .col-2 {
+    width: 49%
+}
+div.ced-sociallogin-account .col3-set .col-3 {
+    width: 19%
+}
+div.ced-sociallogin-account .col2-set .col-1 {
+    width: 79%
+}
+div.ced-sociallogin-account .col2-set .col-2 {
+    width: 19%
+}
+:not(.overlay-popup) .ced-sociallogin-login-lower {
+    display: flex;
+}
+.csmarketplace-account-login .login-panel .ced-sociallogin-login {
+    margin: 0;
+}
+.csmarketplace-account-login .login-panel .ced-sociallogin-login h2 {
+    color: #ffffff;
+    margin-bottom: 10px;
+    margin-top: 5px;
+}
+.overlay-popup .account-login .ced-sociallogin-login-lower {
+    display: grid;
+    grid-template-columns: 2fr 2fr;
+    grid-template-rows: 2fr 2fr;
+}

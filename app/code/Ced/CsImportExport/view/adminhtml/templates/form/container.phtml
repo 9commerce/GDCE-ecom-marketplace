@@ -1,0 +1,50 @@
+
+
+<div class="row">
+    <div style="margin-top:10px;" class="col-md-12">
+        <div class="panel panel-default">
+            <?= /* @noEscape */ $block->getFormInitScripts() ?>
+            <div style="font-weight:bold;padding:4px 15px;" class="panel-heading uptransform">
+                <div style="line-height:31px;font-size:17px;padding-left:0;" class=" panel_product_heading">
+                    <div class="page-actions-inner" data-title="Export">
+                        <div class="buttons-set buttons_scb" style="text-align:right;padding-right:0;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <?= $block->getFormHtml() ?>
+                <?php if ($block->hasFooterButtons()): ?>
+                <div class="content-footer">
+                    <p class="form-buttons"><?= $block->getButtonsHtml('footer') ?></p>
+                </div>
+                <?php endif; ?>
+            </div>
+            <script>
+                require([
+                    'jquery',
+                    'mage/backend/form',
+                    'mage/backend/validation'
+                ], function($){
+
+                    $('#edit_form').form()
+                        .validation({
+                            validationUrl: '<?= $block->escapeUrl($block->getValidationUrl()) ?>',
+                            highlight: function(element) {
+                                var detailsElement = $(element).closest('details');
+                                if (detailsElement.length && detailsElement.is('.details')) {
+                                    var summaryElement = detailsElement.find('summary');
+                                    if (summaryElement.length && summaryElement.attr('aria-expanded') === "false") {
+                                        summaryElement.trigger('click');
+                                    }
+                                }
+                                $(element).trigger('highlight.validate');
+                            }
+                        });
+                });
+            </script>
+        </div>
+        <?= /* @noEscape */ $block->getFormScripts() ?>
+    </div>
+</div>
+

@@ -1,0 +1,57 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+<?php
+/**
+ * Product list toolbar
+ *
+ * @var $block \Magento\Catalog\Block\Product\ProductList\Toolbar
+ */
+?>
+<?php if ($block->getCollection()->getSize()) :?>
+    <?php $widget = $this->helper(\Magento\Framework\Json\Helper\Data::class)->jsonDecode($block->getWidgetOptionsJson());
+        $widgetOptions = $this->helper(\Magento\Framework\Json\Helper\Data::class)->jsonEncode($widget['productListToolbarForm']);
+    ?>
+    <div class="toolbar toolbar-products" data-mage-init='{"productListToolbarForm":<?= /* @noEscape */ $widgetOptions ?>}'>
+        <?php if (!$block->getIsBottom()) { ?>
+        <button class="filter-category" type="button">
+            <svg width="12" height="14" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8.24998 12.9573C8.27998 13.1823 8.20498 13.4223 8.03248 13.5798C7.96309 13.6493 7.88067 13.7045 7.78994 13.7421C7.69921 13.7798 7.60195 13.7991 7.50373 13.7991C7.4055 13.7991 7.30824 13.7798 7.21751 13.7421C7.12678 13.7045 7.04436 13.6493 6.97498 13.5798L3.96748 10.5723C3.88568 10.4923 3.82348 10.3945 3.78575 10.2865C3.74802 10.1786 3.73577 10.0633 3.74998 9.9498V6.1098L0.157476 1.5123C0.0356824 1.35594 -0.0192734 1.15774 0.00461717 0.960994C0.0285078 0.764248 0.129302 0.584956 0.284976 0.462297C0.427476 0.357297 0.584976 0.297297 0.749976 0.297297H11.25C11.415 0.297297 11.5725 0.357297 11.715 0.462297C11.8707 0.584956 11.9714 0.764248 11.9953 0.960994C12.0192 1.15774 11.9643 1.35594 11.8425 1.5123L8.24998 6.1098V12.9573ZM2.27998 1.7973L5.24998 5.5923V9.7323L6.74998 11.2323V5.5848L9.71998 1.7973H2.27998Z" fill="#616161"/>
+            </svg>
+            <?= __('Filters') ?>
+        </button>
+        <?php } ?>
+        <?php if ($block->getIsBottom()): ?>
+            <?= $block->getPagerHtml() ?>
+            <?= $block->fetchView($block->getTemplateFile('Magento_Catalog::product/list/toolbar/limiter.phtml')) ?>
+        <?php else: ?>
+            <?php if ($block->isExpanded()): ?>
+                <?= $block->fetchView($block->getTemplateFile('Magento_Catalog::product/list/toolbar/viewmode.phtml')) ?>
+            <?php endif ?>
+            <?php if ($block->isExpanded()): ?>
+                <?= $block->fetchView($block->getTemplateFile('Magento_Catalog::product/list/toolbar/sorter.phtml')) ?>
+            <?php endif ?>
+            <?= $block->fetchView($block->getTemplateFile('Magento_Catalog::product/list/toolbar/amount.phtml')) ?>
+        <?php endif ?>
+    </div>
+<?php endif ?>
+<script>
+    require([
+        'jquery',
+        'mage/mage'
+    ], function ($) {
+        if ($('.browse-category').length) {
+            $('.filter-category').on('click', function () {
+                $('.browse-category').addClass('active');
+                $('.overlay').addClass('active');
+            });
+            $('.close-popup,.overlay').on('click', function () {
+                $('.browse-category').removeClass('active');
+                $('.overlay').removeClass('active');
+            });
+        }
+    })
+</script>

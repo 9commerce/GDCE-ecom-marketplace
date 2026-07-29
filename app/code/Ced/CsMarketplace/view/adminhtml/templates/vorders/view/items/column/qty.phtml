@@ -1,0 +1,40 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author      CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (https://cedcommerce.com/)
+ * @license     https://cedcommerce.com/license-agreement.txt
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php if ($_item = $block->getItem()): ?>
+        <span class="nobr">
+        <?php if ($_item->getQtyOrdered() > 0): ?>
+            <?= /* @noEscape */ __('Ordered'); ?>: <strong><?= /* @noEscape */ $_item->getQtyOrdered()*1 ?></strong><br />
+        <?php endif; ?>
+        <?php if ($_item->getQtyInvoiced() > 0): ?>
+            <?= /* @noEscape */ __('Invoiced'); ?>: <strong><?= /* @noEscape */ $_item->getQtyInvoiced()*1 ?></strong><br />
+        <?php endif; ?>
+        <?php if ($_item->getQtyShipped() > 0): ?>
+            <?= /* @noEscape */ __('Shipped'); ?>: <strong><?= /* @noEscape */ $_item->getQtyShipped()*1 ?></strong><br />
+        <?php endif; ?>
+        <?php if ($_item->getQtyCanceled() > 0): ?>
+            <?= /* @noEscape */ __('Canceled'); ?>: <strong><?= /* @noEscape */ $_item->getQtyCanceled()*1 ?></strong><br />
+        <?php endif; ?>
+        <?php if ($_item->getQtyRefunded() > 0): ?>
+            <?= /* @noEscape */ __('Refunded'); ?>: <strong><?= /* @noEscape */ $_item->getQtyRefunded()*1 ?></strong><br />
+        <?php endif; ?>
+        </span>
+<?php endif; ?>
