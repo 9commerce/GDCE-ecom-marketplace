@@ -29,6 +29,15 @@ use Magento\Framework\Controller\ResultInterface;
  */
 class License extends \Magento\Backend\App\Action
 {
+    /**
+     * @var mixed
+     */
+    protected $_curl;
+
+    /**
+     * @var mixed
+     */
+    protected $logger;
 
     const LICENSE_ACTIVATION_URL_PATH = 'system/license/activate_url';
 

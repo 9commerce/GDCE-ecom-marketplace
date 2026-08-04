@@ -24,6 +24,11 @@ use Magento\Backend\App\Action\Context;
 class Delete extends \Magento\Backend\App\Action
 {
     /**
+     * @var mixed
+     */
+    protected $_resource;
+
+    /**
      * @var \Ced\CsVendorReview\Model\Rating
      */
     protected $rating;

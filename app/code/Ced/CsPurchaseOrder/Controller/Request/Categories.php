@@ -22,6 +22,31 @@ use Magento\Framework\App\Action\Context;
 
 class Categories extends \Magento\Framework\App\Action\Action
 {
+    /**
+     * @var mixed
+     */
+    protected $urlModel;
+
+    /**
+     * @var mixed
+     */
+    protected $_customerSession;
+
+    /**
+     * @var mixed
+     */
+    protected $category;
+
+    /**
+     * @var mixed
+     */
+    protected $categoryCollection;
+
+    /**
+     * @var mixed
+     */
+    protected $resultJsonFactory;
+
     protected $_resultPageFactory;
 
     public function __construct(

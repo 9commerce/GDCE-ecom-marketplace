@@ -23,6 +23,11 @@ use Magento\Framework\DB\Select;
 class Payment extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
+     * @var mixed
+     */
+    protected $_vendor;
+
+    /**
      * @var \Magento\Framework\App\ResourceConnection
      */
     protected $resourceConnection;

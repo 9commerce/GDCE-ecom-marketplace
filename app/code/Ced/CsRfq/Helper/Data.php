@@ -21,6 +21,36 @@ namespace Ced\CsRfq\Helper;
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
+     * @var mixed
+     */
+    protected $vsettingsFactory;
+
+    /**
+     * @var mixed
+     */
+    protected $csmarketplaceHelper;
+
+    /**
+     * @var mixed
+     */
+    protected $vendorFactory;
+
+    /**
+     * @var mixed
+     */
+    protected $_storeManager;
+
+    /**
+     * @var mixed
+     */
+    protected $currency;
+
+    /**
+     * @var mixed
+     */
+    protected $currencyModel;
+
+    /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Ced\CsMarketplace\Model\VsettingsFactory $vsettingsFactory
      * @param \Ced\CsMarketplace\Helper\Data $csmarketplaceHelper

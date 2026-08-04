@@ -46,6 +46,56 @@ use Ced\CsRfq\Helper\Data as CsRfqHelper;
 class Save extends \Ced\CsMarketplace\Controller\Vendor
 {
     /**
+     * @var mixed
+     */
+    protected $_storeManager;
+
+    /**
+     * @var mixed
+     */
+    protected $_po;
+
+    /**
+     * @var mixed
+     */
+    protected $_quote;
+
+    /**
+     * @var mixed
+     */
+    protected $_quotedetail;
+
+    /**
+     * @var mixed
+     */
+    protected $_podetail;
+
+    /**
+     * @var mixed
+     */
+    protected $helper;
+
+    /**
+     * @var mixed
+     */
+    protected $poDetailFactory;
+
+    /**
+     * @var mixed
+     */
+    protected $quoteStatus;
+
+    /**
+     * @var mixed
+     */
+    protected $customerFactory;
+
+    /**
+     * @var mixed
+     */
+    protected $csRfqHelper;
+
+    /**
      * @param Context $context
      * @param PageFactory $resultPageFactory
      * @param Session $customerSession

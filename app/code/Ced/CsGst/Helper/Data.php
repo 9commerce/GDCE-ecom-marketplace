@@ -20,6 +20,10 @@ namespace Ced\CsGst\Helper;
 
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
+    /**
+     * @var mixed
+     */
+    protected $_storeId;
 
     protected \Magento\Framework\ObjectManagerInterface $_objectManager;
 

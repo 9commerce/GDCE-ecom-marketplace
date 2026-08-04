@@ -35,6 +35,11 @@ use Ced\CsRfq\Helper\Data as CsRfqHelperData;
 class View extends \Ced\CsMarketplace\Controller\Vendor
 {
     /**
+     * @var mixed
+     */
+    protected $csRfqHelper;
+
+    /**
      * @var PageFactory
      */
     protected $resultPageFactory;

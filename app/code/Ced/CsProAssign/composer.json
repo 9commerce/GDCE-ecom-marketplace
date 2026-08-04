@@ -2,7 +2,7 @@
     "name": "ced/module-csproassign",
     "description": "To assign and remove products from vendors for admin",
     "require": {
-        "php": "~7.3.0|~7.4.0|~8.1.0",
+        "php": "~7.3.0|~7.4.0|~8.1.0|~8.4.0",
         "magento/magento-composer-installer": "*"
     },
     "type": "magento2-module",

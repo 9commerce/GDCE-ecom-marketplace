@@ -2,7 +2,7 @@
   "name": "ced/module-requesttoquote",
   "description": "Request For Quotation",
   "require": {
-   "php": "~7.1.3|~7.2.0|~7.3.0|~7.4.0",
+   "php": "~7.1.3|~7.2.0|~7.3.0|~7.4.0|~8.4.0",
    "magento/magento-composer-installer": "*"
   },
   "type": "magento2-module",

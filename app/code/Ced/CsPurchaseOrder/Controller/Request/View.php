@@ -25,6 +25,11 @@ namespace Ced\CsPurchaseOrder\Controller\Request;
 class View extends \Magento\Framework\App\Action\Action
 {
     /**
+     * @var mixed
+     */
+    protected $scopeConfig;
+
+    /**
      * @var \Magento\Framework\View\Result\PageFactory
      */
     protected $resultPageFactory;

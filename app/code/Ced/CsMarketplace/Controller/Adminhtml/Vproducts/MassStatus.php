@@ -33,6 +33,11 @@ use Ced\CsMarketplace\Model\VproductsFactory;
 class MassStatus extends \Magento\Backend\App\Action
 {
     /**
+     * @var mixed
+     */
+    protected $vproductsFactory;
+
+    /**
      * @var \Magento\Ui\Component\MassAction\Filter
      */
     protected $filter;

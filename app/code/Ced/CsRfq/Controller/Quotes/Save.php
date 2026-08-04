@@ -38,6 +38,36 @@ use Ced\CsRfq\Helper\Data as CsRfqHelperData;
 class Save extends \Ced\CsMarketplace\Controller\Vendor
 {
     /**
+     * @var mixed
+     */
+    protected $message;
+
+    /**
+     * @var mixed
+     */
+    protected $quotedetail;
+
+    /**
+     * @var mixed
+     */
+    protected $quote;
+
+    /**
+     * @var mixed
+     */
+    protected $helper;
+
+    /**
+     * @var mixed
+     */
+    protected $quoteStatus;
+
+    /**
+     * @var mixed
+     */
+    protected $csRfqHelper;
+
+    /**
      * @var \Magento\Catalog\Model\Product\AttributeSet\BuildFactory
      */
     protected $buildFactory;

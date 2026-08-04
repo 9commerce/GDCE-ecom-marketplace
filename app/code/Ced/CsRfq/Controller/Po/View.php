@@ -35,6 +35,21 @@ use Ced\CsMarketplace\Model\VendorFactory;
 class View extends \Ced\CsMarketplace\Controller\Vendor
 {
     /**
+     * @var mixed
+     */
+    protected $csRfqHelper;
+
+    /**
+     * @var mixed
+     */
+    protected $_coreRegistry;
+
+    /**
+     * @var mixed
+     */
+    protected $quoteFactory;
+
+    /**
      * @param Context $context
      * @param PageFactory $resultPageFactory
      * @param Session $customerSession

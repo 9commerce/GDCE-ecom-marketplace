@@ -22,6 +22,11 @@ use Magento\Framework\App\Action\Context;
 
 class Add extends \Magento\Framework\App\Action\Action
 {
+    /**
+     * @var mixed
+     */
+    protected $resultJsonFactory;
+
     protected $_resultPageFactory;
 
     public function __construct(

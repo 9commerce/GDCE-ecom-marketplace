@@ -29,6 +29,11 @@ use Magento\Framework\Controller\ResultFactory;
 class Save extends Action
 {
     /**
+     * @var mixed
+     */
+    protected $redirect;
+
+    /**
      * @var Session
      */
     protected $session;

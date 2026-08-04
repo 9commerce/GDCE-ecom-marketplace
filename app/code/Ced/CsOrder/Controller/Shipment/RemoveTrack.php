@@ -26,6 +26,11 @@ use Magento\Framework\View\Result\PageFactory;
 class RemoveTrack extends \Ced\CsMarketplace\Controller\Vendor
 {
     /**
+     * @var mixed
+     */
+    protected $_trackResource;
+
+    /**
      * @var \Magento\Shipping\Controller\Adminhtml\Order\ShipmentLoader
      */
     protected $shipmentLoader;

@@ -36,6 +36,11 @@ use Magento\Customer\Model\Address\Mapper as AddressMapper;
 class Orders extends \Ced\CsMarketplace\Controller\Customer\Edit
 {
     /**
+     * @var mixed
+     */
+    protected $resultLayoutFactory;
+
+    /**
      * Country constructor.
      * @param Context $context
      * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory

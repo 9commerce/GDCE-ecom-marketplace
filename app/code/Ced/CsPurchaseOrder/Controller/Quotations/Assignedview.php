@@ -24,6 +24,11 @@ use Magento\Framework\UrlFactory;
 
 class Assignedview extends \Ced\CsMarketplace\Controller\Vendor
 {
+    /**
+     * @var mixed
+     */
+    protected $_custmerSesion;
+
     protected $_customerSession;
 
     /**

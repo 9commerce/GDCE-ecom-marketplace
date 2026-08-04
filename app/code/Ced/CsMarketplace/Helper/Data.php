@@ -56,6 +56,10 @@ use Magento\Store\Model\WebsiteFactory;
  */
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
+    /**
+     * @var mixed
+     */
+    protected $_websiteId;
 
     const LOGINACTION = 'login';
     const REGISTERACTION = 'register';

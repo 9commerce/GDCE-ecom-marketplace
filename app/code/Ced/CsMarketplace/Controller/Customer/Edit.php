@@ -38,6 +38,36 @@ use Magento\Customer\Controller\RegistryConstants;
 class Edit extends \Ced\CsMarketplace\Controller\Vendor
 {
     /**
+     * @var mixed
+     */
+    protected $customerSession;
+
+    /**
+     * @var mixed
+     */
+    protected $backendSession;
+
+    /**
+     * @var mixed
+     */
+    protected $customerMapper;
+
+    /**
+     * @var mixed
+     */
+    protected $addressMapper;
+
+    /**
+     * @var mixed
+     */
+    protected $_viewHelper;
+
+    /**
+     * @var mixed
+     */
+    protected $_coreRegistry;
+
+    /**
      * @var \Magento\Customer\Api\CustomerRepositoryInterface
      */
     protected $customerRepository;

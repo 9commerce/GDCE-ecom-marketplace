@@ -25,6 +25,10 @@ namespace Ced\CsImportExport\Helper;
  */
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
+    /**
+     * @var mixed
+     */
+    protected $_template;
 
     /**
      * @var \Ced\CsMarketplace\Helper\Data

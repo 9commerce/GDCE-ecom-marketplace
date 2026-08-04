@@ -27,6 +27,11 @@ use Magento\Backend\App\Action;
 class Directive extends \Magento\Framework\App\Action\Action
 {
     /**
+     * @var mixed
+     */
+    protected $emulation;
+
+    /**
      * @var \Magento\Framework\Url\DecoderInterface
      */
     protected $urlDecoder;

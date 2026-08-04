@@ -31,6 +31,16 @@ use Magento\Ui\DataProvider\Modifier\PoolInterface;
 class ProductCustomOptionsDataProvider extends \Magento\Catalog\Ui\DataProvider\Product\ProductDataProvider
 {
     /**
+     * @var mixed
+     */
+    protected $vproductsCollection;
+
+    /**
+     * @var mixed
+     */
+    protected $session;
+
+    /**
      * @var RequestInterface
      */
     protected $request;

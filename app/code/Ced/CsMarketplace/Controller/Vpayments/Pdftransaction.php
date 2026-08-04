@@ -37,6 +37,16 @@ use Ced\CsMarketplace\Model\ResourceModel\Vpayment\CollectionFactory;
 class Pdftransaction extends \Ced\CsMarketplace\Controller\Vendor
 {
     /**
+     * @var mixed
+     */
+    protected $filter;
+
+    /**
+     * @var mixed
+     */
+    protected $collectionFactory;
+
+    /**
      * @var FileFactory
      */
     protected $fileFactory;

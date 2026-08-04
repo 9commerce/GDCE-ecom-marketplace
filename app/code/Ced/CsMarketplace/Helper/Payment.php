@@ -28,6 +28,10 @@ use Magento\Framework\Filesystem;
  */
 class Payment extends \Magento\Framework\App\Helper\AbstractHelper
 {
+    /**
+     * @var mixed
+     */
+    protected $_vendor;
 
     /**
      * Contains current collection

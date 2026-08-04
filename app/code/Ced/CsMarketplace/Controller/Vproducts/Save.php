@@ -33,6 +33,11 @@ use Magento\Framework\UrlFactory;
 class Save extends \Ced\CsMarketplace\Controller\Vproducts
 {
     /**
+     * @var mixed
+     */
+    protected $categoryLinkManagement;
+
+    /**
      * @var \Ced\CsMarketplace\Model\VproductsFactory
      */
     protected $vProductsFactory;

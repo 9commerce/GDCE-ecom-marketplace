@@ -29,6 +29,51 @@ use Magento\Ui\Component\MassAction\Filter;
 class Transaction extends \Ced\CsMarketplace\Controller\Vendor
 {
     /**
+     * @var mixed
+     */
+    protected $filter;
+
+    /**
+     * @var mixed
+     */
+    protected $collectionFactory;
+
+    /**
+     * @var mixed
+     */
+    protected $fileFactory;
+
+    /**
+     * @var mixed
+     */
+    protected $vendorFactory;
+
+    /**
+     * @var mixed
+     */
+    protected $priceCurrency;
+
+    /**
+     * @var mixed
+     */
+    protected $inlineTranslation;
+
+    /**
+     * @var mixed
+     */
+    protected $vordersFactory;
+
+    /**
+     * @var mixed
+     */
+    protected $_acl;
+
+    /**
+     * @var mixed
+     */
+    protected $y;
+
+    /**
      * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;

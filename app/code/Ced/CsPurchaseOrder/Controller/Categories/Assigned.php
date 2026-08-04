@@ -41,6 +41,8 @@ class Assigned extends \Ced\CsMarketplace\Controller\Vendor
      */
     protected $scopeConfig;
 
+    protected $_custmerSesion;
+
     /**
      * Assigned constructor.
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig

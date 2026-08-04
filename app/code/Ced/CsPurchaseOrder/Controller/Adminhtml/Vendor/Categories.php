@@ -28,6 +28,11 @@ use Magento\Backend\App\Action;
 class Categories extends \Magento\Backend\App\Action
 {
     /**
+     * @var mixed
+     */
+    protected $resultPageFactory;
+
+    /**
      * Categories constructor.
      * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
      * @param Action\Context $context

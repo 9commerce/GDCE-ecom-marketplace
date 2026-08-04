@@ -24,6 +24,26 @@ use Ced\CsMultiShipping\Model\ValidationRules\VendorMinimumAmountValidationRule;
 class MinOrderValidation implements ObserverInterface
 {
     /**
+     * @var mixed
+     */
+    protected $redirect;
+
+    /**
+     * @var mixed
+     */
+    protected $cart;
+
+    /**
+     * @var mixed
+     */
+    protected $minOrderValidation;
+
+    /**
+     * @var mixed
+     */
+    protected $messageManager;
+
+    /**
      * @param \Magento\Checkout\Model\Cart $cart,
      * @param VendorMinimumAmountValidationRule $minOrderValidation,
      * @param \Magento\Framework\App\Response\RedirectInterface $redirect,

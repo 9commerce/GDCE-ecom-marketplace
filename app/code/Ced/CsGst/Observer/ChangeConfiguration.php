@@ -4,6 +4,20 @@ namespace Ced\CsGst\Observer;
 
 class ChangeConfiguration implements \Magento\Framework\Event\ObserverInterface
 {
+    /**
+     * @var mixed
+     */
+    protected $_request;
+
+    /**
+     * @var mixed
+     */
+    protected $scopeConfig;
+
+    /**
+     * @var mixed
+     */
+    protected $config;
 
     protected $helper;
     protected $quoteRepository;

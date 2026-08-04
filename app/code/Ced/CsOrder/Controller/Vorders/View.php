@@ -27,6 +27,11 @@ use Magento\Framework\View\Result\PageFactory;
 class View extends \Ced\CsMarketplace\Controller\Vendor
 {
     /**
+     * @var mixed
+     */
+    protected $csorderhelper;
+
+    /**
      * @var \Magento\Framework\View\Result\Page
      */
     protected $resultPageFactory;

@@ -9,6 +9,26 @@ use Magento\ConfigurableProduct\Model\Product\Type\Configurable;
 
 class SetGst implements ObserverInterface
 {
+    /**
+     * @var mixed
+     */
+    protected $state;
+
+    /**
+     * @var mixed
+     */
+    protected $jsonSerializer;
+
+    /**
+     * @var mixed
+     */
+    protected $productFactory;
+
+    /**
+     * @var mixed
+     */
+    protected $productResource;
+
     private $quoteItems = [];
     private $quote = null;
     private $order = null;

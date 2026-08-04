@@ -29,6 +29,16 @@ use Ced\CsMarketplace\Model\VproductsFactory;
 class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
 {
     /**
+     * @var mixed
+     */
+    protected $_customerSession;
+
+    /**
+     * @var mixed
+     */
+    protected $vproductsFactory;
+
+    /**
      * Attributes that should be exported
      *
      * @var string[]

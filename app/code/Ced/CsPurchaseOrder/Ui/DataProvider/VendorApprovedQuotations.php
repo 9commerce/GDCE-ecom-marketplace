@@ -46,6 +46,11 @@ class VendorApprovedQuotations extends \Magento\Ui\DataProvider\AbstractDataProv
      */
     protected $collection;
 
+    /**
+     * @var \Ced\CsPurchaseOrder\Model\ResourceModel\VendorStatus\CollectionFactory
+     */
+    protected $vendorStatusCollection;
+
     public function __construct(
         \Magento\Customer\Model\SessionFactory $sessionFactory,
         \Ced\CsPurchaseOrder\Helper\Data $helper,

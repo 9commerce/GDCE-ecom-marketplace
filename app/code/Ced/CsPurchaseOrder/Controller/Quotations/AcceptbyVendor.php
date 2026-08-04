@@ -42,6 +42,11 @@ use Magento\Framework\Serialize\Serializer\Json;
 class AcceptbyVendor extends \Magento\Framework\App\Action\Action
 {
     /**
+     * @var mixed
+     */
+    protected $date;
+
+    /**
      * @var PurchaseorderFactory
      */
     protected $purchaseOrderFactory;

@@ -105,6 +105,7 @@ class Images extends AbstractHelper
      */
     protected $_urlInterface;
 
+    protected $customerSession;
     /**
      * Construct
      *

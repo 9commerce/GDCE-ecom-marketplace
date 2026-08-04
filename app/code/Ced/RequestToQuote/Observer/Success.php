@@ -38,6 +38,21 @@ use Magento\Checkout\Model\Cart as CustomerCart;
 class Success implements ObserverInterface
 {
     /**
+     * @var mixed
+     */
+    protected $poCollectionFactory;
+
+    /**
+     * @var mixed
+     */
+    protected $quoteCollectionFactory;
+
+    /**
+     * @var mixed
+     */
+    protected $cart;
+
+    /**
      * @var Session
      */
 	protected $session;

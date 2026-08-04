@@ -8,6 +8,11 @@ use Magento\Framework\Event\ObserverInterface;
 class CustomPrice implements ObserverInterface
 {
     /**
+     * @var mixed
+     */
+    protected $session;
+
+    /**
      * CustomPrice constructor.
      * @param Registry $registry
      */

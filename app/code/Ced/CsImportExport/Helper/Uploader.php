@@ -26,6 +26,11 @@ use Magento\Framework\App\Filesystem\DirectoryList;
 class Uploader extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
+     * @var mixed
+     */
+    protected $connection;
+
+    /**
      * Media files uploader
      *
      * @var \Magento\CatalogImportExport\Model\Import\Uploader

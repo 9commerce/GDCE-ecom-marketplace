@@ -21,6 +21,15 @@ namespace Ced\RequestToQuote\Controller\Quotes;
 
 class AddToQuote extends \Magento\Framework\App\Action\Action
 {
+    /**
+     * @var mixed
+     */
+    protected $resultPageFactory;
+
+    /**
+     * @var mixed
+     */
+    protected $_getSession;
 
 	public function __construct(
 	    \Magento\Framework\App\Action\Context $context,

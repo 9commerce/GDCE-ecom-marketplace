@@ -29,6 +29,10 @@ use Magento\Framework\Mail\Template\TransportBuilder;
  */
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
+    /**
+     * @var mixed
+     */
+    protected $_template;
 
     /**
      * @var \Magento\Framework\Translate\Inline\StateInterface

@@ -75,6 +75,11 @@ class Save extends \Ced\CsVendorProductAttribute\Controller\Attribute
     protected $attribute;
 
     /**
+     * @var \Ced\CsVendorProductAttribute\Model\Attributeset
+     */
+    protected $vendorAttributeSet;
+
+    /**
      * Save constructor.
      * @param \Magento\Framework\App\Cache\Type\Translate $translate
      * @param \Magento\Catalog\Model\Product\AttributeSet\BuildFactory $buildFactory

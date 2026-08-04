@@ -46,6 +46,8 @@ class QuotationsList extends \Magento\Ui\DataProvider\AbstractDataProvider
      */
     protected $collection;
 
+    protected $vendorStatusCollection;
+
     public function __construct(
         \Magento\Customer\Model\SessionFactory $sessionFactory,
         \Ced\CsPurchaseOrder\Helper\Data $helper,

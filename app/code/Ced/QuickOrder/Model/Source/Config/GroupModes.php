@@ -19,6 +19,10 @@ namespace Ced\QuickOrder\Model\Source\Config;
 
 class GroupModes implements \Magento\Framework\Option\ArrayInterface
 {
+    /**
+     * @var mixed
+     */
+    protected $_customerGroup;
 
     /**
      * GroupModes constructor.

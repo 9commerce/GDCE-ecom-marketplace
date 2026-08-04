@@ -40,7 +40,7 @@ class Client extends \Magento\Framework\DataObject
 
     /**
      *
-     * @var \Magento\Framework\HTTP\ZendClientFactory
+     * @var \Magento\Framework\HTTP\LaminasClientFactory
      */
     protected $_httpClientFactory;
 
@@ -101,14 +101,14 @@ class Client extends \Magento\Framework\DataObject
 
     /**
      * Client constructor.
-     * @param \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory
+     * @param \Magento\Framework\HTTP\LaminasClientFactory $httpClientFactory
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\Framework\UrlInterface $url
      * @param \Magento\Framework\App\RequestInterface $request
      * @param array $data
      */
     public function __construct(
-        \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory,
+        \Magento\Framework\HTTP\LaminasClientFactory $httpClientFactory,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Framework\UrlInterface $url,
         \Magento\Framework\App\RequestInterface $request,
@@ -241,7 +241,7 @@ class Client extends \Magento\Framework\DataObject
         $accessToken = $this->getAccessToken();
 
         if (!$accessToken) {
-            throw new \Magento\Framework\Exception(__('Unable to retrieve access token.'));
+            throw new \Magento\Framework\Exception\LocalizedException(__('Unable to retrieve access token.'));
         }
 
         // Expires over two hours means long lived token
@@ -291,7 +291,7 @@ class Client extends \Magento\Framework\DataObject
     protected function fetchAccessToken($code = null)
     {
         if (empty($this->_request->getParam('code'))) {
-            throw new \Magento\Framework\Exception(__('Unable to retrieve access code.'));
+            throw new \Magento\Framework\Exception\LocalizedException(__('Unable to retrieve access code.'));
         }
         $response = $this->_httpRequest(
             self::OAUTH2_TOKEN_URI,
@@ -321,13 +321,14 @@ class Client extends \Magento\Framework\DataObject
      * @param array $params
      * @return mixed
      * @throws \Magento\Framework\Exception\LocalizedException
-     * @throws \Zend_Http_Client_Exception
+     * @throws \Laminas\Http\Client\Exception\ExceptionInterface
      */
     protected function _httpRequest($url, $method = 'GET', $params = [])
     {
         $client = $this->_httpClientFactory->create();
 
         $client->setUri($url);
+        $client->setMethod($method);
 
         switch ($method) {
 
@@ -345,16 +346,16 @@ class Client extends \Magento\Framework\DataObject
                 break;
 
             default:
-                throw new \Magento\Framework\Exception(__('Required HTTP method is not supported.'));
+                throw new \Magento\Framework\Exception\LocalizedException(__('Required HTTP method is not supported.'));
 
         }
 
-        $response = $client->request($method);
+        $response = $client->send();
 
         $decoded_response = json_decode($response->getBody());
 
-        if ($response->isError()) {
-            $status = $response->getStatus();
+        if ($response->isClientError() || $response->isServerError()) {
+            $status = $response->getStatusCode();
 
             if (($status == 400 || $status == 401)) {
                 if (isset($decoded_response->error->message)) {
@@ -368,7 +369,7 @@ class Client extends \Magento\Framework\DataObject
                     $status
                 );
 
-                throw new \Magento\Framework\Exception\LocalizedException($message);
+                throw new \Magento\Framework\Exception\LocalizedException(__($message));
             }
         }
 
@@ -392,7 +393,7 @@ class Client extends \Magento\Framework\DataObject
     protected function refreshAccessToken()
     {
         if (empty($this->token->refresh_token)) {
-            throw new \Magento\Framework\Exception(__('No refresh token, unable to refresh access token.'));
+            throw new \Magento\Framework\Exception\LocalizedException(__('No refresh token, unable to refresh access token.'));
         }
 
         $response = $this->_httpRequest(
@@ -502,11 +503,11 @@ class Client extends \Magento\Framework\DataObject
     public function revokeToken()
     {
         if (empty($this->token)) {
-            throw new \Magento\Framework\Exception(__('No access token available.'));
+            throw new \Magento\Framework\Exception\LocalizedException(__('No access token available.'));
         }
 
         if (empty($this->token->refresh_token)) {
-            throw new \Magento\Framework\Exception(__('No refresh token, nothing to revoke.'));
+            throw new \Magento\Framework\Exception\LocalizedException(__('No refresh token, nothing to revoke.'));
         }
 
         $this->_httpRequest(

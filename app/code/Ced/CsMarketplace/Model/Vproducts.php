@@ -338,16 +338,16 @@ class Vproducts extends \Ced\CsMarketplace\Model\FlatAbstractModel
     {
         $errors = [];
 
-        if (!\Zend_Validate::is(trim($this->getName()), 'NotEmpty')) {
+        if (!(new \Laminas\Validator\NotEmpty())->isValid(trim($this->getName()))) {
             $errors[] = __('The Product Name cannot be empty');
         }
-        if (!\Zend_Validate::is(trim($this->getSku()), 'NotEmpty')) {
+        if (!(new \Laminas\Validator\NotEmpty())->isValid(trim($this->getSku()))) {
             $errors[] = __('The Product SKU cannot be empty');
         }
 
         if ($this->getType() == Type::TYPE_SIMPLE) {
             $weight = trim($this->getWeight());
-            if (!\Zend_Validate::is(trim($this->getName()), 'NotEmpty')) {
+            if (!(new \Laminas\Validator\NotEmpty())->isValid(trim($this->getName()))) {
                 $errors[] = __('The Product Weight cannot be empty');
             } else if (!is_numeric($weight) && !($weight > 0)) {
                 $errors[] = __('The Product Weight must be 0 or Greater');
@@ -355,18 +355,18 @@ class Vproducts extends \Ced\CsMarketplace\Model\FlatAbstractModel
         }
 
         $qty = trim($this->getQty());
-        if (!\Zend_Validate::is($qty, 'NotEmpty')) {
+        if (!(new \Laminas\Validator\NotEmpty())->isValid($qty)) {
             $errors[] = __('The Product Stock cannot be empty');
         } else if (!is_numeric($qty)) {
             $errors[] = __('The Product Stock must be a valid Number');
         }
 
-        if (!\Zend_Validate::is(trim($this->getTaxClassId()), 'NotEmpty')) {
+        if (!(new \Laminas\Validator\NotEmpty())->isValid(trim($this->getTaxClassId()))) {
             $errors[] = __('The Product Tax Class cannot be empty');
         }
 
         $price = trim($this->getPrice());
-        if (!\Zend_Validate::is($price, 'NotEmpty')) {
+        if (!(new \Laminas\Validator\NotEmpty())->isValid($price)) {
             $errors[] = __('The Product Price cannot be empty');
         } else if (!is_numeric($price) && !($price > 0)) {
             $errors[] = __('The Product Price must be 0 or Greater');

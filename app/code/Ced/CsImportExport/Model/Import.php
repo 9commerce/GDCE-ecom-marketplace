@@ -513,7 +513,7 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
         $adapter = $this->_httpFactory->create();
         if (!$adapter->isValid(self::FIELD_NAME_SOURCE_FILE)) {
             $errors = $adapter->getErrors();
-            if ($errors[0] == \Zend_Validate_File_Upload::INI_SIZE) {
+            if ($errors[0] == \Laminas\Validator\File\Upload::INI_SIZE) {
                 $errorMessage = $this->_importExportData->getMaxUploadSizeMessage();
             } else {
                 $errorMessage = __('The file was not uploaded.');

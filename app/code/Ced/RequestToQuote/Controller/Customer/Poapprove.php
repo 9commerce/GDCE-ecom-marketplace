@@ -21,6 +21,16 @@ namespace Ced\RequestToQuote\Controller\Customer;
 class Poapprove extends \Magento\Framework\App\Action\Action
 {
     /**
+     * @var mixed
+     */
+    protected $session;
+
+    /**
+     * @var mixed
+     */
+    protected $poFactory;
+
+    /**
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Ced\RequestToQuote\Model\PoFactory $pofactory

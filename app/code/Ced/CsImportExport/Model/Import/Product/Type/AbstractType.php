@@ -28,6 +28,11 @@ use Ced\CsImportExport\Model\Import\Product;
 abstract class AbstractType
 {
     /**
+     * @var mixed
+     */
+    protected $_connection;
+
+    /**
      * Common attributes cache
      *
      * @var array

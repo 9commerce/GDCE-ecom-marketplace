@@ -23,6 +23,10 @@ use Ced\CsMarketplace\Model\VproductsFactory;
 
 class InlineEdit extends \Magento\Backend\App\Action
 {
+    /**
+     * @var mixed
+     */
+    protected $vproductsFactory;
 
     /**
      * @var \Magento\Cms\Api\BlockRepositoryInterface

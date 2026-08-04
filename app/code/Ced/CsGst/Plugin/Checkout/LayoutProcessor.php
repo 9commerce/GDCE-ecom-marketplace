@@ -5,6 +5,10 @@ use Ced\CsGst\Helper\Data;
 use Magento\Checkout\Block\Checkout\LayoutProcessor as CheckoutLayoutProcessor;
 class LayoutProcessor
 {
+    /**
+     * @var mixed
+     */
+    protected $helper;
 
     /**
      * @param Data $helper

@@ -22,6 +22,11 @@ namespace Ced\RequestToQuote\Controller\Cart;
 class Index extends \Magento\Checkout\Controller\Cart
 {
     /**
+     * @var mixed
+     */
+    protected $_customersession;
+
+    /**
      * @var \Magento\Framework\View\Result\PageFactory
      */
     protected $resultPageFactory;

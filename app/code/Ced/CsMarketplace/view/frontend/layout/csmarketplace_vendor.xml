@@ -39,7 +39,13 @@
 			</arguments>
 		</block>
             <block name="customer.customer.data" class="Magento\Customer\Block\CustomerData"
-                   template="Magento_Customer::js/customer-data.phtml"/>
+                   template="Magento_Customer::js/customer-data.phtml">
+                <arguments>
+                    <argument name="auth" xsi:type="object">Magento\Customer\ViewModel\Customer\Auth</argument>
+                    <argument name="json_serializer" xsi:type="object">Magento\Customer\ViewModel\Customer\JsonSerializer</argument>
+                    <argument name="cookie_settings" xsi:type="object">Magento\Customer\ViewModel\CookieSettings</argument>
+                </arguments>
+            </block>
         </referenceContainer>
         <referenceBlock name="nav.bar">
 			<block class="Ced\CsMarketplace\Block\Vendor\Navigation" as="cnavigation" name="csmarketplace_vendor_cnavigation" before="-" template="Ced_CsMarketplace::vendor/cnavigation.phtml">

@@ -28,6 +28,11 @@ use Magento\Sales\Block\Adminhtml\Order\Comments\View;
 class AddComment extends \Ced\CsMarketplace\Controller\Vendor
 {
     /**
+     * @var mixed
+     */
+    protected $csorderHelper;
+
+    /**
      * @var \Magento\Sales\Controller\Adminhtml\Order\CreditmemoLoader
      */
     protected $creditmemoLoader;

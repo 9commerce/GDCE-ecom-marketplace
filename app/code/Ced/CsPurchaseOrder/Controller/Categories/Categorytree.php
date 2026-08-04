@@ -25,6 +25,11 @@ use Magento\Framework\UrlFactory;
 
 class Categorytree extends \Ced\CsMarketplace\Controller\Vendor
 {
+    /**
+     * @var mixed
+     */
+    protected $csmarketHelper;
+
     protected $categoryFactory;
 
     public function __construct(

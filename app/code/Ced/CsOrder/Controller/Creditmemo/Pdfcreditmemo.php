@@ -38,6 +38,21 @@ use Magento\Sales\Api\CreditmemoRepositoryInterface;
 class Pdfcreditmemo extends \Ced\CsMarketplace\Controller\Vendor
 {
     /**
+     * @var mixed
+     */
+    protected $filter;
+
+    /**
+     * @var mixed
+     */
+    protected $creditCollectionFactory;
+
+    /**
+     * @var mixed
+     */
+    protected $customerSession;
+
+    /**
      * @var FileFactory
      */
     protected $fileFactory;

@@ -305,13 +305,17 @@ class Feed extends \Magento\Framework\App\Helper\AbstractHelper
                 continue;
             }
             if ($nameNode === null) {
-                throw new \Zend_Locale_Exception('Attribute "name" is required for module node.');
+                throw new \Magento\Framework\Exception\LocalizedException(
+                    __('Attribute "name" is required for module node.')
+                );
             }
             $moduleData['name'] = 'Magento2_' . $nameNode->nodeValue;
             $name = $moduleData['name'];
             $versionNode = $moduleAttributes->getNamedItem('setup_version');
             if ($versionNode === null) {
-                throw new \Zend_Locale_Exception("Attribute 'setup_version' is missing for module '{$name}'.");
+                throw new \Magento\Framework\Exception\LocalizedException(
+                    __("Attribute 'setup_version' is missing for module '%1'.", $name)
+                );
             }
             $moduleData['setup_version'] = $versionNode->nodeValue;
             if ($moduleAttributes->getNamedItem('release_version')) {
@@ -356,7 +360,9 @@ class Feed extends \Magento\Framework\App\Helper\AbstractHelper
                 case 'module':
                     $nameNode = $csChildNode->attributes->getNamedItem('name');
                     if ($nameNode === null) {
-                        throw new \Zend_Locale_Exception('Attribute "name" is required for module node.');
+                        throw new \Magento\Framework\Exception\LocalizedException(
+                            __('Attribute "name" is required for module node.')
+                        );
                     }
                     $result[] = $nameNode->nodeValue;
                     break;

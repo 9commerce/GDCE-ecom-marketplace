@@ -21,7 +21,7 @@
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
     <module name="Ced_CsProAssign" schema_version="0.0.2" release_version="1.0.10" setup_version="0.0.2">
         <sequence>
-            <module name="Ced_CsMarketPlace"/>
+            <module name="Ced_CsMarketplace"/>
         </sequence>
     </module>
 </config>

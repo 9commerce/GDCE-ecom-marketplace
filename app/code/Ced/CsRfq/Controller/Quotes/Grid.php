@@ -22,6 +22,11 @@ namespace Ced\CsRfq\Controller\Quotes;
 class Grid extends \Ced\CsMarketplace\Controller\Vendor
 {
     /**
+     * @var mixed
+     */
+    protected $csRfqHelper;
+
+    /**
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
      * @param \Magento\Customer\Model\Session $customerSession

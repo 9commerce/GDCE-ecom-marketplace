@@ -22,6 +22,31 @@ use Magento\Framework\View\Element\Block\ArgumentInterface;
 
 class RequestToQuote implements ArgumentInterface
 {
+    /**
+     * @var mixed
+     */
+    protected $date;
+
+    /**
+     * @var mixed
+     */
+    protected $moduleManager;
+
+    /**
+     * @var mixed
+     */
+    protected $_urlBuilder;
+
+    /**
+     * @var mixed
+     */
+    protected $catalogHelperOutput;
+
+    /**
+     * @var mixed
+     */
+    protected $_template;
+
     const QUOTE_CREATE_EMAIL = "requesttoquote_configuration/email/quote_create_email";
     const RFQ_PO_CREATION_EMAIL = "requesttoquote_configuration/email/ced_requesttoquote_customer_po_creation";
     const RFQ_QUOTE_CREATION_EMAIL = "requesttoquote_configuration/email/ced_requesttoquote_customer_quote_creation";

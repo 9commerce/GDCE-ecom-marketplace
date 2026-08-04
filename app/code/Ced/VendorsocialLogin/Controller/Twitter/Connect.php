@@ -27,6 +27,16 @@ use Magento\Framework\Serialize\SerializerInterface;
 class Connect extends \Ced\VendorsocialLogin\Controller\ConnectResponse
 {
     /**
+     * @var mixed
+     */
+    protected $_serializer;
+
+    /**
+     * @var mixed
+     */
+    protected $referer;
+
+    /**
      * @var \Ced\VendorsocialLogin\Helper\Twitter
      */
     protected $_helperTwitter;

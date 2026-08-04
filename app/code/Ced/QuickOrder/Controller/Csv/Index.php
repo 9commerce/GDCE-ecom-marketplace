@@ -31,6 +31,10 @@ use Magento\Catalog\Model\Product;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 
 class Index extends \Magento\Framework\App\Action\Action {
+    /**
+     * @var mixed
+     */
+    protected $priceCurrencyObject;
 
     /**
      * @var CollectionFactory

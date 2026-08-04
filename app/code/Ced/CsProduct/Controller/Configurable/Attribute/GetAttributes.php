@@ -24,6 +24,11 @@ use Magento\ConfigurableProduct\Model\AttributesListInterface;
 class GetAttributes extends Action\Action
 {
     /**
+     * @var mixed
+     */
+    protected $attributesList;
+
+    /**
      * Store manager
      *
      * @var \Magento\Store\Model\StoreManagerInterface

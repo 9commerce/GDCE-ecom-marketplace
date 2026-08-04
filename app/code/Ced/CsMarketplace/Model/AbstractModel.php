@@ -471,23 +471,23 @@ abstract class AbstractModel extends \Magento\Framework\Model\AbstractModel
 
                         break;
                     case 'validate-email'   :
-                        if (!\Zend_Validate::is($fieldvalue, \Magento\Framework\Validator\EmailAddress::class)) {
+                        if (!(new \Magento\Framework\Validator\EmailAddress())->isValid($fieldvalue)) {
                             $errors[] = __('Invalid email address "%s" in "%s" Field.', $fieldvalue, $field);
                         }
                         break;
                     case 'validate-digits'  :
                     case 'validate-number' :
-                    if (!\Zend_Validate::is($fieldvalue, 'Digits')) {
+                    if (!(new \Laminas\Validator\Digits())->isValid($fieldvalue)) {
                             $errors[] = __('"%s" must contain only numbers.', $field);
                         }
                         break;
                     case 'validate-alpha'  :
-                        if (!\Zend_Validate::is($fieldvalue, 'Alpha')) {
+                        if (!(new \Laminas\I18n\Validator\Alpha())->isValid($fieldvalue)) {
                             $errors[] = __('"%s" contains non alphabetic characters', $field);
                         }
                         break;
                     case 'validate-alphanum'  :
-                        if (!\Zend_Validate::is($fieldvalue, 'Alnum')) {
+                        if (!(new \Laminas\I18n\Validator\Alnum())->isValid($fieldvalue)) {
                             $errors[] = __('"%s" contains characters which are non alphabetic and no digits', $field);
                         }
                         break;

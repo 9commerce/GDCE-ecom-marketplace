@@ -27,6 +27,21 @@ use Magento\Catalog\Model\ResourceModel\Product as ResourceModel;
 class MassDelete extends \Ced\CsProduct\Controller\Vproducts
 {
     /**
+     * @var mixed
+     */
+    protected $filter;
+
+    /**
+     * @var mixed
+     */
+    protected $collectionFactory;
+
+    /**
+     * @var mixed
+     */
+    protected $productsResource;
+
+    /**
      * @var \Magento\Framework\Registry
      */
     protected $registry;

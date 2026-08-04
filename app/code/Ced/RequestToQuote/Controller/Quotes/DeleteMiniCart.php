@@ -40,6 +40,16 @@ use Magento\Checkout\Model\Cart as CustomerCart;
 class DeleteMiniCart extends \Magento\Checkout\Controller\Sidebar\RemoveItem
 {
     /**
+     * @var mixed
+     */
+    protected $request;
+
+    /**
+     * @var mixed
+     */
+    protected $resultJsonFactory;
+
+    /**
      * @var Sidebar
      */
     protected $sidebar;

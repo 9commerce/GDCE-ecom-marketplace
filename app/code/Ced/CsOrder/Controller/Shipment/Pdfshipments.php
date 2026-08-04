@@ -35,6 +35,21 @@ use Magento\Sales\Model\ResourceModel\Order\Shipment\CollectionFactory;
 class Pdfshipments extends \Ced\CsMarketplace\Controller\Vendor
 {
     /**
+     * @var mixed
+     */
+    protected $filter;
+
+    /**
+     * @var mixed
+     */
+    protected $collectionFactory;
+
+    /**
+     * @var mixed
+     */
+    protected $customerSession;
+
+    /**
      * @var FileFactory
      */
     protected $fileFactory;

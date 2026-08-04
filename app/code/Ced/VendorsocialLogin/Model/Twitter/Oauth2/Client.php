@@ -65,7 +65,7 @@ class Client extends \Magento\Framework\DataObject
     protected $redirectUri = null;
 
     /**
-     * @var \Zend_Oauth_Consumer|null
+     * @var \Ced\VendorsocialLogin\Model\Oauth1\Consumer|null
      */
     protected $client = null;
 
@@ -102,7 +102,7 @@ class Client extends \Magento\Framework\DataObject
         $this->clientSecret = $this->_getClientSecret();
         $this->_customerSession = $customerSession;
         $this->_serializer = $serializerInterface;
-        $this->client = new \Zend_Oauth_Consumer(
+        $this->client = new \Ced\VendorsocialLogin\Model\Oauth1\Consumer(
             [
                 'callbackUrl' => $this->redirectUri,
                 'siteUrl' => self::OAUTH_URI,
@@ -312,15 +312,15 @@ class Client extends \Magento\Framework\DataObject
 
         switch ($method) {
             case 'GET':
-                $client->setMethod(\Zend_Http_Client::GET);
+                $client->setMethod('GET');
                 $client->setParameterGet($params);
                 break;
             case 'POST':
-                $client->setMethod(\Zend_Http_Client::POST);
+                $client->setMethod('POST');
                 $client->setParameterPost($params);
                 break;
             case 'DELETE':
-                $client->setMethod(\Zend_Http_Client::DELETE);
+                $client->setMethod('DELETE');
                 break;
             default:
                 throw new \Magento\Framework\Exception\LocalizedException(
@@ -328,24 +328,24 @@ class Client extends \Magento\Framework\DataObject
                 );
         }
 
-        $response = $client->request();
+        $response = $client->send();
 
         $decoded_response = json_decode($response->getBody());
-        if ($response->isError()) {
-            $status = $response->getStatus();
+        if ($response->isClientError() || $response->isServerError()) {
+            $status = $response->getStatusCode();
             if (($status == 400 || $status == 401 || $status == 429)) {
                 if (isset($decoded_response->error->message)) {
                     $message = $decoded_response->error->message;
                 } else {
                     $message = __('Unspecified OAuth error occurred.');
                 }
-                throw new \Magento\Framework\Exception\LocalizedException($message);
+                throw new \Magento\Framework\Exception\LocalizedException(__($message));
             } else {
                 $message = sprintf(
                     __('HTTP error %d occurred while issuing request.'),
                     $status
                 );
-                throw new \Magento\Framework\Exception\LocalizedException($message);
+                throw new \Magento\Framework\Exception\LocalizedException(__($message));
             }
         }
 

@@ -38,6 +38,31 @@ use Magento\Sales\Model\ResourceModel\Order\Invoice\CollectionFactory;
 class Pdfinvoices extends \Ced\CsMarketplace\Controller\Vendor
 {
     /**
+     * @var mixed
+     */
+    protected $filter;
+
+    /**
+     * @var mixed
+     */
+    protected $ordersCollection;
+
+    /**
+     * @var mixed
+     */
+    protected $customerSession;
+
+    /**
+     * @var mixed
+     */
+    protected $invoiceRepository;
+
+    /**
+     * @var mixed
+     */
+    protected $invoiceFactory;
+
+    /**
      * @var FileFactory
      */
     protected $fileFactory;

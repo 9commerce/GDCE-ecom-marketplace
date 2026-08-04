@@ -39,6 +39,15 @@ use Magento\Store\Model\Store;
  */
 class Product extends \Magento\CatalogImportExport\Model\Import\Product
 {
+    /**
+     * @var mixed
+     */
+    protected $dirList;
+
+    /**
+     * @var mixed
+     */
+    protected $_storeManager;
 
     /**
      * Product entity link field

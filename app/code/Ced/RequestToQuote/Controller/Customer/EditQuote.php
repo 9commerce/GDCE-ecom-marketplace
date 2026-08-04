@@ -21,6 +21,21 @@ namespace Ced\RequestToQuote\Controller\Customer;
 class EditQuote extends \Magento\Framework\App\Action\Action
 {
     /**
+     * @var mixed
+     */
+    protected $resultPageFactory;
+
+    /**
+     * @var mixed
+     */
+    protected $_getSession;
+
+    /**
+     * @var mixed
+     */
+    protected $_quote;
+
+    /**
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
      * @param \Magento\Customer\Model\Session $customerSession

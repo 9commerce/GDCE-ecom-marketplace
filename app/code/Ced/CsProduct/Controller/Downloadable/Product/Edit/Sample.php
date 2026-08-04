@@ -26,6 +26,16 @@ use Magento\Framework\UrlFactory;
 class Sample extends \Ced\CsProduct\Controller\Vproducts
 {
     /**
+     * @var mixed
+     */
+    protected $sampleFactory;
+
+    /**
+     * @var mixed
+     */
+    protected $downloadableHelper;
+
+    /**
      * @param \Magento\Downloadable\Helper\File $downloadableHelper
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Downloadable\Model\SampleFactory $sampleFactory

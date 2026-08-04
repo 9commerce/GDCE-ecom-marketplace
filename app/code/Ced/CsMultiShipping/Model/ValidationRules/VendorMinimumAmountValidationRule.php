@@ -29,6 +29,26 @@ use Magento\Quote\Model\ValidationRules\QuoteValidationRuleInterface;
 class VendorMinimumAmountValidationRule implements QuoteValidationRuleInterface
 {
     /**
+     * @var mixed
+     */
+    protected $_vsettingsFactory;
+
+    /**
+     * @var mixed
+     */
+    protected $csmarketplaceHelper;
+
+    /**
+     * @var mixed
+     */
+    protected $vendor;
+
+    /**
+     * @var mixed
+     */
+    protected $priceHelper;
+
+    /**
      * @var string
      */
     private $generalMessage;

@@ -105,10 +105,12 @@ class Connect extends \Ced\VendorsocialLogin\Controller\ConnectResponse
                     );
                 return;
             }
-            throw new \Magento\Framework\Exception(
-                sprintf(
-                    __('Sorry, "%s" error occured. Please try again.'),
-                    $errorCode
+            throw new \Magento\Framework\Exception\LocalizedException(
+                __(
+                    sprintf(
+                        __('Sorry, "%s" error occured. Please try again.'),
+                        $errorCode
+                    )
                 )
             );
             //return;
@@ -168,12 +170,12 @@ class Connect extends \Ced\VendorsocialLogin\Controller\ConnectResponse
             }
             // New connection - create, attach, login
             if (empty($userInfo->given_name)) {
-                throw new \Magento\Framework\Exception(
+                throw new \Magento\Framework\Exception\LocalizedException(
                     __('Sorry, could not retrieve your Google first name. Please try again.')
                 );
             }
             if (empty($userInfo->family_name)) {
-                throw new \Magento\Framework\Exception(
+                throw new \Magento\Framework\Exception\LocalizedException(
                     __('Sorry, could not retrieve your Google last name. Please try again.')
                 );
             }

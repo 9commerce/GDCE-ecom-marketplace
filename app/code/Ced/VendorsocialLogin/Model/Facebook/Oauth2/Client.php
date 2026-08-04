@@ -20,7 +20,7 @@ namespace Ced\VendorsocialLogin\Model\Facebook\Oauth2;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\RequestInterface;
-use Magento\Framework\HTTP\ZendClientFactory;
+use Magento\Framework\HTTP\LaminasClientFactory;
 use Magento\Framework\UrlInterface;
 
 /**
@@ -50,7 +50,7 @@ class Client extends \Magento\Framework\DataObject
 
     /**
      *
-     * @var ZendClientFactory
+     * @var LaminasClientFactory
      */
     protected $_httpClientFactory;
 
@@ -102,14 +102,14 @@ class Client extends \Magento\Framework\DataObject
 
     /**
      * Client constructor.
-     * @param ZendClientFactory $httpClientFactory
+     * @param LaminasClientFactory $httpClientFactory
      * @param ScopeConfigInterface $config
      * @param UrlInterface $url
      * @param RequestInterface $request
      * @param array $data
      */
     public function __construct(
-        ZendClientFactory $httpClientFactory,
+        LaminasClientFactory $httpClientFactory,
         ScopeConfigInterface $scopeConfig,
         UrlInterface $url,
         \Laminas\Uri\Uri $zendUri,
@@ -253,6 +253,7 @@ class Client extends \Magento\Framework\DataObject
         $client = $this->_httpClientFactory->create();
 
         $client->setUri($url);
+        $client->setMethod($method);
 
         switch ($method) {
 
@@ -278,7 +279,7 @@ class Client extends \Magento\Framework\DataObject
 
         }
 
-        $response = $client->request($method);
+        $response = $client->send();
 
         $decodedResponse = json_decode($response->getBody());
 
@@ -291,8 +292,8 @@ class Client extends \Magento\Framework\DataObject
             $decodedResponse = json_decode(json_encode($parsed_response));
         }
 
-        if ($response->isError()) {
-            $status = $response->getStatus();
+        if ($response->isClientError() || $response->isServerError()) {
+            $status = $response->getStatusCode();
 
             if (($status == 400 || $status == 401)) {
                 if (isset($decodedResponse->error->message)) {

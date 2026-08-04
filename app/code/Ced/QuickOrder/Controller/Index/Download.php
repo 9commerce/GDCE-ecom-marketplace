@@ -29,6 +29,36 @@ use \Magento\Framework\Controller\Result\RawFactory;
 
 class Download extends \Magento\Framework\App\Action\Action
 {
+    /**
+     * @var mixed
+     */
+    protected $directoryList;
+
+    /**
+     * @var mixed
+     */
+    protected $directory;
+
+    /**
+     * @var mixed
+     */
+    protected $fileFactory;
+
+    /**
+     * @var mixed
+     */
+    protected $componentRegistrar;
+
+    /**
+     * @var mixed
+     */
+    protected $readFactory;
+
+    /**
+     * @var mixed
+     */
+    protected $resultRawFactory;
+
     const SAMPLE_FILES_MODULE = 'Ced_QuickOrder';
      /**
      * Download constructor.

@@ -43,6 +43,10 @@ use Ced\CsPurchaseOrder\Helper\Data;
  */
 class Accept extends \Magento\Framework\App\Action\Action
 {
+    /**
+     * @var mixed
+     */
+    protected $date;
 
     /**
      * @var PurchaseorderFactory

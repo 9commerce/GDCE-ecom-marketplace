@@ -39,6 +39,8 @@ class CustomOptions extends AbstractModifier
      */
     private $arrayManager;
 
+    protected $request;
+
     /**
      * @param LocatorInterface $locator
      * @param ArrayManager $arrayManager

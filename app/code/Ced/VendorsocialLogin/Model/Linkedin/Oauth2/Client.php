@@ -282,11 +282,12 @@ class Client extends \Magento\Framework\DataObject
      * @return mixed
      * @throws Exception
      * @throws \Magento\Framework\Exception\LocalizedException
-     * @throws \Zend_Http_Client_Exception
+     * @throws \Laminas\Http\Client\Exception\ExceptionInterface
      */
     protected function _httpRequest($url, $method = 'GET', $params = [])
     {
-        $client = new \Zend_Http_Client($url, ['timeout' => 60]);
+        $client = new \Laminas\Http\Client($url, ['timeout' => 60]);
+        $client->setMethod($method);
         switch ($method) {
             case 'GET':
                 $client->setParameterGet($params);
@@ -302,11 +303,11 @@ class Client extends \Magento\Framework\DataObject
                 );
         }
 
-        $response = $client->request($method);
+        $response = $client->send();
         $decoded_response = json_decode($response->getBody());
 
-        if ($response->isError()) {
-            $status = $response->getStatus();
+        if ($response->isClientError() || $response->isServerError()) {
+            $status = $response->getStatusCode();
             if (($status == 400 || $status == 401)) {
                 if (isset($decoded_response->error->message)) {
                     $message = $decoded_response->error->message;
@@ -314,13 +315,13 @@ class Client extends \Magento\Framework\DataObject
                     $message = __('Unspecified OAuth error occurred.');
                 }
 
-                throw new \Magento\Framework\Exception\LocalizedException($message);
+                throw new \Magento\Framework\Exception\LocalizedException(__($message));
             } else {
                 $message = sprintf(
                     __('HTTP error %d occurred while issuing request.'),
                     $status
                 );
-                throw new \Magento\Framework\Exception\LocalizedException($message);
+                throw new \Magento\Framework\Exception\LocalizedException(__($message));
             }
         }
 

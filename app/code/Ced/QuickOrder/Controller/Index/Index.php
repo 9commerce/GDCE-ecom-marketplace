@@ -28,6 +28,10 @@ use \Magento\Store\Model\StoreManagerInterface;
 
 class Index extends \Magento\Framework\App\Action\Action
 {
+    /**
+     * @var mixed
+     */
+    protected $storeManager;
 
     /**
      * @var Registry

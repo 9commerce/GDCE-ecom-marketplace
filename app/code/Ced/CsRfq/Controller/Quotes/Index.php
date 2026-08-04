@@ -22,6 +22,11 @@ namespace Ced\CsRfq\Controller\Quotes;
 class Index extends \Ced\CsMarketplace\Controller\Vendor
 {
     /**
+     * @var mixed
+     */
+    protected $csRfqHelper;
+
+    /**
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
      * @param \Magento\Framework\UrlFactory $urlFactory

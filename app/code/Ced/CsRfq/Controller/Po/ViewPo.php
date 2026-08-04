@@ -35,6 +35,11 @@ use Ced\CsMarketplace\Model\VendorFactory;
 class ViewPo extends \Ced\CsMarketplace\Controller\Vendor
 {
     /**
+     * @var mixed
+     */
+    protected $csRfqHelper;
+
+    /**
      * @var PageFactory
      */
     protected $resultPageFactory;

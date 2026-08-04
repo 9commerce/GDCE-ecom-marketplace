@@ -25,6 +25,15 @@ use Magento\Framework\Module\Manager;
  * @package Ced\RequestToQuote\Helper
  */
 class Data extends \Magento\Framework\App\Helper\AbstractHelper {
+    /**
+     * @var mixed
+     */
+    protected $date;
+
+    /**
+     * @var mixed
+     */
+    protected $_template;
 
     const QUOTE_CREATE_EMAIL = "requesttoquote_configuration/email/quote_create_email";
     const RFQ_PO_CREATION_EMAIL = "requesttoquote_configuration/email/ced_requesttoquote_customer_po_creation";

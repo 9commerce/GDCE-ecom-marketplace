@@ -29,6 +29,40 @@ use Ced\CsMarketplace\Model\Vproducts;
  */
 class MassDelete extends \Ced\CsMarketplace\Controller\Vendor
 {
+    /**
+     * @var mixed
+     */
+    protected $filter;
+
+    /**
+     * @var mixed
+     */
+    protected $vproductsFactory;
+
+    /**
+     * @var mixed
+     */
+    protected $mailHelper;
+
+    /**
+     * @var mixed
+     */
+    protected $productRepository;
+
+    /**
+     * @var mixed
+     */
+    protected $collectionFactory;
+
+    /**
+     * @var mixed
+     */
+    protected $request;
+
+    /**
+     * @var mixed
+     */
+    protected $formKey;
 
     /**
      * @param Context $context

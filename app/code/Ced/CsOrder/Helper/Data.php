@@ -23,6 +23,11 @@ use Magento\Framework\UrlInterface;
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
+     * @var mixed
+     */
+    protected $_hasDataChanges;
+
+    /**
      * @var UrlInterface
      */
     protected $url;

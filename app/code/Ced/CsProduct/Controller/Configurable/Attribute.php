@@ -24,6 +24,11 @@ use Laminas\Validator\Regex;
 abstract class Attribute extends \Magento\Framework\App\Action\Action
 {
     /**
+     * @var mixed
+     */
+    protected $_entityTypeId;
+
+    /**
      * @var \Magento\Eav\Model\Entity
      */
     protected $entity;
